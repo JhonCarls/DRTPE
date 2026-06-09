@@ -39,7 +39,7 @@
                                 :class="activeTab === 'general' ? 'bg-white text-slate-900 shadow-sm font-black border-slate-200' : 'text-slate-500 font-semibold hover:text-slate-800 border-transparent'"
                                 class="w-1/2 py-3.5 px-4 flex items-center justify-center gap-2 rounded-xl border font-bold text-xs sm:text-sm transition-all duration-200">
                             <i class="fa-solid fa-layer-group text-xs" :class="activeTab === 'general' ? 'text-indigo-600' : ''"></i>
-                            <span>Reporte General POI</span>
+                            <span>Reporte General</span>
                         </button>
                         <button @click="activeTab = 'specific'"
                                 :class="activeTab === 'specific' ? 'bg-white text-slate-900 shadow-sm font-black border-slate-200' : 'text-slate-500 font-semibold hover:text-slate-800 border-transparent'"
@@ -66,7 +66,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <div @click="general.funding_source = 'all'" :class="general.funding_source === 'all' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 bg-white border border-slate-200"><i class="fa-solid fa-cubes text-xs"></i></div>
-                                    <span class="text-xs font-bold text-slate-800">Consolidado POI</span>
+                                    <span class="text-xs font-bold text-slate-800">General</span>
                                     <div class="absolute top-2 right-2 text-indigo-600 text-xs" x-show="general.funding_source === 'all'"><i class="fa-solid fa-circle-check"></i></div>
                                 </div>
                                 <div @click="general.funding_source = 'gobierno_regional'" :class="general.funding_source === 'gobierno_regional' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
