@@ -25,12 +25,13 @@
         </div>
     </x-slot>
 
-    {{-- MODIFICADO: Añadidas variables de estado para sortBy (predeterminado 'pp') y sortDir ('asc') junto con el motor sortRows --}}
+    {{-- MODIFICADO: Se inyectó la variable deptFilter: 'all' para administrar los filtros cruzados con Alpine.js --}}
     <div class="py-8" x-data="{ 
          showDeleteModal: false, 
          selectedEventId: null, 
          selectedEventName: '', 
          currentFilter: 'all',
+         deptFilter: 'all',
          sortBy: 'pp',
          sortDir: 'asc',
          sortRows() {
@@ -65,30 +66,55 @@
                 </div>
             @endif
 
-            {{-- MODIFICADO: Barra de Controles Combinada (Filtros a la izquierda, Ordenamiento Avanzado a la derecha) --}}
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+            {{-- MODIFICADO: Panel de Control de Alta Densidad (Filtros Estructurados Izquierda, Ordenamiento Derecha) --}}
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm items-center">
                 
-                {{-- Bloque Izquierdo: Filtros Presupuestales --}}
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 w-full">
-                    <div class="flex items-center gap-2 text-slate-700">
-                        <i class="fa-solid fa-filter text-xs text-slate-400"></i>
-                        <span class="text-xs font-black uppercase tracking-wider">Filtrar Asignación:</span>
+                {{-- Bloque Izquierdo Avanzado: Doble Línea de Filtración Operativa --}}
+                <div class="xl:col-span-2 space-y-4">
+                    {{-- Filtro 1: Financiamiento Presupuestal --}}
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-50 pb-2">
+                        <div class="flex items-center gap-2 text-slate-700">
+                            <i class="fa-solid fa-wallet text-xs text-slate-400 w-4 text-center"></i>
+                            <span class="text-xs font-black uppercase tracking-wider">Asignación:</span>
+                        </div>
+                        <div class="inline-flex p-1 bg-slate-100 rounded-xl w-full sm:w-auto">
+                            <button @click="currentFilter = 'all'" :class="currentFilter === 'all' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-4 py-1.5 rounded-lg text-[11px] uppercase tracking-wider transition-all">
+                                Todos
+                            </button>
+                            <button @click="currentFilter = 'gobierno_regional'" :class="currentFilter === 'gobierno_regional' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-4 py-1.5 rounded-lg text-[11px] uppercase tracking-wider transition-all">
+                                Regional
+                            </button>
+                            <button @click="currentFilter = 'gobierno_central'" :class="currentFilter === 'gobierno_central' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-4 py-1.5 rounded-lg text-[11px] uppercase tracking-wider transition-all">
+                                SUNAFIL
+                            </button>
+                        </div>
                     </div>
-                    <div class="inline-flex p-1 bg-slate-100 rounded-xl w-full sm:w-auto">
-                        <button @click="currentFilter = 'all'" :class="currentFilter === 'all' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-all">
-                            Todos
-                        </button>
-                        <button @click="currentFilter = 'gobierno_regional'" :class="currentFilter === 'gobierno_regional' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-all">
-                            <i class="fa-solid fa-building-government mr-1 text-indigo-500"></i> Regional
-                        </button>
-                        <button @click="currentFilter = 'gobierno_central'" :class="currentFilter === 'gobierno_central' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-all">
-                            <i class="fa-solid fa-building-shield mr-1 text-amber-500"></i> SUNAFIL
-                        </button>
+
+                    {{-- 🎯 NUEVO FILTRO 2: Área o Departamento Responsable (Prevención, Formaliza, Empleo) --}}
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div class="flex items-center gap-2 text-slate-700">
+                            <i class="fa-solid fa-sitemap text-xs text-slate-400 w-4 text-center"></i>
+                            <span class="text-xs font-black uppercase tracking-wider">Departamento:</span>
+                        </div>
+                        <div class="inline-flex p-1 bg-slate-100 rounded-xl w-full sm:w-auto">
+                            <button @click="deptFilter = 'all'" :class="deptFilter === 'all' ? 'bg-white text-slate-900 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-slate-800'" class="px-3 py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition-all">
+                                Todos
+                            </button>
+                            <button @click="deptFilter = 'prevencion'" :class="deptFilter === 'prevencion' ? 'bg-white text-blue-600 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-blue-500'" class="px-3 py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition-all">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block mr-1"></span> Prevención
+                            </button>
+                            <button @click="deptFilter = 'formaliza'" :class="deptFilter === 'formaliza' ? 'bg-white text-amber-600 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-amber-500'" class="px-3 py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition-all">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block mr-1"></span> Formaliza
+                            </button>
+                            <button @click="deptFilter = 'empleo'" :class="deptFilter === 'empleo' ? 'bg-white text-emerald-600 shadow-sm font-black' : 'text-slate-500 font-bold hover:text-emerald-500'" class="px-3 py-1.5 rounded-lg text-[10px] uppercase tracking-wider transition-all">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1"></span> Empleo
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                {{-- Bloque Derecho: Herramientas de Ordenamiento --}}
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 w-full lg:justify-end">
+                {{-- Bloque Derecho: Parámetros del Ordenador --}}
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 w-full lg:justify-end border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-4 self-end">
                     <div class="flex items-center gap-2 text-slate-700">
                         <i class="fa-solid fa-arrow-down-z-a text-xs text-slate-400"></i>
                         <span class="text-xs font-black uppercase tracking-wider">Ordenar por:</span>
@@ -102,7 +128,6 @@
                                 Progreso
                             </button>
                         </div>
-                        {{-- Botón Inversor de Dirección (Arriba/Abajo) --}}
                         <button @click="sortDir = (sortDir === 'asc' ? 'desc' : 'asc'); sortRows()" 
                                 class="p-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0"
                                 title="Invertir dirección del orden">
@@ -127,8 +152,7 @@
                         <table class="min-w-full text-sm text-left divide-y divide-slate-100">
                             <thead class="bg-slate-50 text-slate-500 text-[10px] font-black uppercase tracking-wider select-none">
                                 <tr>
-                                    {{-- MODIFICADO: Agregada Cabecera Interactiva Código PP --}}
-                                    <th scope="col" class="px-6 py-4 w-32 cursor-pointer hover:bg-slate-100/80 transition-colors" @click="sortBy = 'pp'; sortDir = (sortBy === 'pp' ? (sortDir === 'asc' ? 'desc' : 'asc') : 'asc'); sortRows()">
+                                    <th scope="col" class="px-6 py-4 w-32 cursor-pointer hover:bg-slate-100 transition-colors" @click="sortBy = 'pp'; sortDir = (sortBy === 'pp' ? (sortDir === 'asc' ? 'desc' : 'asc') : 'asc'); sortRows()">
                                         <div class="flex items-center gap-1">
                                             Código PP
                                             <span x-show="sortBy === 'pp'"><i class="fa-solid text-[9px]" :class="sortDir === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'"></i></span>
@@ -137,8 +161,7 @@
                                     <th scope="col" class="px-6 py-4 w-28">Código Act.</th>
                                     <th scope="col" class="px-6 py-4 w-56">Actividad General (Denominación)</th>
                                     <th scope="col" class="px-6 py-4">Descripción Operativa</th>
-                                    {{-- MODIFICADO: Cabecera de Progreso Interactiva --}}
-                                    <th scope="col" class="px-6 py-4 w-64 cursor-pointer hover:bg-slate-100/80 transition-colors" @click="sortBy = 'progress'; sortDir = (sortBy === 'progress' ? (sortDir === 'asc' ? 'desc' : 'asc') : 'asc'); sortRows()">
+                                    <th scope="col" class="px-6 py-4 w-64 cursor-pointer hover:bg-slate-100 transition-colors" @click="sortBy = 'progress'; sortDir = (sortBy === 'progress' ? (sortDir === 'asc' ? 'desc' : 'asc') : 'asc'); sortRows()">
                                         <div class="flex items-center gap-1">
                                             Progreso / Meta Física
                                             <span x-show="sortBy === 'progress'"><i class="fa-solid text-[9px]" :class="sortDir === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'"></i></span>
@@ -147,7 +170,6 @@
                                     <th scope="col" class="px-6 py-4 text-center w-36">Acciones</th>
                                 </tr>
                             </thead>
-                            {{-- MODIFICADO: Añadido x-ref="tableBody" para el control del re-ordenamiento --}}
                             <tbody x-ref="tableBody" class="divide-y divide-slate-100 bg-white">
                                 @foreach($events as $event)
                                     @php
@@ -159,16 +181,18 @@
                                         $w_exceso = $totalAvance > $meta ? (($totalAvance - $meta) / $maxVal * 100) : 0;
 
                                         $porcentajeReal = round(($totalAvance / $meta) * 100, 1);
+                                        
+                                        // Obtención de la sigla limpia del departamento responsable
+                                        $deptClean = strtolower(trim($event->category->department ?? 'prevencion'));
                                     @endphp
                                     
-                                    {{-- MODIFICADO: Añadidos atributos data-pp y data-progress para que actúen como índices de ordenamiento --}}
-                                    <tr x-show="currentFilter === 'all' || currentFilter === '{{ $event->funding_source }}'" 
+                                    {{-- MODIFICADO: La directiva x-show ahora evalúa la matriz cruzada de Asignación y Departamento simultáneamente --}}
+                                    <tr x-show="(currentFilter === 'all' || currentFilter === '{{ $event->funding_source }}') && (deptFilter === 'all' || deptFilter === '{{ $deptClean }}')" 
                                         x-transition.opacity.duration.300ms
                                         data-pp="{{ $event->category->pp_code ?? '' }}"
                                         data-progress="{{ $porcentajeReal }}"
                                         class="hover:bg-slate-50/50 transition-colors">
                                         
-                                        {{-- MODIFICADO: Nueva Celda de Renderizado Código PP Estilizado --}}
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-md font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-100 text-xs shadow-sm">
                                                 {{ $event->category->pp_code ?? '—' }}
@@ -182,13 +206,26 @@
                                         </td>
                                         
                                         <td class="px-6 py-4 text-xs font-bold text-slate-700">
-                                            <div class="flex flex-col gap-1">
-                                                <span class="line-clamp-2">{{ $event->category->name ?? 'Sin Eje Estratégico' }}</span>
-                                                @if(($event->funding_source ?? 'gobierno_regional') === 'gobierno_regional')
-                                                    <span class="text-[9px] font-black text-indigo-600 bg-indigo-50 border border-indigo-100 px-1.5 py-0.5 rounded self-start uppercase tracking-wider">GORE Regional</span>
-                                                @else
-                                                    <span class="text-[9px] font-black text-amber-700 bg-amber-50 border border-amber-100 px-1.5 py-0.5 rounded self-start uppercase tracking-wider">SUNAFIL / Central</span>
-                                                @endif
+                                            <div class="flex flex-col gap-1.5 items-start">
+                                                <span class="line-clamp-2 leading-tight" title="{{ $event->category->name ?? '' }}">{{ $event->category->name ?? 'Sin Eje Estratégico' }}</span>
+                                                
+                                                <div class="flex flex-wrap gap-1">
+                                                    {{-- Badge de Financiamiento --}}
+                                                    @if(($event->funding_source ?? 'gobierno_regional') === 'gobierno_regional')
+                                                        <span class="text-[9px] font-black text-indigo-600 bg-indigo-50 border border-indigo-100/60 px-1.5 py-0.5 rounded uppercase tracking-wider">GORE Regional</span>
+                                                    @else
+                                                        <span class="text-[9px] font-black text-amber-700 bg-amber-50 border border-amber-100/60 px-1.5 py-0.5 rounded uppercase tracking-wider">SUNAFIL</span>
+                                                    @endif
+
+                                                    {{-- 🎯 NUEVO: Badge de Departamento Responsable dinámico por fila --}}
+                                                    @if($deptClean === 'prevencion')
+                                                        <span class="text-[9px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded uppercase tracking-wider">Prevención</span>
+                                                    @elseif($deptClean === 'formaliza')
+                                                        <span class="text-[9px] font-black text-amber-600 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded uppercase tracking-wider">Formaliza</span>
+                                                    @elseif($deptClean === 'empleo')
+                                                        <span class="text-[9px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded uppercase tracking-wider">Empleo</span>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </td>
                                         

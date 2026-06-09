@@ -10,7 +10,7 @@ class SubEventController extends Controller
 {
     public function index()
     {
-        $subEvents = SubEvent::with('event')->orderBy('event_date', 'desc')->get();
+        $subEvents = SubEvent::with(['event.category'])->latest()->get();
         return view('subevents.index', compact('subEvents'));
     }
 

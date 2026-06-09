@@ -21,12 +21,12 @@
             {{-- ALERTAS DE LOG --}}
             @if(session('error'))
                 <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded-xl flex items-center gap-2 font-bold text-xs">
-                    <i class="fa-solid fa-circle-exclamation text-red-500"></i> {{ session('error') }}
+                    <i class="fa-solid fa-circle-exclamation text-red-500 text-xl"></i> {{ session('error') }}
                 </div>
             @endif
             @if(session('success'))
                 <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl flex items-center gap-2 font-bold text-xs">
-                    <i class="fa-solid fa-circle-check text-emerald-500"></i> {{ session('success') }}
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-xl"></i> {{ session('success') }}
                 </div>
             @endif
 
@@ -38,13 +38,13 @@
                         <button @click="activeTab = 'general'"
                                 :class="activeTab === 'general' ? 'bg-white text-slate-900 shadow-sm font-black border-slate-200' : 'text-slate-500 font-semibold hover:text-slate-800 border-transparent'"
                                 class="w-1/2 py-3.5 px-4 flex items-center justify-center gap-2 rounded-xl border font-bold text-xs sm:text-sm transition-all duration-200">
-                            <i class="fa-solid fa-layer-group text-xs" :class="activeTab === 'general' ? 'text-emerald-500' : ''"></i>
-                            <span>Reporte GeneralPOI</span>
+                            <i class="fa-solid fa-layer-group text-xs" :class="activeTab === 'general' ? 'text-indigo-600' : ''"></i>
+                            <span>Reporte General POI</span>
                         </button>
                         <button @click="activeTab = 'specific'"
                                 :class="activeTab === 'specific' ? 'bg-white text-slate-900 shadow-sm font-black border-slate-200' : 'text-slate-500 font-semibold hover:text-slate-800 border-transparent'"
                                 class="w-1/2 py-3.5 px-4 flex items-center justify-center gap-2 rounded-xl border font-bold text-xs sm:text-sm transition-all duration-200">
-                            <i class="fa-solid fa-briefcase text-xs" :class="activeTab === 'specific' ? 'text-emerald-500' : ''"></i>
+                            <i class="fa-solid fa-briefcase text-xs" :class="activeTab === 'specific' ? 'text-indigo-600' : ''"></i>
                             <span>Reporte por Actividad Específica</span>
                         </button>
                     </nav>
@@ -53,12 +53,13 @@
                 {{-- CONTENIDO: REPORTE GENERAL --}}
                 <div x-show="activeTab === 'general'" x-transition.opacity.duration.300ms class="p-6 sm:p-10 space-y-6">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
-                        <i class="fa-solid fa-sliders text-emerald-500 text-sm"></i>
+                        <i class="fa-solid fa-sliders text-indigo-600 text-sm"></i>
                         <h3 class="text-base font-black text-slate-800">Parámetros del Informe General</h3>
                     </div>
 
                     <form action="{{ route('reports.generate.general') }}" method="GET" novalidate class="space-y-6">
                         
+                        {{-- Filtro Financiamiento --}}
                         <div class="space-y-3">
                             <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Filtrar Fuente de Financiamiento</label>
                             <input type="hidden" name="funding_source" :value="general.funding_source">
@@ -81,6 +82,35 @@
                             </div>
                         </div>
 
+                        {{-- 🎯 NUEVO FILTRO: Departamento / Área Responsable en Reporte General --}}
+                        <div class="space-y-3">
+                            <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Filtrar por Departamento / Área Responsable</label>
+                            <input type="hidden" name="department" :value="general.department">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div @click="general.department = 'all'" :class="general.department === 'all' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 bg-white border border-slate-200"><i class="fa-solid fa-folder text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Todos</span>
+                                    <div class="absolute top-2 right-2 text-indigo-600 text-[10px]" x-show="general.department === 'all'"><i class="fa-solid fa-circle-check"></i></div>
+                                </div>
+                                <div @click="general.department = 'prevencion'" :class="general.department === 'prevencion' ? 'border-blue-600 bg-blue-50/20 ring-2 ring-blue-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-blue-600 bg-white border border-slate-200"><i class="fa-solid fa-shield-halved text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Prevención</span>
+                                    <div class="absolute top-2 right-2 text-blue-600 text-[10px]" x-show="general.department === 'prevencion'"><i class="fa-solid fa-circle-check"></i></div>
+                                </div>
+                                <div @click="general.department = 'formaliza'" :class="general.department === 'formaliza' ? 'border-amber-500 bg-amber-50/20 ring-2 ring-amber-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-amber-600 bg-white border border-slate-200"><i class="fa-solid fa-gavel text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Formaliza</span>
+                                    <div class="absolute top-2 right-2 text-amber-500 text-[10px]" x-show="general.department === 'formaliza'"><i class="fa-solid fa-circle-check"></i></div>
+                                </div>
+                                <div @click="general.department = 'empleo'" :class="general.department === 'empleo' ? 'border-emerald-600 bg-emerald-50/20 ring-2 ring-emerald-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-emerald-600 bg-white border border-slate-200"><i class="fa-solid fa-briefcase text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Empleo</span>
+                                    <div class="absolute top-2 right-2 text-emerald-600 text-[10px]" x-show="general.department === 'empleo'"><i class="fa-solid fa-circle-check"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Rango de Tiempo --}}
                         <div class="space-y-3">
                             <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Selecciona el Rango de Tiempo <span class="text-red-500">*</span></label>
                             <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
@@ -104,8 +134,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <label for="general_date" class="block text-sm font-bold text-slate-700">Fecha de Referencia Cronológica <span class="text-red-500">*</span></label>
-                            <input type="date" x-model="general.date" id="general_date" name="date" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all shadow-inner">
+                            <label class="block text-sm font-bold text-slate-700">Fecha de Referencia Cronológica <span class="text-red-500">*</span></label>
+                            <input type="date" x-model="general.date" name="date" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all shadow-inner text-sm">
                         </div>
 
                         <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl text-xs sm:text-sm text-emerald-800 font-bold flex items-center gap-2 shadow-inner" x-text="getRangeDescription(general.period, general.date)"></div>
@@ -121,40 +151,67 @@
                 {{-- CONTENIDO: REPORTE ESPECÍFICO --}}
                 <div x-show="activeTab === 'specific'" x-transition.opacity.duration.300ms class="p-6 sm:p-10 space-y-6" style="display: none;">
                     <div class="flex items-center gap-2 border-b border-slate-100 pb-3">
-                        <i class="fa-solid fa-sliders text-emerald-500 text-sm"></i>
+                        <i class="fa-solid fa-sliders text-indigo-600 text-sm"></i>
                         <h3 class="text-base font-black text-slate-800">Parámetros del Informe por Actividad</h3>
                     </div>
 
                     <form action="{{ route('reports.generate.specific') }}" method="GET" novalidate class="space-y-6">
                         
+                        {{-- Paso 1: Filtro de Financiamiento --}}
                         <div class="space-y-3">
                             <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Paso 1: Filtrar Tipo de Tarea Operativa</label>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <div @click="specificFundingFilter = 'all'" :class="specificFundingFilter === 'all' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
+                                <div @click="specificFundingFilter = 'all'; specific.event_id = ''" :class="specificFundingFilter === 'all' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 bg-white border border-slate-200"><i class="fa-solid fa-cubes text-xs"></i></div>
                                     <span class="text-xs font-bold text-slate-800">Ver Todas</span>
                                 </div>
-                                <div @click="specificFundingFilter = 'gobierno_regional'" :class="specificFundingFilter === 'gobierno_regional' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
+                                <div @click="specificFundingFilter = 'gobierno_regional'; specific.event_id = ''" :class="specificFundingFilter === 'gobierno_regional' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-indigo-600 bg-white border border-slate-200"><i class="fa-solid fa-building-government text-xs"></i></div>
                                     <span class="text-xs font-bold text-slate-800">Sede Regional</span>
                                 </div>
-                                <div @click="specificFundingFilter = 'gobierno_central'" :class="specificFundingFilter === 'gobierno_central' ? 'border-amber-500 bg-amber-50/30 ring-2 ring-amber-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
+                                <div @click="specificFundingFilter = 'gobierno_central'; specific.event_id = ''" :class="specificFundingFilter === 'gobierno_central' ? 'border-amber-500 bg-amber-50/30 ring-2 ring-amber-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-4 flex items-center gap-3 cursor-pointer transition-all relative">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-amber-600 bg-white border border-slate-200"><i class="fa-solid fa-building-shield text-xs"></i></div>
                                     <span class="text-xs font-bold text-slate-800">SUNAFIL</span>
                                 </div>
                             </div>
                         </div>
 
+                        {{-- 🎯 NUEVO FILTRO: Paso 1.5: Filtro de Departamento Responsable (Para limpiar select en cascada) --}}
+                        <div class="space-y-3">
+                            <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Paso 1.5: Filtrar por Departamento / Área</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div @click="specificDeptFilter = 'all'; specific.event_id = ''" :class="specificDeptFilter === 'all' ? 'border-indigo-600 bg-indigo-50/20 ring-2 ring-indigo-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-slate-500 bg-white border border-slate-200"><i class="fa-solid fa-folder text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Todos</span>
+                                </div>
+                                <div @click="specificDeptFilter = 'prevencion'; specific.event_id = ''" :class="specificDeptFilter === 'prevencion' ? 'border-blue-600 bg-blue-50/20 ring-2 ring-blue-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-blue-600 bg-white border border-slate-200"><i class="fa-solid fa-shield-halved text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Prevención</span>
+                                </div>
+                                <div @click="specificDeptFilter = 'formaliza'; specific.event_id = ''" :class="specificDeptFilter === 'formaliza' ? 'border-amber-500 bg-amber-50/20 ring-2 ring-amber-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-amber-600 bg-white border border-slate-200"><i class="fa-solid fa-gavel text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Formaliza</span>
+                                </div>
+                                <div @click="specificDeptFilter = 'empleo'; specific.event_id = ''" :class="specificDeptFilter === 'empleo' ? 'border-emerald-600 bg-emerald-50/20 ring-2 ring-emerald-500/10' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'" class="border-2 rounded-xl p-3 flex items-center gap-2.5 cursor-pointer transition-all relative">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-emerald-600 bg-white border border-slate-200"><i class="fa-solid fa-briefcase text-xs"></i></div>
+                                    <span class="text-xs font-bold text-slate-800">Empleo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Selección de Actividad Operativa Cruzada --}}
                         <div class="space-y-2">
                             <label for="specific_event" class="block text-sm font-bold text-slate-700">Paso 2: Selecciona la Actividad Operativa <span class="text-red-500">*</span></label>
                             <div class="relative">
-                                <select x-model="specific.event_id" id="specific_event" name="event_id" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all appearance-none cursor-pointer">
+                                <select x-model="specific.event_id" id="specific_event" name="event_id" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all appearance-none cursor-pointer text-sm">
                                     <option value="" disabled selected>-- Elige una tarea de la lista --</option>
                                     @foreach($events as $event)
+                                        @php $dept = strtolower(trim($event->category->department ?? 'prevencion')); @endphp
+                                        {{-- MODIFICADO: x-show evalúa de forma estricta los dos filtros activos de la pestaña --}}
                                         <option value="{{ $event->id }}" 
-                                                x-show="specificFundingFilter === 'all' || specificFundingFilter === '{{ $event->funding_source }}'"
+                                                x-show="(specificFundingFilter === 'all' || specificFundingFilter === '{{ $event->funding_source }}') && (specificDeptFilter === 'all' || specificDeptFilter === '{{ $dept }}')"
                                                 {{ old('event_id') == $event->id ? 'selected' : '' }}>
-                                            [{{ $event->event_code }}] · {{ \Illuminate\Support\Str::limit($event->name ?? $event->description, 70) }}
+                                            [{{ $event->category->pp_code ?? 'PP' }}] · {{ $event->event_code }} - {{ \Illuminate\Support\Str::limit($event->description, 70) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -162,6 +219,7 @@
                             </div>
                         </div>
 
+                        {{-- Rango de Tiempo --}}
                         <div class="space-y-3">
                             <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Paso 3: Rango de Tiempo</label>
                             <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
@@ -186,7 +244,7 @@
 
                         <div class="space-y-2">
                             <label for="specific_date" class="block text-sm font-bold text-slate-700">Paso 4: Fecha de Referencia <span class="text-red-500">*</span></label>
-                            <input type="date" x-model="specific.date" id="specific_date" name="date" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all shadow-inner">
+                            <input type="date" x-model="specific.date" name="date" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all shadow-inner text-sm">
                         </div>
 
                         <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl text-xs sm:text-sm text-emerald-800 font-bold flex items-center gap-2 shadow-inner" x-text="getRangeDescription(specific.period, specific.date)"></div>
@@ -201,7 +259,7 @@
 
             </div>
 
-            {{-- SECCIÓN COMPLEMENTARIA: DASHBOARD DE ESTADO GLOBAL PRE-COMPILADO --}}
+            {{-- SECCIÓN COMPLEMENTARIA: DASHBOARD GLOBAL PRE-COMPILADO --}}
             @if(isset($metaFisicaTotal))
                 <div class="mt-12 space-y-6">
                     <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
@@ -225,7 +283,6 @@
                     </div>
                 </div>
 
-                {{-- Chart.js Configuración Estilizada Premium --}}
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
@@ -271,10 +328,12 @@
         function reportForm() {
             return {
                 activeTab: 'general',
-                specificFundingFilter: 'all', // Estado intermedio para el select de la pestaña 2
+                specificFundingFilter: 'all', 
+                specificDeptFilter: 'all', // 🎯 NUEVO: Control de estado para filtro por área en la pestaña 2
                 general: {
                     period: 'month',
-                    funding_source: 'all', // Parámetro cruzado añadido
+                    funding_source: 'all',
+                    department: 'all', // 🎯 NUEVO: Variable de control añadida al objeto del reporte general
                     date: new Date().toISOString().split('T')[0]
                 },
                 specific: {

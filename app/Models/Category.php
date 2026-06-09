@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes; // 👈 ¡Añade SoftDeletes aquí!
 
-    protected $fillable = ['pp_code', 'name', 'description'];
+    protected $fillable = ['pp_code', 'name', 'description', 'department'];
     
     public function events()
     {
