@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            //
+            // 🎯 REPARADO: Quitamos el ->after() para evitar conflictos de nombres o tildes.
+            // La columna se añadirá automáticamente al final de la tabla y funcionará idéntico.
             $table->string('department')->nullable();
         });
     }
@@ -23,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            //
+            $table->dropColumn('department');
         });
     }
 };

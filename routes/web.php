@@ -84,6 +84,28 @@ Route::middleware('auth')->group(function () {
     // ========================
     // SUBEVENTOS (Reportes de Avance)
     // ========================
+
+// ── PORTAL PÚBLICO: SECCIÓN INSTITUTIONAL ──────────────────────────
+Route::view('/institucional/sobre-nosotros', 'portal.sobre-nosotros')->name('portal.sobre-nosotros');
+Route::view('/institucional/organigrama', 'portal.organigrama')->name('portal.organigrama');
+Route::view('/institucional/directorio', 'portal.directorio')->name('portal.directorio');
+Route::view('/institucional/marco-legal', 'portal.marco-legal')->name('portal.marco-legal');
+
+// ── PORTAL PÚBLICO: ESTRUCTURA ORGÁNICA ────────────────────────────
+Route::view('/estructura/gerencia-regional', 'portal.gerencia')->name('portal.gerencia');
+Route::view('/estructura/administracion/personal', 'portal.admin-personal')->name('portal.admin-personal');
+Route::view('/estructura/administracion/contabilidad', 'portal.admin-contabilidad')->name('portal.admin-contabilidad');
+Route::view('/estructura/administracion/abastecimiento', 'portal.admin-abastecimiento')->name('portal.admin-abastecimiento');
+Route::view('/estructura/administracion/presupuesto', 'portal.admin-presupuesto')->name('portal.admin-presupuesto');
+Route::view('/estructura/empleo/general', 'portal.empleo-general')->name('portal.empleo-general');
+Route::view('/estructura/empleo/registros', 'portal.empleo-registros')->name('portal.empleo-registros');
+
+// ── PORTAL PÚBLICO: SERVICIOS AL CIUDADANO ─────────────────────────
+Route::view('/servicios/centro-empleo', 'portal.servicio-empleo')->name('portal.servicio-empleo');
+Route::view('/servicios/fraccionamiento-multas', 'portal.servicio-multas')->name('portal.servicio-multas');
+Route::view('/servicios/capacitacion', 'portal.servicio-capacitacion')->name('portal.servicio-capacitacion');
+Route::view('/servicios/defensa-legal', 'portal.servicio-defensa')->name('portal.servicio-defensa');
+
     Route::get('/subevents/trashed', [SubEventController::class, 'trashed'])->name('subevents.trashed');
     Route::post('/subevents/{id}/restore', [SubEventController::class, 'restore'])->name('subevents.restore');
     Route::delete('/subevents/{id}/force-delete', [SubEventController::class, 'forceDelete'])->name('subevents.force-delete');
