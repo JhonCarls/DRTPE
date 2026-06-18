@@ -1,176 +1,159 @@
-{{-- ════════════════════════════════════════════════════════════ --}}
-{{-- CAPA DE SUPERPOSICIÓN Y BARRA LATERAL (SIDEBAR)              --}}
-{{-- ════════════════════════════════════════════════════════════ --}}
-<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+{{-- ====================================================================== --}}
+{{-- ── SUB-MÓDULO DE TALLERES, CAPACITACIONES Y COORDINACIONES (LIGHT) ── --}}
+{{-- ====================================================================== --}}
+<div class="space-y-16 py-6 w-full">
 
-<aside id="sidebar">
-    
-    {{-- MENÚ EXCLUSIVO MÓVIL (Visible solo en pantallas menores a lg) --}}
-    <div class="lg:hidden px-4 py-2 border-b border-white/5 space-y-1" x-data="{ openMobileSec: null }">
-        <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest px-2 mb-2">Navegación del Portal</p>
-
-        {{-- Sección Móvil: Institucional --}}
-        <div class="bg-white/5 rounded-xl overflow-hidden">
-            <button @click="openMobileSec = openMobileSec === 'inst' ? null : 'inst'" class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-200 hover:text-white bg-transparent border-none cursor-pointer">
-                <span class="flex items-center gap-2.5"><i class="fa-solid fa-building text-red-500"></i> Institucional</span>
-                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" :class="openMobileSec === 'inst' ? 'rotate-180' : ''"></i>
-            </button>
-            <div x-show="openMobileSec === 'inst'" x-cloak class="bg-black/40 px-4 py-2 space-y-2 text-[11px] font-medium text-slate-400 border-t border-white/5 flex flex-col">
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none"><i class="fa-solid fa-circle-info text-[9px] text-red-500"></i> Sobre Nosotros</a>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none"><i class="fa-solid fa-sitemap text-[9px] text-red-500"></i> Organigrama</a>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none"><i class="fa-solid fa-address-book text-[9px] text-red-500"></i> Directorio</a>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none"><i class="fa-solid fa-scale-balanced text-[9px] text-red-500"></i> Marco Legal</a>
+    {{-- ════════════════════════════════════════════════════════════ --}}
+    {{-- SECCIÓN A: CAPACITACIONES POR HACER / PRÓXIMOS TALLERES      --}}
+    {{-- ════════════════════════════════════════════════════════════ --}}
+    <section id="seccion-por-hacer" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                <i class="fa-solid fa-calendar-plus text-white text-sm"></i>
             </div>
-        </div>
-
-        {{-- Sección Móvil: Estructura Orgánica --}}
-        <div class="bg-white/5 rounded-xl overflow-hidden">
-            <button @click="openMobileSec = openMobileSec === 'org' ? null : 'org'" class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-200 hover:text-white bg-transparent border-none cursor-pointer">
-                <span class="flex items-center gap-2.5"><i class="fa-solid fa-sitemap text-red-500"></i> Estructura Orgánica</span>
-                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" :class="openMobileSec === 'org' ? 'rotate-180' : ''"></i>
-            </button>
-            <div x-show="openMobileSec === 'org'" x-cloak class="bg-black/40 px-4 py-2 space-y-2 text-[11px] font-medium text-slate-400 border-t border-white/5 flex flex-col">
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none"><i class="fa-solid fa-user-tie text-[9px] text-red-500"></i> Gerencia Regional</a>
-                <p class="font-black text-[9px] text-slate-500 uppercase tracking-wider pt-1 border-t border-white/5 m-0">Áreas Internas</p>
-                <a href="#" class="py-1 hover:text-white pl-2 decoration-none">&bull; Administración</a>
-                <a href="#" class="py-1 hover:text-white pl-2 decoration-none">&bull; Dirección del Empleo</a>
-            </div>
-        </div>
-
-        {{-- Sección Móvil: Servicios --}}
-        <div class="bg-white/5 rounded-xl overflow-hidden">
-            <button @click="openMobileSec = openMobileSec === 'serv' ? null : 'serv'" class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-200 hover:text-white bg-transparent border-none cursor-pointer">
-                <span class="flex items-center gap-2.5"><i class="fa-solid fa-briefcase text-red-500"></i> Servicios</span>
-                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" :class="openMobileSec === 'serv' ? 'rotate-180' : ''"></i>
-            </button>
-            <div x-show="openMobileSec === 'serv'" x-cloak class="bg-black/40 px-4 py-2 space-y-2 text-[11px] font-medium text-slate-400 border-t border-white/5 flex flex-col">
-                <a href="#" class="py-1.5 hover:text-white decoration-none">&bull; Centro de Empleo Puno</a>
-                <a href="#" class="py-1.5 hover:text-white decoration-none">&bull; Fraccionamiento de Multas</a>
-                <a href="#" class="py-1.5 hover:text-white decoration-none">&bull; Capacitaciones Externas</a>
-            </div>
-        </div>
-
-        {{-- Sección Móvil: Talleres --}}
-        <div class="bg-white/5 rounded-xl overflow-hidden mb-4">
-            <button @click="openMobileSec = openMobileSec === 'tal' ? null : 'tal'" class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-200 hover:text-white bg-transparent border-none cursor-pointer">
-                <span class="flex items-center gap-2.5"><i class="fa-solid fa-user-graduate text-red-500"></i> Talleres</span>
-                <i class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200" :class="openMobileSec === 'tal' ? 'rotate-180' : ''"></i>
-            </button>
-            <div x-show="openMobileSec === 'tal'" x-cloak class="bg-black/40 px-2 py-2 text-[11px] font-bold border-t border-white/5 flex flex-col">
-                <button onclick="scrollToSection('seccion-por-hacer'); closeSidebar()" class="w-full text-left py-2 px-2 hover:bg-white/5 text-slate-300 rounded flex justify-between items-center bg-transparent border-none cursor-pointer">
-                    <span>Capacitaciones por Hacer</span>
-                    <span class="text-[9px] font-mono font-black px-1.5 py-0.5 rounded bg-red-600 text-white">{{ isset($capacitacionesPorHacer) ? $capacitacionesPorHacer->count() : 0 }}</span>
-                </button>
-                <button onclick="scrollToSection('seccion-hechas'); closeSidebar()" class="w-full text-left py-2 px-2 hover:bg-white/5 text-slate-300 rounded flex justify-between items-center bg-transparent border-none cursor-pointer">
-                    <span>Capacitaciones Hechas</span>
-                    <span class="text-[9px] font-mono font-black px-1.5 py-0.5 rounded bg-white/10 text-slate-400">{{ isset($capacitacionesHechas) ? $capacitacionesHechas->count() : 0 }}</span>
-                </button>
-                <button onclick="scrollToSection('seccion-coordinaciones'); closeSidebar()" class="w-full text-left py-2 px-2 hover:bg-white/5 text-slate-300 rounded flex justify-between items-center bg-transparent border-none cursor-pointer">
-                    <span>Coordinaciones Hechas</span>
-                    <span class="text-[9px] font-mono font-black px-1.5 py-0.5 rounded bg-white/10 text-slate-400">{{ isset($coordinacionesHechas) ? $coordinacionesHechas->count() : 0 }}</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    {{-- LOGO DE LA DIRECCIÓN Y DATOS DE CONTACTO GENERALES --}}
-    <div class="p-5 pb-4">
-        <div class="flex items-center gap-3 mb-5 pt-1">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-12 h-12 object-contain rounded-xl bg-white/10 p-1.5 border border-white/10">
             <div>
-                <p class="text-white font-black text-sm leading-tight m-0" style="font-family: 'Sora', sans-serif;">DRTPE Puno</p>
-                <p class="text-slate-500 text-[10px] uppercase tracking-wider m-0">Dirección Regional</p>
+                <h2 class="text-xl font-black text-slate-900 m-0 tracking-tight">Capacitaciones por Hacer</h2>
+                <p class="text-slate-400 text-xs font-bold m-0">Próximos talleres programados para la inserción y orientación laboral</p>
             </div>
+            <div class="flex-1 h-px bg-slate-200 hidden sm:block"></div>
         </div>
-        <div class="space-y-3 mb-4">
-            <div class="flex items-start gap-2.5">
-                <div class="w-7 h-7 rounded-lg bg-red-600/20 border border-red-500/25 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fa-solid fa-location-dot text-red-400 text-[11px]"></i></div>
-                <div><p class="text-slate-200 text-xs font-bold m-0">Sede Puno</p><p class="text-slate-500 text-[11px] leading-snug m-0">Jr. Ayacucho N° 658, Puno</p></div>
+
+        @if(isset($capacitacionesPorHacer) && $capacitacionesPorHacer->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($capacitacionesPorHacer as $taller)
+                    <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border-l-4 border-l-indigo-600 relative overflow-hidden group">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-indigo-50 border border-indigo-100 text-indigo-700 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider">Inscripciones Abiertas</span>
+                                <div class="text-slate-400 text-xs"><i class="fa-regular fa-clock"></i> {{ $taller->time ?? '09:00 AM' }}</div>
+                            </div>
+                            <h3 class="text-base font-black text-slate-900 leading-snug m-0 group-hover:text-indigo-600 transition-colors line-clamp-2 h-12">{{ $taller->title }}</h3>
+                            <p class="text-slate-500 text-xs leading-relaxed font-medium line-clamp-3 m-0 text-justify">{{ $taller->description }}</p>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-slate-100 space-y-2 text-xs font-bold text-slate-600">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-location-dot text-indigo-500 w-4 text-center"></i> {{ $taller->location }}</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-users text-indigo-500 w-4 text-center"></i> Dirigido a: <span class="text-slate-500 font-medium truncate">{{ $taller->target_audience ?? 'Público General' }}</span></div>
+                            <div class="flex items-center justify-between pt-2">
+                                <span class="text-[11px] font-black text-slate-900 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
+                                    <i class="fa-regular fa-calendar text-indigo-600 mr-1"></i>{{ \Carbon\Carbon::parse($taller->scheduled_at)->format('d/m/Y') }}
+                                </span>
+                                <a href="#" class="text-[10px] font-black text-indigo-600 uppercase tracking-wider hover:text-indigo-700 flex items-center gap-1 decoration-none">Inscribirme <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            <div class="flex items-start gap-2.5">
-                <div class="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/25 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fa-solid fa-location-dot text-blue-400 text-[11px]"></i></div>
-                <div><p class="text-slate-200 text-xs font-bold m-0">Sede Juliaca</p><p class="text-slate-500 text-[11px] leading-snug m-0">Jr. Santiago Mamani N° 200, Juliaca</p></div>
+        @else
+            <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center shadow-sm max-w-xl mx-auto">
+                <div class="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center mx-auto mb-3 text-slate-400">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <h4 class="text-sm font-black text-slate-800 m-0">No hay capacitaciones pendientes</h4>
+                <p class="text-xs text-slate-400 font-medium mt-1 m-0">Todos los talleres programados para este período han sido ejecutados con éxito.</p>
             </div>
-        </div>
-        <div class="flex gap-2 flex-wrap">
-            <a href="https://www.facebook.com/DRTPEPunoOFICIAL/?locale=es_LA" target="_blank" class="social-badge badge-fb"><i class="fa-brands fa-facebook"></i> Facebook</a>
-            <a href="#" target="_blank" class="social-badge badge-tt"><i class="fa-brands fa-tiktok"></i> TikTok</a>
-        </div>
-    </div>
+        @endif
+    </section>
 
-    {{-- 🎯 MODIFICADO: SECCIÓN TRÁMITES Y TRABAJO AUTÓNOMO (Links de Formaliza para Web & Celular) --}}
-    <p class="sb-label"><i class="fa-solid fa-gavel mr-1.5 text-blue-400"></i>Tramitación y Formaliza</p>
-    <div class="sb-sep"><span class="text-blue-400">Trámites y Registros</span></div>
-    
-    {{-- Enlace 1: Registro REMYPE --}}
-    <a href="https://www.gob.pe/remype" target="_blank" class="sb-item group block decoration-none">
-        <div class="sb-thumb bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center rounded-xl border border-blue-500/20 shadow-inner group-hover:scale-105 transition-transform duration-200">
-            <i class="fa-solid fa-building-shield text-white text-xs"></i>
+    {{-- ════════════════════════════════════════════════════════════ --}}
+    {{-- SECCIÓN B: CAPACITACIONES HECHAS / EJECUTADAS                --}}
+    {{-- ════════════════════════════════════════════════════════════ --}}
+    <section id="seccion-hechas" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                <i class="fa-solid fa-user-graduate text-white text-sm"></i>
+            </div>
+            <div>
+                <h2 class="text-xl font-black text-slate-900 m-0 tracking-tight">Capacitaciones Hechas</h2>
+                <p class="text-slate-400 text-xs font-bold m-0">Historial de talleres y seminarios concluidos con métricas de impacto</p>
+            </div>
+            <div class="flex-1 h-px bg-slate-200 hidden sm:block"></div>
         </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-slate-200 text-xs font-semibold leading-snug truncate m-0 group-hover:text-blue-400 transition-colors">Registro REMYPE</p>
-            <p class="text-slate-500 text-[9px] mt-0.5 font-medium m-0">Acreditación de Micro y Pequeña Empresa</p>
-        </div>
-    </a>
 
-    {{-- Enlace 2: SUNAFIL Denuncias --}}
-    <a href="https://www.gob.pe/sunafil" target="_blank" class="sb-item group block decoration-none">
-        <div class="sb-thumb bg-gradient-to-br from-rose-600 to-red-700 flex items-center justify-center rounded-xl border border-red-500/20 shadow-inner group-hover:scale-105 transition-transform duration-200">
-            <i class="fa-solid fa-scale-balanced text-white text-xs"></i>
-        </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-slate-200 text-xs font-semibold leading-snug truncate m-0 group-hover:text-blue-400 transition-colors">Denuncias Virtuales</p>
-            <p class="text-slate-500 text-[9px] mt-0.5 font-medium m-0">Módulo de Inspección del Trabajo - SUNAFIL</p>
-        </div>
-    </a>
+        @if(isset($capacitacionesHechas) && $capacitacionesHechas->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($capacitacionesHechas as $taller)
+                    <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border-l-4 border-l-emerald-500 group">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-emerald-50 border border-emerald-100 text-emerald-700 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider"><i class="fa-solid fa-circle-check mr-1"></i>Ejecutado</span>
+                                <span class="text-slate-400 text-xs font-mono font-bold">FOLIO #{{ $taller->id }}</span>
+                            </div>
+                            <h3 class="text-base font-black text-slate-900 leading-snug m-0 group-hover:text-emerald-600 transition-colors line-clamp-2 h-12">{{ $taller->title }}</h3>
+                            <p class="text-slate-500 text-xs leading-relaxed font-medium line-clamp-3 m-0 text-justify">{{ $taller->description }}</p>
+                        </div>
 
-    {{-- Enlace 3: Formalízate Perú --}}
-    <a href="https://www.gob.pe/mtpe" target="_blank" class="sb-item group block decoration-none">
-        <div class="sb-thumb bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center rounded-xl border border-slate-600/30 shadow-inner group-hover:scale-105 transition-transform duration-200">
-            <i class="fa-solid fa-passport text-white text-xs"></i>
-        </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-slate-200 text-xs font-semibold leading-snug truncate m-0 group-hover:text-blue-400 transition-colors">Asesoría de Formalización</p>
-            <p class="text-slate-500 text-[9px] mt-0.5 font-medium m-0">Servicio de Orientación y Guías del MTPE</p>
-        </div>
-    </a>
+                        <div class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs font-bold text-slate-600 items-center">
+                            <div class="text-slate-500 font-medium"><i class="fa-solid fa-users text-emerald-500 mr-1.5 w-4 text-center"></i><span class="text-slate-900 font-black">{{ number_format($taller->certified_count ?? 0) }}</span> certificados</div>
+                            <div class="text-right">
+                                <span class="inline-block text-[11px] font-black text-slate-900 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
+                                    {{ \Carbon\Carbon::parse($taller->executed_at)->format('d/m/Y') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center shadow-sm max-w-xl mx-auto">
+                <div class="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center mx-auto mb-3 text-slate-400">
+                    <i class="fa-solid fa-folder-open text-lg"></i>
+                </div>
+                <h4 class="text-sm font-black text-slate-800 m-0">Sin registros históricos</h4>
+                <p class="text-xs text-slate-400 font-medium mt-1 m-0">No se han cargado evidencias físicas de talleres ejecutados en el presente mes fiscal.</p>
+            </div>
+        @endif
+    </section>
 
-    {{-- 🎯 MODIFICADO: SECCIÓN PORTALES DE EMPLEO (Bolsa de Trabajo del Perú para Web & Celular) --}}
-    <p class="sb-label"><i class="fa-solid fa-briefcase mr-1.5 text-amber-400"></i>Oportunidades Laborales</p>
-    <div class="sb-sep mt-1"><span class="text-amber-400">Bolsa de Trabajo</span></div>
+    {{-- ════════════════════════════════════════════════════════════ --}}
+    {{-- SECCIÓN C: COORDINACIONES HECHAS / MESAS DE TRABAJO          --}}
+    {{-- ════════════════════════════════════════════════════════════ --}}
+    <section id="seccion-coordinaciones" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 scroll-mt-24">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                <i class="fa-solid fa-handshake-angle text-white text-sm"></i>
+            </div>
+            <div>
+                <h2 class="text-xl font-black text-slate-900 m-0 tracking-tight">Coordinaciones Hechas</h2>
+                <p class="text-slate-400 text-xs font-bold m-0">Alianzas y acuerdos de cooperación interinstitucional sectorial</p>
+            </div>
+            <div class="flex-1 h-px bg-slate-200 hidden sm:block"></div>
+        </div>
 
-    {{-- Enlace 1: Portal Empleos Perú --}}
-    <a href="https://www.empleosperu.gob.pe" target="_blank" class="sb-item group block decoration-none">
-        <div class="sb-thumb bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center rounded-xl border border-emerald-500/20 shadow-inner group-hover:scale-105 transition-transform duration-200">
-            <i class="fa-solid fa-magnifying-glass-chart text-white text-xs"></i>
-        </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-slate-200 text-xs font-semibold leading-snug truncate m-0 group-hover:text-amber-400 transition-colors">Portal Empleos Perú</p>
-            <p class="text-slate-500 text-[9px] mt-0.5 font-medium m-0">Bolsa nacional oficial de ofertas laborales</p>
-        </div>
-    </a>
+        @if(isset($coordinacionesHechas) && $coordinacionesHechas->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($coordinacionesHechas as $coordinacion)
+                    <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between border-l-4 border-l-amber-500 group">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-amber-50 border border-amber-200 text-amber-700 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider">Acuerdo Regional</span>
+                                <span class="text-slate-400 text-xs font-medium"><i class="fa-solid fa-handshake"></i> Convenio</span>
+                            </div>
+                            <h3 class="text-base font-black text-slate-900 leading-snug m-0 group-hover:text-amber-600 transition-colors line-clamp-2 h-12">{{ $coordinacion->title }}</h3>
+                            <p class="text-slate-500 text-xs leading-relaxed font-medium line-clamp-3 m-0 text-justify">{{ $coordinacion->description }}</p>
+                        </div>
 
-    {{-- Enlace 2: Certificado Único Laboral --}}
-    <a href="https://www.gob.pe/certificado-unico-laboral" target="_blank" class="sb-item group block decoration-none">
-        <div class="sb-thumb bg-gradient-to-br from-cyan-600 to-blue-700 flex items-center justify-center rounded-xl border border-cyan-500/20 shadow-inner group-hover:scale-105 transition-transform duration-200">
-            <i class="fa-solid fa-id-card text-white text-xs"></i>
-        </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-slate-200 text-xs font-semibold leading-snug truncate m-0 group-hover:text-amber-400 transition-colors">Certificado Único Laboral</p>
-            <p class="text-slate-500 text-[9px] mt-0.5 font-medium m-0">Emisión gratuita de antecedentes del MTPE</p>
-        </div>
-    </a>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col space-y-2 text-xs font-bold text-slate-600">
+                            <div class="flex items-center gap-2 truncate"><i class="fa-solid fa-building text-amber-500 w-4 text-center"></i> Entidad: <span class="text-slate-500 font-medium truncate">{{ $coordinacion->institution_name ?? 'Alianza Sector Privado' }}</span></div>
+                            <div class="flex items-center justify-between pt-1">
+                                <span class="inline-block text-[11px] font-black text-slate-900 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded">
+                                    <i class="fa-regular fa-calendar-check mr-1 text-amber-500"></i>{{ \Carbon\Carbon::parse($coordinacion->signed_at)->format('d/m/Y') }}
+                                </span>
+                                <span class="text-[10px] text-amber-600 uppercase font-black tracking-wider"><i class="fa-solid fa-circle text-[6px] animate-pulse mr-1"></i>Activo</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="bg-white border border-slate-200 rounded-2xl p-10 text-center shadow-sm max-w-xl mx-auto">
+                <div class="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center mx-auto mb-3 text-slate-400">
+                    <i class="fa-solid fa-briefcase text-lg"></i>
+                </div>
+                <h4 class="text-sm font-black text-slate-800 m-0">Sin mesas de trabajo registradas</h4>
+                <p class="text-xs text-slate-400 font-medium mt-1 m-0">No se han reportado actas de convenios bilaterales en la presente quincena.</p>
+            </div>
+        @endif
+    </section>
 
-    {{-- Enlace 3: Convocatorias CAS Estado --}}
-    <a href="https://www.gob.pe/servir" target="_blank" class="sb-item group block decoration-none">
-        <div class="sb-thumb bg-gradient-to-br from-amber-600 to-orange-700 flex items-center justify-center rounded-xl border border-amber-500/20 shadow-inner group-hover:scale-105 transition-transform duration-200">
-            <i class="fa-solid fa-user-tie text-white text-xs"></i>
-        </div>
-        <div class="flex-1 min-w-0">
-            <p class="text-slate-200 text-xs font-semibold leading-snug truncate m-0 group-hover:text-amber-400 transition-colors">Convocatorias CAS</p>
-            <p class="text-slate-500 text-[9px] mt-0.5 font-medium m-0">Buscador de plazas del sector público nacional</p>
-        </div>
-    </a>
-    
-    <div class="h-8"></div>
-</aside>
+</div>
