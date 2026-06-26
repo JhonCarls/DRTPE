@@ -93,27 +93,38 @@
     }">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <x-slot name="header">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2.5 bg-gradient-to-br from-slate-800 to-slate-950 rounded-xl text-white shadow-md">
-                            <i class="fa-solid fa-chart-pie text-lg"></i>
-                        </div>
-                        <div>
-                            <h2 class="font-black text-2xl text-slate-800 leading-none">
-                                Panel de Control Operativo
-                            </h2>
-                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Evaluación de Metas Institucionales</p>
-                        </div>
-                    </div>
-                    @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('trash.index') }}" class="group bg-white hover:bg-red-50 text-slate-600 hover:text-red-600 border border-slate-200 hover:border-red-200 font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md text-sm">
-                            <i class="fa-solid fa-trash-arrow-up group-hover:-translate-y-0.5 transition-transform text-slate-400 group-hover:text-red-500"></i>
-                            <span>Papelera de Reciclaje</span>
-                        </a>
-                    @endif
-                </div>
-            </x-slot>
+            {{--  REEMPLÁZALO POR ESTE BLOQUE OPTIMIZADO --}}
+<x-slot name="header">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-gradient-to-br from-slate-800 to-slate-950 rounded-xl text-white shadow-md">
+                <i class="fa-solid fa-chart-pie text-lg"></i>
+            </div>
+            <div>
+                <h2 class="font-black text-2xl text-slate-800 leading-none">
+                    Panel de Control Operativo
+                </h2>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Evaluación de Metas Institucionales</p>
+            </div>
+        </div>
+        
+        {{-- Grupo de acciones exclusivas para el Administrador General --}}
+        @if(auth()->user()->role === 'admin')
+            <div class="flex items-center gap-2 self-start sm:self-center">
+                {{-- Nuevo botón de accesibilidad para la creación de operadores de sedes --}}
+                <a href="{{ route('users.create') }}" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider py-2.5 px-4 rounded-xl shadow-md transition-all decoration-none">
+                    <i class="fa-solid fa-user-plus"></i> Registrar Usuarios de Sedes
+                </a>
+
+                {{-- Tu botón original de la papelera --}}
+                <a href="{{ route('trash.index') }}" class="group bg-white hover:bg-red-50 text-slate-600 hover:text-red-600 border border-slate-200 hover:border-red-200 font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 transition-all shadow-sm hover:shadow-md text-sm decoration-none">
+                    <i class="fa-solid fa-trash-arrow-up group-hover:-translate-y-0.5 transition-transform text-slate-400 group-hover:text-red-500"></i>
+                    <span>Papelera de Reciclaje</span>
+                </a>
+            </div>
+        @endif
+    </div>
+</x-slot>
            
             @if(session('error'))
                 <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-2xl shadow-sm flex items-center gap-3 animate-pulse">

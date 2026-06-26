@@ -107,6 +107,23 @@ class PublicViewerController extends Controller
             'coordinacionesHechas'
         ));
     }
+    public function showSede($slug)
+{
+    // Validamos que el slug corresponda a una sede desconcentrada válida
+    if (!in_array($slug, ['juliaca', 'taraco'])) {
+        abort(404);
+    }
+
+    // Consultamos únicamente las actividades de la sede seleccionada
+    $activities = \App\Models\BranchActivity::where('sede', $slug)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // Nombre estético para los títulos de la vista pública
+    $sedeName = ($slug === 'juliaca') ? 'Sede Juliaca' : 'Sede Taraco';
+
+    return view('portal.sede-desconcentrada', compact('activities', 'sedeName', 'slug'));
+}
 }
 
 

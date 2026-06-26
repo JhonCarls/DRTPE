@@ -14,6 +14,8 @@ use App\Http\Controllers\PhotoReportController;
 use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\WorkshopController;
+use App\Http\Controllers\BranchActivityController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,6 @@ use App\Http\Controllers\WorkshopController;
 
 Route::get('/', [PublicViewerController::class, 'index'])->name('public.viewer');
 
-// 🎯 TRASLADADO: Todo el Portal Público ahora es libre de middleware de autenticación
 // ── PORTAL PÚBLICO: SECCIÓN INSTITUCIONAL ──────────────────────────
 Route::view('/institucional/sobre-nosotros', 'portal.sobre-nosotros')->name('portal.sobre-nosotros');
 Route::view('/institucional/organigrama', 'portal.organigrama')->name('portal.organigrama');
@@ -45,16 +46,15 @@ Route::view('/servicios/fraccionamiento-multas', 'portal.servicio-multas')->name
 Route::view('/servicios/capacitacion', 'portal.servicio-capacitacion')->name('portal.servicio-capacitacion');
 Route::view('/servicios/defensa-legal', 'portal.servicio-defensa')->name('portal.servicio-defensa');
 
+// ── 🎯 PORTAL PÚBLICO: ZONAS DESCONCENTRADAS (DINÁMICA MULTI-SEDE) ──
+Route::get('/zonas-desconcentradas/{slug}', [PublicViewerController::class, 'showSede'])->name('portal.sede');
+
 
 /*
 |--------------------------------------------------------------------------
 | 2. RUTAS PRIVADAS / INTRANET (Requieren autenticación obligatoria)
 |--------------------------------------------------------------------------
 */
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     
@@ -65,6 +65,14 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard Operativo (Procesamiento analítico de gráficos de Chart.js)
     Route::get('/dashboard', function () {
+        
+        // ── 🎯 INTERCEPCIÓN DE SEGURIDAD MULTI-SEDE ──────────────────
+        // Si el usuario logueado es un operador de sede, lo desviamos de las gráficas globales
+        if (auth()->user()->role === 'user' && in_array(auth()->user()->sede, ['juliaca', 'taraco'])) {
+            return redirect()->route('branch-activities.index');
+        }
+        // ─────────────────────────────────────────────────────────────
+
         $totalMetas = Event::sum('goal_people');
         $totalAvance = SubEvent::sum('attendees_count');
         $porcentajeGlobal = $totalMetas > 0 ? round(($totalAvance / $totalMetas) * 100, 1) : 0;
@@ -154,6 +162,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('bulletins', BulletinController::class);
     Route::resource('announcements', AnnouncementController::class);
     Route::resource('workshops', WorkshopController::class);    
+    
+    // ── 🎯 INTRANET: CRUD DE ACTIVIDADES EXCLUSIVAS POR SEDE DESCONCENTRADA ──
+    Route::resource('branch-activities', BranchActivityController::class);
+    Route::resource('users', UserController::class)->only(['create', 'store']);
 
 });
 

@@ -7,10 +7,11 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany; // 👈 Importante para la relación
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'username', 'password','role'])]
+#[Fillable(['name', 'username', 'password', 'role', 'sede'])] // 👈 Agregado 'sede' aquí
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,4 +29,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-}
+
+    /**
+     * Relación: Un usuario puede registrar muchas actividades de su sede
+     */
+    public function branchActivities(): HasMany
+    {
+        return $this->hasMany(BranchActivity::class);
+    }
+}   
