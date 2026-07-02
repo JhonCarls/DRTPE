@@ -37,13 +37,22 @@ Route::view('/estructura/administracion/contabilidad', 'portal.admin-contabilida
 Route::view('/estructura/administracion/abastecimiento', 'portal.admin-abastecimiento')->name('portal.admin-abastecimiento');
 Route::view('/estructura/administracion/presupuesto', 'portal.admin-presupuesto')->name('portal.admin-presupuesto');
 Route::view('/estructura/empleo/general', 'portal.empleo-general')->name('portal.empleo-general');
+Route::view('/estructura/empleo/subdireccion', 'portal.empleo-subdireccion')->name('portal.empleo-subdireccion');
 Route::view('/estructura/empleo/registros', 'portal.empleo-registros')->name('portal.empleo-registros');
+Route::view('/estructura/organos/juliaca', 'portal.organos-juliaca')->name('portal.organos-juliaca');
+Route::view('/estructura/organos/taraco', 'portal.organos-taraco')->name('portal.organos-taraco');
 
 // ── PORTAL PÚBLICO: SERVICIOS AL CIUDADANO ─────────────────────────
 Route::view('/servicios/centro-empleo', 'portal.servicio-empleo')->name('portal.servicio-empleo');
 Route::view('/servicios/fraccionamiento-multas', 'portal.servicio-multas')->name('portal.servicio-multas');
 Route::view('/servicios/capacitacion', 'portal.servicio-capacitacion')->name('portal.servicio-capacitacion');
 Route::view('/servicios/defensa-legal', 'portal.servicio-defensa')->name('portal.servicio-defensa');
+
+// ── PORTAL PÚBLICO: DIRECCIÓN DE PREVENCIÓN Y SOLUCIÓN DE CONFLICTOS ──
+Route::view('/estructura/conflictos-laborales', 'portal.Sconflictos')->name('portal.Sconflictos');
+Route::view('/estructura/conflictos/negociaciones-colectivas', 'portal.sub_negociaciones')->name('portal.sub-negociaciones');
+Route::view('/estructura/conflictos/inspeccion-laboral', 'portal.sub_inspeccion')->name('portal.sub-inspeccion');
+Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa')->name('portal.sub-defensa');
 
 
 /*
