@@ -67,14 +67,14 @@
         <!-- Sección de Servicios -->
         <section class="space-y-4">
             <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-                <span class="text-green-500">🎯</span> Servicios Ofertados
+                <i class="fa-solid fa-bullseye" style="color: rgb(229, 14, 14);"></i> Servicios Ofertados
             </h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Servicio 1 -->
                 <div class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-green-500/50 transition-all">
                     <div class="flex gap-3 items-start">
-                        <div class="text-2xl flex-shrink-0">📖</div>
+                        <i class="fa-solid fa-book-open" style="color: rgb(229, 14, 14);"></i>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-2 m-0">[PLACEHOLDER] Asesoría Legal Gratuita</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
@@ -87,7 +87,7 @@
                 <!-- Servicio 2 -->
                 <div class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-green-500/50 transition-all">
                     <div class="flex gap-3 items-start">
-                        <div class="text-2xl flex-shrink-0">🏛️</div>
+                        <i class="fa-solid fa-building-columns" style="color: rgb(229, 14, 14);"></i>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-2 m-0">[PLACEHOLDER] Defensa en Procesos Laborales</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">

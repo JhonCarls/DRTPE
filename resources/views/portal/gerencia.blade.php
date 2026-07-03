@@ -18,7 +18,7 @@
         <!-- SECCIÓN 1: Definición y Jurisdicción -->
         <section aria-label="Definición y Jurisdicción" class="space-y-4">
             <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-                <span class="text-amber-500">📋</span> Definición y Jurisdicción
+                <i class="fa-regular fa-clipboard" style="color: rgb(229, 14, 14);"></i> Definición y Jurisdicción
             </h2>
             
             <article class="bg-gradient-to-br from-slate-900/90 to-slate-800/90 border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
@@ -31,7 +31,7 @@
                     
                     <div class="pt-3">
                         <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
-                            <span class="text-lg">🗺️</span> Jurisdicción
+                            Jurisdicción
                         </h3>
                         <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0">
                             Su competencia comprende todo el ámbito territorial del 
@@ -46,7 +46,7 @@
         <!-- SECCIÓN 2: Finalidad y Objetivos -->
         <section aria-label="Finalidad y Objetivos" class="space-y-4">
             <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-                <span class="text-amber-500">🎯</span> Finalidad y Objetivos
+                <i class="fa-solid fa-bullseye" style="color: rgb(229, 14, 14);"></i> Finalidad y Objetivos
             </h2>
             
             <p class="text-slate-300 text-sm sm:text-base leading-relaxed bg-slate-900/50 border border-white/5 rounded-xl p-4">
@@ -57,7 +57,6 @@
                 <!-- Objetivo 1 -->
                 <article class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-amber-500/50 transition-all duration-300 group">
                     <div class="flex gap-3 items-start">
-                        <div class="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">💼</div>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-2 m-0">Promoción del Empleo Productivo</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
@@ -70,7 +69,6 @@
                 <!-- Objetivo 2 -->
                 <article class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-amber-500/50 transition-all duration-300 group">
                     <div class="flex gap-3 items-start">
-                        <div class="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">🎓</div>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-2 m-0">Capacitación Técnica</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
@@ -83,7 +81,6 @@
                 <!-- Objetivo 3 -->
                 <article class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-amber-500/50 transition-all duration-300 group">
                     <div class="flex gap-3 items-start">
-                        <div class="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">🤝</div>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-2 m-0">Diálogo Social</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
@@ -96,7 +93,6 @@
                 <!-- Objetivo 4 -->
                 <article class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-amber-500/50 transition-all duration-300 group">
                     <div class="flex gap-3 items-start">
-                        <div class="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">⚖️</div>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-2 m-0">Normativas OIT</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
@@ -111,71 +107,53 @@
         <!-- SECCIÓN 3: Funciones Generales -->
         <section aria-label="Funciones Generales" class="space-y-4">
             <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-                <span class="text-amber-500">⚙️</span> Funciones Generales del Director Regional
+                <i class="fa-solid fa-gear" style="color: rgb(229, 14, 14);"></i> Funciones Generales del Director Regional
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Función 1 -->
-                <article class="bg-gradient-to-br from-amber-600/20 to-transparent border border-amber-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-amber-500/20 transition-all">
-                    <div class="flex gap-3 mb-3">
-                        <div class="text-3xl">🎯</div>
-                    </div>
-                    <h3 class="text-base font-bold text-amber-200 mb-2 m-0">Dirección Estratégica</h3>
+                <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-gray-700 rounded-2xl p-6 group hover:shadow-lg hover:shadow-gray-900/40 transition-all">                    
+                    <h3 class="text-base font-bold text-white-200 mb-2 m-0">Dirección Estratégica</h3>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
                         Dirigir, coordinar, supervisar y evaluar la política socio-laboral en estrecha coordinación con organismos regionales y nacionales.
                     </p>
                 </article>
 
                 <!-- Función 2 -->
-                <article class="bg-gradient-to-br from-blue-600/20 to-transparent border border-blue-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-blue-500/20 transition-all">
-                    <div class="flex gap-3 mb-3">
-                        <div class="text-3xl">📈</div>
-                    </div>
-                    <h3 class="text-base font-bold text-blue-200 mb-2 m-0">Promoción del Empleo</h3>
+                <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-gray-700 rounded-2xl p-6 group hover:shadow-lg hover:shadow-gray-900/40 transition-all">    
+                    <h3 class="text-base font-bold text-white-200 mb-2 m-0">Promoción del Empleo</h3>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
                         Ejecutar programas y proyectos con énfasis en grupos vulnerables de la población.
                     </p>
                 </article>
 
                 <!-- Función 3 -->
-                <article class="bg-gradient-to-br from-green-600/20 to-transparent border border-green-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-green-500/20 transition-all">
-                    <div class="flex gap-3 mb-3">
-                        <div class="text-3xl">🛡️</div>
-                    </div>
-                    <h3 class="text-base font-bold text-green-200 mb-2 m-0">Seguridad y Salud</h3>
+                <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-gray-700 rounded-2xl p-6 group hover:shadow-lg hover:shadow-gray-900/40 transition-all">
+                    <h3 class="text-base font-bold text-white-200 mb-2 m-0">Seguridad y Salud</h3>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
                         Conducir acciones de seguridad y salud en el trabajo, bienestar y seguridad social concertando con instituciones.
                     </p>
                 </article>
 
                 <!-- Función 4 -->
-                <article class="bg-gradient-to-br from-purple-600/20 to-transparent border border-purple-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-purple-500/20 transition-all">
-                    <div class="flex gap-3 mb-3">
-                        <div class="text-3xl">⚖️</div>
-                    </div>
-                    <h3 class="text-base font-bold text-purple-200 mb-2 m-0">Resolución de Conflictos</h3>
+                <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-purple-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-purple-500/20 transition-all">
+                    <h3 class="text-base font-bold text-white-200 mb-2 m-0">Resolución de Conflictos</h3>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
                         Conocer y resolver en la instancia que corresponda recursos administrativos según la ley.
                     </p>
                 </article>
 
                 <!-- Función 5 -->
-                <article class="bg-gradient-to-br from-red-600/20 to-transparent border border-red-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-red-500/20 transition-all">
-                    <div class="flex gap-3 mb-3">
-                        <div class="text-3xl">🤲</div>
-                    </div>
-                    <h3 class="text-base font-bold text-red-200 mb-2 m-0">Alianzas Estratégicas</h3>
+                <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-red-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-red-500/20 transition-all">
+                    <h3 class="text-base font-bold text-white-200 mb-2 m-0">Alianzas Estratégicas</h3>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
                         Proponer convenios y alianzas estratégicas con instituciones para cumplimiento de funciones.
                     </p>
                 </article>
 
                 <!-- Función 6 -->
-                <article class="bg-gradient-to-br from-cyan-600/20 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
-                    <div class="flex gap-3 mb-3">
-                        <div class="text-3xl">📊</div>
-                    </div>
-                    <h3 class="text-base font-bold text-cyan-200 mb-2 m-0">Información Laboral</h3>
+                <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
+                    <h3 class="text-base font-bold text-white-200 mb-2 m-0">Información Laboral</h3>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
                         Producir información estadística mediante encuestas sobre oferta y demanda de mano de obra regional.
                     </p>
@@ -186,13 +164,12 @@
         <!-- SECCIÓN 4: Competencias Principales -->
         <section aria-label="Competencias Principales" class="space-y-4">
             <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-                <span class="text-amber-500">🔑</span> Competencias Principales
+                <i class="fa-solid fa-key" style="color: rgb(240, 10, 10);"></i> Competencias Principales
             </h2>
 
             <div class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 sm:p-8">
                 <ul class="space-y-4">
                     <li class="flex gap-4 items-start">
-                        <span class="text-amber-500 text-xl font-bold flex-shrink-0">✓</span>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-1 m-0">Fomento del Desarrollo Socio-Laboral Regional</h3>
                             <p class="text-slate-400 text-xs sm:text-sm m-0">
@@ -202,7 +179,6 @@
                     </li>
 
                     <li class="flex gap-4 items-start">
-                        <span class="text-amber-500 text-xl font-bold flex-shrink-0">✓</span>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-1 m-0">Supervisión de Sistemas de Intermediación Laboral</h3>
                             <p class="text-slate-400 text-xs sm:text-sm m-0">
@@ -212,7 +188,6 @@
                     </li>
 
                     <li class="flex gap-4 items-start">
-                        <span class="text-amber-500 text-xl font-bold flex-shrink-0">✓</span>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-white mb-1 m-0">Diálogo y Participación Social</h3>
                             <p class="text-slate-400 text-xs sm:text-sm m-0">
@@ -227,14 +202,14 @@
         <!-- SECCIÓN 5: Relaciones Interinstitucionales -->
         <section aria-label="Relaciones Interinstitucionales" class="space-y-4 pb-8">
             <h2 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight flex items-center gap-3">
-                <span class="text-amber-500">🌐</span> Relaciones Interinstitucionales
+                <i class="fa-solid fa-globe" style="color: rgb(240, 10, 10);"></i> Relaciones Interinstitucionales
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Nivel Nacional -->
                 <article class="bg-gradient-to-br from-blue-900/60 to-blue-800/40 border border-blue-500/30 rounded-2xl p-6 sm:p-7 hover:border-blue-400/60 transition-all">
                     <div class="text-center mb-4">
-                        <div class="text-4xl mb-3">🏛️</div>
+                        <i class="fa-solid fa-building text-4xl mb-3" style="color: rgb(59, 130, 246);"></i>
                         <h3 class="text-lg font-black text-blue-100 uppercase tracking-wider m-0">Nivel Nacional</h3>
                     </div>
                     <p class="text-slate-300 text-sm leading-relaxed text-center m-0">
@@ -246,7 +221,7 @@
                 <!-- Nivel Regional -->
                 <article class="bg-gradient-to-br from-amber-900/60 to-amber-800/40 border border-amber-500/30 rounded-2xl p-6 sm:p-7 hover:border-amber-400/60 transition-all">
                     <div class="text-center mb-4">
-                        <div class="text-4xl mb-3">📍</div>
+                        <i class="fa-solid fa-map-marker-alt text-4xl mb-3" style="color: rgb(255, 193, 7);"></i>
                         <h3 class="text-lg font-black text-amber-100 uppercase tracking-wider m-0">Nivel Regional</h3>
                     </div>
                     <p class="text-slate-300 text-sm leading-relaxed text-center m-0">
@@ -257,7 +232,7 @@
                 <!-- Sector Privado -->
                 <article class="bg-gradient-to-br from-green-900/60 to-green-800/40 border border-green-500/30 rounded-2xl p-6 sm:p-7 hover:border-green-400/60 transition-all">
                     <div class="text-center mb-4">
-                        <div class="text-4xl mb-3">💼</div>
+                        <i class="fa-solid fa-briefcase text-4xl mb-3" style="color: rgb(16, 185, 129);"></i>
                         <h3 class="text-lg font-black text-green-100 uppercase tracking-wider m-0">Sector Privado</h3>
                     </div>
                     <p class="text-slate-300 text-sm leading-relaxed text-center m-0">

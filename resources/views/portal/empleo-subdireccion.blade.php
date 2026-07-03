@@ -18,7 +18,6 @@
                 <div class="space-y-3">
                     <span class="text-amber-500 font-semibold uppercase tracking-[0.3em] text-xs">Subdirección Especializada</span>
                     <h1 class="text-3xl sm:text-4xl font-black text-slate-100 uppercase tracking-wider flex items-center gap-3">
-                        <i class="fa-solid fa-briefcase text-amber-500"></i>
                         Promoción del Empleo, Formación Profesional y de la Micro y Pequeña Empresa
                     </h1>
                 </div>
@@ -30,12 +29,10 @@
             </div>
         </header>
 
+        <!-- Funciones de la Subdirección -->
         <section class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-500">
-                        <i class="fa-solid fa-clipboard-check"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">a) Dirección y supervisión</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -43,11 +40,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
-                        <i class="fa-solid fa-scale-balanced"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">b) Cumplimiento normativo</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -55,11 +49,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-500">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">c) Control de programas</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -67,11 +58,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-500">
-                        <i class="fa-solid fa-handshake"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">d) Asesoría empresarial</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -79,11 +67,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-500">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">e) Coordinación regional</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -91,11 +76,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-500">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">f) Mesas y comités</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -103,11 +85,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500">
-                        <i class="fa-solid fa-diagram-project"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">g) Programas y proyectos</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -115,11 +94,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-fuchsia-500/10 text-fuchsia-500">
-                        <i class="fa-solid fa-handshake-angle"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">h) Convenios y alianzas</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -127,11 +103,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-500">
-                        <i class="fa-solid fa-chart-column"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">i) Información estadística</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -139,11 +112,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-lime-500/10 text-lime-500">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">j) Estudios e investigaciones</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -151,11 +121,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-500">
-                        <i class="fa-solid fa-database"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">k) Sistematización de experiencias</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -163,11 +130,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-500/10 text-teal-500">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">l) Formación profesional</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">

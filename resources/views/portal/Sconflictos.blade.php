@@ -30,8 +30,8 @@
                     </div>
                     
                     <div class="bg-white/5 border border-white/10 rounded-lg p-4 space-y-2">
-                        <h3 class="text-base font-bold text-red-200 flex items-center gap-2 m-0">
-                            <i class="fa-solid fa-bullseye text-red-600"></i> Mecanismos Clave
+                        <h3 class="text-base font-bold text-red-200 flex items-center gap-2 m-0"> 
+                            Mecanismos Clave
                         </h3>
                         <ul class="space-y-2 text-slate-300 text-sm">
                             <li class="flex gap-3">
@@ -66,7 +66,6 @@
                 <!-- Dirección -->
                 <article class="bg-gradient-to-br from-red-900/40 to-slate-900/80 border border-red-500/30 rounded-2xl p-6 hover:border-red-400/60 transition-all">
                     <div class="flex gap-3 items-start">
-                        <i class="fa-solid fa-building"></i>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-red-200 mb-2 m-0">Dirección</h3>
                             <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">
@@ -79,7 +78,6 @@
                 <!-- Dependencia Jerárquica -->
                 <article class="bg-gradient-to-br from-amber-900/40 to-slate-900/80 border border-amber-500/30 rounded-2xl p-6 hover:border-amber-400/60 transition-all">
                     <div class="flex gap-3 items-start">
-                        <i class="fa-solid fa-paperclip"></i>
                         <div class="flex-1">
                             <h3 class="text-base font-bold text-amber-200 mb-2 m-0">Dependencia Administrativa</h3>
                             <p class="text-slate-300 text-xs sm:text-sm leading-relaxed m-0">

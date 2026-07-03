@@ -20,7 +20,6 @@
                 <div class="space-y-3">
                     <span class="text-red-600 font-semibold uppercase tracking-[0.3em] text-xs">Sub Dirección Especializada</span>
                     <h1 class="text-3xl sm:text-4xl font-black text-slate-100 uppercase tracking-wider flex items-center gap-3">
-                        <i class="fa-solid fa-user-shield text-red-600"></i>
                         Defensa Legal Gratuita y Asesoría al Trabajador
                     </h1>
                 </div>
@@ -35,11 +34,8 @@
         <!-- Funciones y atribuciones en tarjetas -->
         <section class="grid grid-cols-1 gap-4 xl:grid-cols-2">
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">a) Plan anual</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -47,11 +43,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">                
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-comments"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">b) Consultas</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -59,11 +52,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-file-invoice-dollar"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">c) Liquidaciones</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -71,11 +61,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-handshake"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">d) Conciliación</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -83,11 +70,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-gavel"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">e) Orientación Legal</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -95,11 +79,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-scale-balanced"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">f) Inspecciones especiales</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -107,11 +88,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-user-gear"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">g) Patrocinio Judicial</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -119,11 +97,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-briefcase"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">h) Otras Funciones</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">

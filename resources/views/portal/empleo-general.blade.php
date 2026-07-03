@@ -11,7 +11,6 @@
                 <div class="space-y-3">
                     <span class="text-amber-500 font-semibold uppercase tracking-[0.3em] text-xs">Dirección Especializada</span>
                     <h1 class="text-3xl sm:text-4xl font-black text-slate-100 uppercase tracking-wider flex items-center gap-3">
-                        <i class="fa-solid fa-briefcase text-amber-500"></i>
                         Dirección de Promoción del Empleo, Formación Profesional y de la Micro y Pequeña Empresa
                     </h1>
                 </div>
@@ -24,11 +23,8 @@
         </header>
 
         <section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-500">
-                        <i class="fa-solid fa-scale-balanced"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">Dependencia y cargo</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">
@@ -36,11 +32,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-slate-900/90 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
-                        <i class="fa-solid fa-list-check"></i>
-                    </div>
                     <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">Funciones y atribuciones</h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-sm">

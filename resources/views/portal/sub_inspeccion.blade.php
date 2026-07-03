@@ -20,7 +20,6 @@
                 <div class="space-y-3">
                     <span class="text-red-600 font-semibold uppercase tracking-[0.3em] text-xs">Sub Dirección Especializada</span>
                     <h1 class="text-3xl sm:text-4xl font-black text-slate-100 uppercase tracking-wider flex items-center gap-3">
-                        <i class="fa-solid fa-shield-halved text-red-600"></i>
                         Sub Dirección de Inspección Laboral, Seguridad y Salud en el Trabajo
                     </h1>
                 </div>
@@ -34,11 +33,8 @@
 
         <!-- Lista de funciones en tarjetas -->
         <section class="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">a) Planificación</h2>
                     </div>
@@ -48,11 +44,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-file-invoice"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">b) Gestión TUPA</h2>
                     </div>
@@ -62,11 +55,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-hard-hat"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">c) Seguridad e Higiene</h2>
                     </div>
@@ -76,11 +66,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">d) Fiscalización de Cierres</h2>
                     </div>
@@ -90,11 +77,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-search"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">e) Inspecciones Específicas</h2>
                     </div>
@@ -104,11 +88,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">f) CTS</h2>
                     </div>
@@ -118,11 +99,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-file-circle-check"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">g) Constancias de Cese</h2>
                     </div>
@@ -132,11 +110,8 @@
                 </p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">h) Autorización de Locales</h2>
                     </div>
@@ -145,11 +120,8 @@
                     Autorizar el funcionamiento de centros de trabajo en casos de cambio de domicilio, actividad, razón social o pérdida de documentos.</p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-users-rectangle"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">i) Asuntos Sindicales</h2>
                     </div>
@@ -158,11 +130,8 @@
                     Verificar y determinar la organización sindical representativa para convenios colectivos y verificar paralizaciones de labores o huelgas.</p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-file-signature"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">j) Actos Administrativos</h2>
                     </div>
@@ -171,11 +140,8 @@
                     Emitir autos y resoluciones subdirectorales, y conocer y tramitar los procedimientos de su competencia.</p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/10 text-red-600">
-                        <i class="fa-solid fa-screwdriver-wrench"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">k) Supervisión Técnica</h2>
                     </div>
@@ -184,11 +150,8 @@
                     Programar, supervisar y evaluar inspecciones de trabajo e inspección técnica especializada de SST.</p>
             </article>
 
-            <article class="bg-white/5 border border-white/10 rounded-3xl p-6 shadow-lg shadow-slate-950/20">
+            <article class="bg-gradient-to-br from-gray-900/60 to-transparent border border-cyan-500/30 rounded-2xl p-6 group hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600">
-                        <i class="fa-solid fa-ellipsis"></i>
-                    </div>
                     <div>
                         <h2 class="text-xl font-black text-slate-100 uppercase tracking-wider">l) Otras Funciones</h2>
                     </div>
