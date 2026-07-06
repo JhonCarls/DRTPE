@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SubEventController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\WorkshopController;
 use App\Http\Controllers\BranchActivityController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,11 +74,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Dashboard Operativo (Procesamiento analítico de gráficos de Chart.js)
-    Route::get('/dashboard', function () {
+    Route::get('/dashboard', function (Request $request) {
         
         // ── 🎯 INTERCEPCIÓN DE SEGURIDAD MULTI-SEDE ──────────────────
         // Si el usuario logueado es un operador de sede, lo desviamos de las gráficas globales
-        if (auth()->user()->role === 'user' && in_array(auth()->user()->sede, ['juliaca', 'taraco'])) {
+        $user = $request->user();
+        if ($user && $user->role === 'user' && in_array($user->sede, ['juliaca', 'taraco'])) {
             return redirect()->route('branch-activities.index');
         }
         // ─────────────────────────────────────────────────────────────
