@@ -16,5 +16,9 @@ class Announcement extends Model
         'published_at' => 'date',
         'expired_at'   => 'date',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 

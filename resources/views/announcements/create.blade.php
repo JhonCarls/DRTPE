@@ -1,22 +1,25 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center gap-3">
+<x-branch-layout>
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        {{-- 1. ENCABEZADO UNIFORME DE LA SEDE (Adaptado del slot anterior) --}}
+        <div class="flex items-center gap-3 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
             <div class="p-2.5 bg-gradient-to-br from-slate-800 to-slate-950 rounded-xl text-white shadow-md">
                 <i class="fa-solid fa-bullhorn text-lg"></i>
             </div>
             <div>
-                <h2 class="font-black text-2xl text-slate-800 tracking-tight leading-none">
+                <h2 class="font-black text-xl text-slate-800 tracking-tight leading-none">
                     Publicar Nuevo Comunicado
                 </h2>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Difusión Oficial de Documentos y Acuerdos</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1.5">Difusión Oficial de Documentos y Acuerdos de Sede</p>
             </div>
-            <a href="{{ route('announcements.index') }}" class="ml-auto hover:text-amber-500 transition-colors"><i class="fa-solid fa-arrow-left text-xl text-slate-400 hover:text-amber-500"></i></a>
+            <a href="{{ route('branch-activities.index') }}" class="ml-auto w-9 h-9 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors decoration-none">
+                <i class="fa-solid fa-arrow-left text-sm"></i>
+            </a>
         </div>
-    </x-slot>
 
-    <div class="max-w-3xl mx-auto py-8 px-4 sm:px-0">
+        {{-- 2. TU FORMULARIO ORIGINAL CON TODA TU LÓGICA INTEGRAL DE ALPINE.JS --}}
         <form action="{{ route('announcements.store') }}" method="POST" enctype="multipart/form-data"
-              class="bg-white border border-slate-100 shadow-2xl rounded-2xl p-6 sm:p-10 space-y-6"
+              class="bg-white border border-slate-200 shadow-xs rounded-2xl p-6 sm:p-10 space-y-6"
               x-data="{
                   attachedFiles: [],
                   mainPreviewUrl: null,
@@ -58,12 +61,16 @@
                   }
               }">
             @csrf
+            
+            {{-- Campos de control automatizados para asociar la Sede e impedir errores SQL --}}
+            <input type="hidden" name="sede" value="{{ auth()->user()->sede }}">
+            <input type="hidden" name="category" value="Sede {{ ucfirst(auth()->user()->sede) }}">
            
             {{-- Panel de Control de Errores de Validación Backend --}}
             @if ($errors->any())
                 <div class="p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-bold rounded-xl space-y-1">
                     <p class="font-black uppercase tracking-wider"><i class="fa-solid fa-triangle-exclamation"></i> Atención: Revisa los campos</p>
-                    <ul class="list-disc pl-4 space-y-0.5 font-medium">
+                    <ul class="list-disc pl-4 space-y-0.5 font-medium m-0">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -72,37 +79,37 @@
             @endif
 
             <div class="space-y-2">
-                <label class="block text-sm font-black text-slate-700 tracking-tight">Título Principal del Comunicado</label>
-                <input type="text" name="title" value="{{ old('title') }}" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-none transition-all shadow-inner placeholder:font-medium placeholder:text-slate-400 text-sm" placeholder="Ej. Comunicado N° 024-2026-DRTPE/PUNO">
+                <label class="block text-xs font-black text-slate-500 uppercase tracking-wider">Título Principal del Comunicado</label>
+                <input type="text" name="title" value="{{ old('title') }}" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 focus:outline-none focus:border-indigo-500 transition-all shadow-inner placeholder:font-medium placeholder:text-slate-400 text-sm" placeholder="Ej. Comunicado N° 024-2026-DRTPE/PUNO">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div class="space-y-2">
-                    <label class="block text-sm font-black text-slate-700 tracking-tight">Fecha de Publicación (Lanzamiento)</label>
-                    <input type="date" name="published_at" value="{{ old('published_at') }}" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-none transition-all shadow-inner text-sm">
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-wider">Fecha de Publicación (Lanzamiento)</label>
+                    <input type="date" name="published_at" value="{{ old('published_at', date('Y-m-d')) }}" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:outline-none focus:border-indigo-500 transition-all shadow-inner text-sm">
                 </div>
                 <div class="space-y-2">
-                    <label class="block text-sm font-black text-slate-700 tracking-tight">Fecha de Retiro (Vencimiento)</label>
-                    <input type="date" name="expired_at" value="{{ old('expired_at') }}" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-none transition-all shadow-inner text-sm">
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-wider">Fecha de Retiro (Vencimiento)</label>
+                    <input type="date" name="expired_at" value="{{ old('expired_at', date('Y-m-d', strtotime('+7 days'))) }}" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:outline-none focus:border-indigo-500 transition-all shadow-inner text-sm">
                 </div>
             </div>
 
             <div class="space-y-2">
-                <label class="block text-sm font-black text-slate-700 tracking-tight">Sumilla / Descripción Informativa Corta <span class="text-slate-400 font-medium">(Opcional)</span></label>
-                <textarea name="description" rows="3" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:outline-none transition-all shadow-inner placeholder:text-slate-400 placeholder:text-xs text-sm" placeholder="Escriba un breve resumen del contenido del comunicado..."></textarea>
+                <label class="block text-xs font-black text-slate-500 uppercase tracking-wider">Sumilla / Descripción Informativa Corta <span class="text-slate-400 font-medium">(Opcional)</span></label>
+                <textarea name="description" rows="3" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-700 focus:outline-none focus:border-indigo-500 transition-all shadow-inner placeholder:text-slate-400 placeholder:text-xs text-sm" placeholder="Escriba un breve resumen del contenido del comunicado..."></textarea>
             </div>
 
-            {{-- SECCIÓN MODIFICADA: UN SOLO INPUT DE CONTROL GENERAL --}}
+            {{-- SECCIÓN MULTIMEDIA MATRIZ --}}
             <div class="space-y-2">
-                <label class="block text-sm font-black text-slate-700 tracking-tight">Documento Base Principal <span class="text-red-500">*</span></label>
+                <label class="block text-xs font-black text-slate-500 uppercase tracking-wider">Documento Base Principal <span class="text-red-500">*</span></label>
                
                 <input type="file" x-ref="mainFileInput" name="file" accept="application/pdf, image/*" 
                        :required="!mainPreviewUrl" class="hidden" @change="handleMainFile($event)">
 
                 <div x-show="!mainPreviewUrl" @click="$refs.mainFileInput.click()"
-                     class="border-2 border-dashed border-slate-200 hover:border-amber-500/50 rounded-xl p-6 text-center bg-slate-50 hover:bg-slate-100/30 transition-colors relative cursor-pointer group">
+                     class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-xl p-6 text-center bg-slate-50 hover:bg-slate-100/30 transition-colors relative cursor-pointer group">
                     <div class="space-y-2 relative z-10">
-                        <div class="w-10 h-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center mx-auto text-slate-400 group-hover:text-amber-500 transition-colors shadow-sm"><i class="fa-solid fa-file-invoice text-base"></i></div>
+                        <div class="w-10 h-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center mx-auto text-slate-400 group-hover:text-indigo-500 transition-colors shadow-sm"><i class="fa-solid fa-file-invoice text-base"></i></div>
                         <p class="text-xs font-black text-slate-600">Suelte el afiche o el PDF matriz aquí o explore</p>
                         <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Formatos válidos: PDF, JPG, PNG, WEBP (Máx. 10MB)</p>
                     </div>
@@ -132,7 +139,7 @@
                         </div>
                         <button type="button" @click="$refs.mainFileInput.click()" 
                                 class="w-full bg-white border border-slate-200 text-slate-700 text-center font-black text-xs uppercase tracking-wider py-3 px-4 rounded-xl shadow-sm hover:bg-slate-50 transition cursor-pointer">
-                            <i class="fa-solid fa-arrow-rotate-left mr-1 text-amber-500"></i> Reemplazar Archivo
+                            <i class="fa-solid fa-arrow-rotate-left mr-1 text-indigo-500"></i> Reemplazar Archivo
                         </button>
                     </div>
                 </div>
@@ -140,9 +147,10 @@
 
             <div class="h-px bg-slate-100 my-2"></div>
 
+            {{-- SECCIÓN DE ANEXOS ADJUNTOS --}}
             <div class="space-y-3">
                 <div class="flex justify-between items-center">
-                    <label class="block text-sm font-black text-slate-700 tracking-tight">Documentos Complementarios / Anexos <span class="text-slate-400 font-medium">(Opcional)</span></label>
+                    <label class="block text-xs font-black text-slate-500 uppercase tracking-wider">Documentos Complementarios / Anexos <span class="text-slate-400 font-medium">(Opcional)</span></label>
                     <span class="text-[10px] font-mono font-black px-2 py-0.5 rounded border transition-colors duration-200"
                           :class="attachedFiles.length >= 6 ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-50 text-slate-500 border-slate-200'">
                         <span x-text="attachedFiles.length"></span> / 6 Archivos Máx.
@@ -176,7 +184,7 @@
                                     </div>
                                 </div>
                                 <button type="button" @click="removeAttachment(index)"
-                                        class="w-8 h-8 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition-all shrink-0 border border-transparent hover:border-red-100">
+                                        class="w-8 h-8 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition-all shrink-0 border border-transparent hover:border-red-100 bg-transparent cursor-pointer">
                                     <i class="fa-solid fa-trash-can text-xs"></i>
                                 </button>
                             </div>
@@ -185,13 +193,21 @@
                 </template>
             </div>
 
+            {{-- CONTROL EXTRA: ALERTA INTERNA DE URGENCIA --}}
+            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/60 shadow-inner">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-red-500 text-xs"></i>
+                    <label for="is_urgent" class="text-xs font-black uppercase text-slate-700 cursor-pointer select-none">¿Marcar como Comunicado de Alerta Urgente?</label>
+                </div>
+                <input type="checkbox" id="is_urgent" name="is_urgent" value="1" class="w-4 h-4 accent-red-600 cursor-pointer">
+            </div>
+
             <div class="flex justify-end pt-5 border-t border-slate-100 gap-4">
-                <a href="{{ route('announcements.index') }}" class="px-5 py-3 rounded-xl text-slate-400 hover:text-slate-700 font-bold text-sm transition-colors uppercase tracking-wider">Cancelar</a>
-                <button type="submit" :disabled="attachedFiles.length > 6" class="bg-slate-900 hover:bg-amber-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-wider py-3.5 px-8 rounded-xl transition-all shadow-md flex items-center gap-2">
+                <a href="{{ route('branch-activities.index') }}" class="px-5 py-3 rounded-xl text-slate-400 hover:text-slate-700 font-bold text-sm transition-colors uppercase tracking-wider decoration-none flex items-center">Cancelar</a>
+                <button type="submit" :disabled="attachedFiles.length > 6" class="bg-slate-900 hover:bg-indigo-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-wider py-3.5 px-8 rounded-xl transition-all shadow-md flex items-center gap-2 border-none cursor-pointer">
                     <i class="fa-solid fa-paper-plane"></i> Lanzar Comunicado Oficial
                 </button>
             </div>
         </form>
     </div>
-</x-app-layout>
-
+</x-branch-layout>
