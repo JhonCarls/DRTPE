@@ -171,15 +171,6 @@
                 Esta subdirección actúa como garante de la preservación de la seguridad y salud en el trabajo, asegurando el cumplimiento normativo y la protección efectiva de los derechos de los trabajadores en la región.
             </p>
         </section>
-
-        <!-- Botón de retorno inferior -->
-        <div class="flex justify-center">
-            <a href="{{ route('portal.Sconflictos') }}" class="inline-flex items-center gap-2 bg-slate-900/90 border border-white/10 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all duration-300">
-                <i class="fa-solid fa-arrow-left text-red-600"></i>
-                Volver a Dirección Principal
-            </a>
-        </div>
-
     </div>
 </div>
 @endsection

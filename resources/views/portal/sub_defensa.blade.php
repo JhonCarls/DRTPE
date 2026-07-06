@@ -124,14 +124,6 @@
                 </p>
             </div>
         </section>
-
-        <!-- Botón de Retorno -->
-        <div class="flex justify-center pt-8 border-t border-white/10">
-            <a href="{{ route('portal.Sconflictos') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-green-500/40">
-                <i class="fa-solid fa-arrow-left"></i> Volver a Dirección Principal
-            </a>
-        </div>
-
     </div>
 </div>
 @endsection

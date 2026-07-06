@@ -117,15 +117,6 @@
                 Esta subdirección garantiza acceso a la justicia laboral, asesoría gratuita y apoyo técnico a trabajadores, promoviendo soluciones conciliadas y el respeto de los derechos laborales en la región.
             </p>
         </section>
-
-        <!-- Botón de retorno inferior -->
-        <div class="flex justify-center">
-            <a href="{{ route('portal.Sconflictos') }}" class="inline-flex items-center gap-2 bg-slate-900/90 border border-white/10 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-800 transition-all duration-300">
-                <i class="fa-solid fa-arrow-left text-red-600"></i>
-                Volver a Dirección Principal
-            </a>
-        </div>
-
     </div>
 </div>
 @endsection
