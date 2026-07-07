@@ -11,6 +11,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany; // 👈 Importante para la r
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $username
+ * @property string $role
+ * @property string|null $sede
+ */
 #[Fillable(['name', 'username', 'password', 'role', 'sede'])] // 👈 Agregado 'sede' aquí
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable

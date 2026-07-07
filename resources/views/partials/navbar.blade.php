@@ -10,7 +10,7 @@
              style="height: var(--navbar-h);">
 
             {{-- Enlace: Inicio --}}
-            <a href="/" class="text-white hover:bg-white/10 h-full flex items-center gap-2 transition-all px-4 shrink-0 font-black decoration-none">
+            <a href="{{ route('public.viewer') }}" class="text-white hover:bg-white/10 h-full flex items-center gap-2 transition-all px-4 shrink-0 font-black decoration-none">
                 <i class="fa-solid fa-house text-sm"></i> Inicio
             </a>
 

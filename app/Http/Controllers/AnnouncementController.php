@@ -47,6 +47,7 @@ class AnnouncementController extends Controller
 
     // 3. Crear el registro consolidado
     \App\Models\Announcement::create([
+        'user_id'      => auth()->id(), // 👈 Vincula el comunicado a su autor (y por ende a su sede de origen)
         'title'        => $request->title,
         'description'  => $request->description,
         'file_path'    => $mainPath,
@@ -56,7 +57,7 @@ class AnnouncementController extends Controller
         'expired_at'   => $request->expired_at,
     ]);
 
-    return redirect()->route('announcements.index')->with('success', 'Comunicado y adjuntos publicados con éxito.');
+    return $this->redirectAfterWrite('Comunicado y adjuntos publicados con éxito.');
 }
 
 
@@ -95,7 +96,7 @@ class AnnouncementController extends Controller
 
         $announcement->update($data);
 
-        return redirect()->route('announcements.index')->with('success', 'Comunicado actualizado.');
+        return $this->redirectAfterWrite('Comunicado actualizado.');
     }
 
     public function destroy(Announcement $announcement)
@@ -103,7 +104,27 @@ class AnnouncementController extends Controller
         Storage::disk('public')->delete($announcement->file_path);
         $announcement->delete();
 
-        return redirect()->route('announcements.index')->with('success', 'Comunicado eliminado.');
+        return $this->redirectAfterWrite('Comunicado eliminado.');
+    }
+
+    /**
+     * Devuelve al usuario a la vista que corresponde según su origen.
+     *
+     * Los operadores de sede desconcentrada (Juliaca, Taraco) regresan al portal
+     * público de SU sede tras publicar/editar; el administrador central vuelve al
+     * listado de gestión. Así se corrige la redirección forzada a la Sede Central.
+     */
+    private function redirectAfterWrite(string $message)
+    {
+        $user = auth()->user();
+
+        if ($user && in_array($user->sede, ['juliaca', 'taraco'], true)) {
+            return redirect()
+                ->route('portal.sede', ['slug' => $user->sede])
+                ->with('success', $message);
+        }
+
+        return redirect()->route('announcements.index')->with('success', $message);
     }
 }
 

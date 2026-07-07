@@ -9,7 +9,7 @@ class Announcement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'file_path', 'file_type', 'published_at', 'expired_at','attachments'];
+    protected $fillable = ['user_id', 'title', 'description', 'file_path', 'file_type', 'published_at', 'expired_at','attachments'];
 
     protected $casts = [
         'attachments' => 'array',
