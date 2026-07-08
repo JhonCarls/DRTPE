@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BranchActivity;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +14,68 @@ class BranchActivityController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
+        $sede = $user->sede;
 
-        // El administrador ve todo, el usuario de sede ve solo lo de su jurisdicción
-        $activities = ($user->role === 'admin') 
+        // El administrador ve todo; el operador de sede ve solo su jurisdicción.
+        $activities = ($user->role === 'admin')
             ? BranchActivity::orderBy('created_at', 'desc')->get()
-            : BranchActivity::where('sede', $user->sede)->orderBy('created_at', 'desc')->get();
+            : BranchActivity::where('sede', $sede)->orderBy('created_at', 'desc')->get();
 
-        return view('internal.branch-activities.index', compact('activities'));
+        // Actividades normalizadas para Alpine.js (con tipo de intervención y galería).
+        $mappedActivities = $activities->map(function ($a) {
+            return [
+                'id'              => $a->id,
+                'title'           => $a->title,
+                'description'     => preg_replace('/\s+/', ' ', (string) $a->description),
+                'type'            => $a->type ?? 'asesoria',
+                'date_string'     => $a->created_at->format('d/m/Y h:i A'),
+                'created_at'      => $a->created_at->toIso8601String(),
+                'attendees_count' => (int) ($a->attendees_count ?? 0),
+                'photos_count'    => count($a->photos ?? []),
+                'photos'          => collect($a->photos ?? [])->map(fn ($p) => asset('storage/' . $p))->values()->all(),
+                'first_photo'     => isset($a->photos[0]) ? asset('storage/' . $a->photos[0]) : null,
+                'url_edit'        => route('branch-activities.edit', $a->id),
+                'url_destroy'     => route('branch-activities.destroy', $a->id),
+            ];
+        })->values();
+
+        // Comunicados visibles para la sede: institucionales primero (prioridad jerárquica).
+        $announcements = Announcement::with('user')
+            ->visibleForSede($sede)
+            ->orderByRaw('CASE WHEN sede IS NULL THEN 0 ELSE 1 END')
+            ->latest()
+            ->get()
+            ->map(function ($an) {
+                return [
+                    'id'                => $an->id,
+                    'title'             => $an->title,
+                    'content'           => preg_replace('/\s+/', ' ', (string) $an->description),
+                    'fecha_publicacion' => optional($an->published_at)->format('d/m/Y') ?: $an->created_at->format('d/m/Y'),
+                    'fecha_vencimiento' => optional($an->expired_at)->format('d/m/Y') ?: 'Sin Límite',
+                    'is_institucional'  => is_null($an->sede),
+                ];
+            })->values();
+
+        // KPIs operativos
+        $totalActs      = $activities->count();
+        $totalAttendees = (int) $activities->sum('attendees_count');
+        $totalPhotos    = $activities->sum(fn ($a) => count($a->photos ?? []));
+        $metaAnual      = 24; // Meta POI referencial de intervenciones por año fiscal
+        $cumplimiento   = $metaAnual > 0 ? min(100, (int) round($totalActs / $metaAnual * 100)) : 0;
+
+        $kpis = [
+            'totalActs'      => $totalActs,
+            'totalAttendees' => $totalAttendees,
+            'totalPhotos'    => $totalPhotos,
+            'cumplimiento'   => $cumplimiento,
+            'metaAnual'      => $metaAnual,
+        ];
+
+        $sedeName = $sede ? 'Sede ' . ucfirst($sede) : 'Sede Central';
+
+        return view('internal.branch-activities.index', compact(
+            'mappedActivities', 'announcements', 'kpis', 'sedeName'
+        ));
     }
 
     public function create()
@@ -54,7 +110,7 @@ class BranchActivityController extends Controller
             'user_id' => $user->id,
             'sede' => $user->sede, // Se hereda de forma obligatoria de la sesión
             'title' => $request->title,
-            'intervention_type' => $request->intervention_type, // 👈 Registrado de forma masiva
+            'type' => $request->intervention_type, // 👈 El form envía 'intervention_type' → columna real 'type'
             'description' => $request->description,
             'photos' => $photoPaths,
             'attendees_count' => $request->attendees_count,
@@ -113,7 +169,7 @@ class BranchActivityController extends Controller
 
         $activity->update([
             'title' => $request->title,
-            'intervention_type' => $request->intervention_type, // 👈 Sincronizado en la persistencia de cambios
+            'type' => $request->intervention_type, // 👈 Mapeado a la columna real 'type'
             'description' => $request->description,
             'photos' => $photoPaths,
             'attendees_count' => $request->attendees_count,

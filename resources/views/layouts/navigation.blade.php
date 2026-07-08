@@ -127,6 +127,15 @@
                 <i class="fa-solid fa-file-pdf text-lg {{ request()->routeIs('bulletins.*') ? '' : 'group-hover:text-amber-400 transition-colors' }}"></i>
                 <span>Boletines Informativos</span>
             </a>
+
+            @if(Auth::user()->role === 'admin')
+            <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2 mt-6">Administración</div>
+            <a href="{{ route('users.index') }}"
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all duration-300 group {{ request()->routeIs('users.*') ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] border border-red-500/50' : 'text-slate-300 hover:bg-white/10 hover:text-white hover:translate-x-1' }}">
+                <i class="fa-solid fa-users-gear text-lg {{ request()->routeIs('users.*') ? '' : 'group-hover:text-red-400 transition-colors' }}"></i>
+                <span>Operadores de Sede</span>
+            </a>
+            @endif
         </div>
 
         <div class="p-4 border-t border-slate-800 bg-slate-950/30 shrink-0">

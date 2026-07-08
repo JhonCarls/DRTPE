@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable; // 👈 Mismo estilo de atributos nativos
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'sede', 'title', 'intervention_type', 'description', 'photos', 'attendees_count'])]
+#[Fillable(['user_id', 'sede', 'title', 'type', 'description', 'photos', 'attendees_count'])]
 class BranchActivity extends Model
 {
     /**

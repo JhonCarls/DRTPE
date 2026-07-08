@@ -50,6 +50,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Bloquea el acceso de cuentas desactivadas por el administrador.
+        if (Auth::user()->is_active === false) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'username' => 'Su cuenta está desactivada. Contacte al administrador de la Sede Central.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

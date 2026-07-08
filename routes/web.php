@@ -165,6 +165,10 @@ Route::middleware('auth')->group(function () {
     
     // ── 🎯 INTRANET: CRUD DE ACTIVIDADES EXCLUSIVAS POR SEDE DESCONCENTRADA ──
     Route::resource('branch-activities', BranchActivityController::class);
+
+    // ── GESTIÓN DE OPERADORES DE SEDE (solo administrador general) ──
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/toggle', [UserController::class, 'toggle'])->name('users.toggle');
     Route::resource('users', UserController::class)->only(['create', 'store']);
 
 });

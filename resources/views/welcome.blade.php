@@ -232,6 +232,8 @@
                         <div class="flex-1 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto scrollbar-thin">
                             <div>
                                 <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md">Comunicado Activo</span>
+                                @php $nAnexos = (isset($comunicado->attachments) && is_array($comunicado->attachments)) ? count($comunicado->attachments) : 0; @endphp
+                                <span class="inline-flex items-center gap-1.5 bg-white/5 text-slate-300 border border-white/10 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md ml-1.5"><i class="fa-solid fa-paperclip text-red-400"></i> 1 Matriz{{ $nAnexos > 0 ? ' + '.$nAnexos.' '.($nAnexos === 1 ? 'Anexo' : 'Anexos') : '' }}</span>
                                 <h3 class="text-white font-black text-xl sm:text-2xl leading-tight mt-3 mb-3 m-0">{{ $comunicado->title }}</h3>
                                 <p class="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed line-clamp-3 mb-4 m-0">{{ $comunicado->description ?? 'Comunicado oficial de la institución.' }}</p>
 

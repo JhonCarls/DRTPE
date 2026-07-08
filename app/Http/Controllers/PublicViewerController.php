@@ -32,9 +32,11 @@ class PublicViewerController extends Controller
         // 4. Boletines Informativos para el footer claro
         $bulletins = Bulletin::latest()->take(4)->get();
 
-        // 5. Comunicados Oficiales Vigentes (Pop-up automático y Alertas)
-        //    Eager Loading de 'user' para evitar N+1 al derivar la sede de origen.
+        // 5. Comunicados Oficiales Vigentes (Pop-up automático y Alertas).
+        //    En el portal general solo se muestran los de alcance General/Institucional
+        //    (sede = NULL); los dirigidos a una sede específica viven en su propio portal.
         $comunicadosActivos = Announcement::with('user')
+            ->globalPrincipal()
             ->where('published_at', '<=', $today)
             ->where('expired_at', '>=', $today)
             ->latest()
@@ -158,37 +160,22 @@ class PublicViewerController extends Controller
     }
 
     /**
-     * Resuelve los comunicados relevantes para una sede.
+     * Resuelve los comunicados visibles en el portal de una sede desconcentrada.
      *
-     * El origen de un comunicado se deriva de su autor (user.sede), ya que la tabla
-     * 'announcements' no tiene columna 'sede' propia. Se hace Eager Loading de 'user'
-     * para evitar N+1, y se usa LOWER() para ser insensible a la colación (utf8mb4_bin
-     * en TiDB Cloud).
+     * AISLAMIENTO ESTRICTO: solo los comunicados propios de esta sede (por autor)
+     * + los globales de la Sede Principal. NUNCA los de otra sede desconcentrada.
+     * Se eliminó la coincidencia por título y el "fallback global" que provocaban
+     * que comunicados de una sede se filtraran al tablón de otra.
      */
     private function resolveAnnouncements(string $slug)
     {
-        $slugLower = strtolower($slug);
-
-        $announcements = Announcement::with('user')
-            ->where(function ($q) use ($slugLower) {
-                // Comunicados cuyo autor pertenece a la sede solicitada
-                $q->whereHas('user', function ($userQ) use ($slugLower) {
-                    $userQ->whereRaw('LOWER(sede) = ?', [$slugLower]);
-                })
-                // ...o cuyo título menciona explícitamente la sede
-                ->orWhereRaw('LOWER(title) LIKE ?', ['%' . $slugLower . '%']);
-            })
+        // Prioridad jerárquica: primero los INSTITUCIONALES (Sede Central, sede = NULL),
+        // luego los propios de la sede consultada; sin límite artificial.
+        return Announcement::with('user')
+            ->visibleForSede($slug)
+            ->orderByRaw('CASE WHEN sede IS NULL THEN 0 ELSE 1 END')
             ->latest()
-            ->limit(5)
             ->get();
-
-        // Contingencia: si la sede aún no tiene comunicados propios, mostramos los
-        // últimos globales para que el carrusel no quede vacío.
-        if ($announcements->isEmpty()) {
-            $announcements = Announcement::with('user')->latest()->limit(3)->get();
-        }
-
-        return $announcements;
     }
 
     /**

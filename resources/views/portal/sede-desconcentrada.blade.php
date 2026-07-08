@@ -43,7 +43,8 @@
 
         {{-- 📢 TABLÓN DE ANUNCIOS EN VIVO: CARRUSEL DE COMUNICADOS (imagen / PDF / adjuntos) --}}
         <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-800/80 relative overflow-hidden"
-             x-show="announcements.length > 0" x-cloak>
+             x-show="announcements.length > 0" x-cloak
+             @mouseenter="pauseAnn()" @mouseleave="resumeAnn()">
 
             {{-- Encabezado del tablón --}}
             <div class="flex items-center justify-between gap-3 mb-6">
@@ -58,18 +59,29 @@
                         <span x-text="activeAnnIdx + 1"></span> / <span x-text="announcements.length"></span>
                     </span>
                     <div class="flex gap-1.5" x-show="announcements.length > 1">
-                        <button @click="activeAnnIdx = (activeAnnIdx - 1 + announcements.length) % announcements.length" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition focus-ring"><i class="fa-solid fa-chevron-left text-[11px]"></i></button>
-                        <button @click="activeAnnIdx = (activeAnnIdx + 1) % announcements.length" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition focus-ring"><i class="fa-solid fa-chevron-right text-[11px]"></i></button>
+                        <button @click="prevAnn()" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition focus-ring"><i class="fa-solid fa-chevron-left text-[11px]"></i></button>
+                        <button @click="nextAnn()" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition focus-ring"><i class="fa-solid fa-chevron-right text-[11px]"></i></button>
                     </div>
                 </div>
             </div>
 
+            {{-- Carril de ALTURA FIJA (anti-CLS): los slides van en posición absoluta y
+                 hacen cross-fade, así el cambio de comunicado no empuja ni salta la página. --}}
+            <div class="relative h-[560px] sm:h-[400px] md:h-[360px]">
             <template x-for="(ann, idx) in announcements" :key="ann.id">
-                <div class="flex flex-col md:flex-row items-stretch gap-6" x-show="activeAnnIdx === idx" x-transition.opacity>
+                <div class="absolute inset-0 flex flex-col md:flex-row items-stretch gap-6"
+                     x-show="activeAnnIdx === idx"
+                     x-transition:enter="transition ease-out duration-500"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     x-cloak>
 
                     {{-- Media principal: se VISUALIZA en la página (imagen embebida o PDF embebido) --}}
                     <template x-if="ann.file_url">
-                        <div class="w-full md:w-[42%] shrink-0 h-72 sm:h-80 md:h-auto md:min-h-[340px] rounded-2xl overflow-hidden bg-slate-950 border border-white/10 relative">
+                        <div class="w-full md:w-[42%] shrink-0 h-44 sm:h-52 md:h-full rounded-2xl overflow-hidden bg-slate-950 border border-white/10 relative">
                             {{-- Flyer / Afiche (imagen) --}}
                             <template x-if="ann.is_image">
                                 <img :src="ann.file_url" class="w-full h-full object-contain bg-slate-950" alt="Comunicado">
@@ -85,12 +97,20 @@
                         </div>
                     </template>
 
-                    {{-- Texto y acciones --}}
-                    <div class="flex-1 min-w-0 flex flex-col justify-between gap-4">
+                    {{-- Texto y acciones (scrolleable dentro de la altura fija, sin descuadrar el layout) --}}
+                    <div class="flex-1 min-w-0 flex flex-col justify-between gap-4 overflow-y-auto custom-scrollbar pr-1">
                         <div class="space-y-3">
                             <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono font-bold">
                                 <span class="text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md" :class="ann.is_urgent ? 'bg-red-600 text-white animate-pulse' : 'bg-red-500/15 text-red-300 border border-red-500/25'" x-text="ann.is_urgent ? 'Alerta Urgente' : 'Comunicado Oficial'"></span>
                                 <span class="text-slate-400">Vigencia: <span class="text-slate-200" x-text="ann.fecha_publicacion"></span> — <span class="text-amber-400" x-text="ann.fecha_vencimiento"></span></span>
+                                {{-- Badge dinámico: Documento Matriz + N Anexos --}}
+                                <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider bg-white/10 border border-white/15 text-slate-200 px-2.5 py-1 rounded-md" x-show="ann.file_url">
+                                    <i class="fa-solid fa-paperclip text-red-400"></i>
+                                    <span>1 Matriz</span>
+                                    <template x-if="ann.attachments.length > 0">
+                                        <span class="text-amber-300">+ <span x-text="ann.attachments.length"></span> <span x-text="ann.attachments.length === 1 ? 'Anexo' : 'Anexos'"></span></span>
+                                    </template>
+                                </span>
                             </div>
                             <h3 class="text-lg sm:text-2xl font-black tracking-tight text-white m-0 leading-tight" x-text="ann.title"></h3>
                             <p class="text-sm text-slate-200 m-0 line-clamp-3 leading-relaxed text-justify font-medium" x-text="ann.content"></p>
@@ -124,6 +144,7 @@
                     </div>
                 </div>
             </template>
+            </div>
         </div>
 
         {{-- CENTRO DE CONTROL: BUSCADOR Y FILTROS ORDENADOS --}}
@@ -323,6 +344,7 @@
             limit: 10,
 
             activeAnnIdx: 0,
+            annInterval: null,
 
             openModal: false,
             selectedActivity: null,
@@ -352,13 +374,28 @@
                 { label: 'Asesorías Especializadas', value: 'asesoria' }
             ],
 
+            // ── Carrusel de comunicados (5 s, con reinicio al navegar y pausa al hover) ──
+            startAnnCarousel() {
+                if (this.announcements.length <= 1) return;
+                clearInterval(this.annInterval);
+                this.annInterval = setInterval(() => {
+                    this.activeAnnIdx = (this.activeAnnIdx + 1) % this.announcements.length;
+                }, 5000);
+            },
+            nextAnn() {
+                this.activeAnnIdx = (this.activeAnnIdx + 1) % this.announcements.length;
+                this.startAnnCarousel();
+            },
+            prevAnn() {
+                this.activeAnnIdx = (this.activeAnnIdx - 1 + this.announcements.length) % this.announcements.length;
+                this.startAnnCarousel();
+            },
+            pauseAnn() { clearInterval(this.annInterval); },
+            resumeAnn() { this.startAnnCarousel(); },
+
             init() {
-                // Rotación automática fijada en 5 segundos (5000ms)
-                if (this.announcements.length > 1) {
-                    setInterval(() => {
-                        this.activeAnnIdx = (this.activeAnnIdx + 1) % this.announcements.length;
-                    }, 5000);
-                }
+                // Rotación automática cada 5 s (gestionada por startAnnCarousel).
+                this.startAnnCarousel();
 
                 window.addEventListener('scroll', () => {
                     this.showBackToTop = window.scrollY > 400;
