@@ -37,7 +37,7 @@
                 <div x-show="openMenu === 'organica'" x-cloak x-transition class="absolute top-full left-0 bg-slate-950 border border-white/10 shadow-2xl py-4 w-80 text-sm text-slate-300 font-bold normal-case z-50">
                     <a href="{{ route('portal.gerencia') }}" class="flex items-center gap-3 px-6 py-3 hover:bg-white/5 hover:text-white transition-colors border-b border-white/5 pb-3 mb-1 decoration-none"><i class="fa-solid fa-user-tie text-base text-red-500"></i>Gerencia Regional</a>
                     
-                    {{-- Submenú: Administración --}}
+                    <!-- {{-- Submenú: Administración --}}
                     <div class="relative" @mouseenter="subMenu = 'admin'" @mouseleave="subMenu = null">
                         <div class="flex items-center justify-between px-6 py-3 hover:bg-white/5 hover:text-white cursor-pointer transition-colors" :class="subMenu === 'admin' ? 'bg-white/5 text-white' : ''">
                             <span class="flex items-center gap-3"><i class="fa-solid fa-calculator text-base text-red-500"></i>Oficina de Administración</span>
@@ -49,7 +49,7 @@
                             <a href="{{ route('portal.admin-abastecimiento') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Abastecimiento</a>
                             <a href="{{ route('portal.admin-presupuesto') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Presupuesto</a>
                         </div>
-                    </div>
+                    </div> -->
 
                     {{-- Submenú: Dirección de Prevención y Solución de Conflictos --}}
                     <div class="relative" @mouseenter="subMenu = 'conflictos'" @mouseleave="subMenu = null">
