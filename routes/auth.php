@@ -12,10 +12,13 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+    // ── REGISTRO PÚBLICO DESHABILITADO ───────────────────────────────
+    // En una intranet institucional las cuentas NO son de autoservicio: las crea el
+    // administrador de la Sede Central desde el panel de operadores (UserController).
+    // Se conserva la ruta con nombre 'register' solo para no romper enlaces heredados;
+    // ahora únicamente redirige al acceso con un aviso. No existe POST de registro.
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');
-
-    Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');

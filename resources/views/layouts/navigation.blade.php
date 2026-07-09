@@ -82,6 +82,12 @@
                 <span>{{ __('Talleres y Capacitaciones') }}</span>
             </a>
 
+            <a href="{{ route('coordinations.index') }}"
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all group {{ request()->routeIs('coordinations.*') ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-handshake-angle text-lg {{ request()->routeIs('coordinations.*') ? '' : 'group-hover:scale-110 transition-transform' }}"></i>
+                <span>Coordinaciones</span>
+            </a>
+
             <a href="{{ route('reports.index') }}"
                class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all group {{ request()->routeIs('reports.*') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                 <i class="fa-solid fa-chart-column text-lg {{ request()->routeIs('reports.*') ? '' : 'group-hover:scale-110 transition-transform' }}"></i>

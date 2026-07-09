@@ -33,6 +33,23 @@
                               class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm font-semibold text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all resize-none">{{ old('description', $activity->description) }}</textarea>
                 </div>
 
+                {{-- Tipo de Intervención (obligatorio: el controlador lo valida al actualizar) --}}
+                <div class="space-y-1.5">
+                    <label for="intervention_type" class="text-xs font-black uppercase text-slate-500 tracking-wider">Tipo de Intervención</label>
+                    <div class="relative">
+                        <select id="intervention_type" name="intervention_type" required
+                                class="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 text-sm font-black text-slate-700 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all cursor-pointer appearance-none">
+                            @php $tipoActual = old('intervention_type', $activity->type); @endphp
+                            <option value="feria" {{ $tipoActual === 'feria' ? 'selected' : '' }}>🎪 Ferias Laborales</option>
+                            <option value="capacitacion" {{ $tipoActual === 'capacitacion' ? 'selected' : '' }}>📚 Capacitaciones / Talleres</option>
+                            <option value="asesoria" {{ $tipoActual === 'asesoria' ? 'selected' : '' }}>💼 Asesorías Especializadas</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400 text-xs">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
                     <div class="space-y-1.5">
                         <label class="text-xs font-black uppercase text-slate-500 tracking-wider">N° de Personas</label>

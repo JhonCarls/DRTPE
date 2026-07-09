@@ -59,12 +59,27 @@
                 <div class="w-20 h-20 mx-auto bg-white rounded-2xl shadow-md border border-slate-100 p-2.5 mb-5 transition-transform hover:scale-105">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo Institucional" class="w-full h-full object-contain">
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Acceso Interno</h1>
-                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Dirección de Regional de Trabajo y Promoción del Empleo - Puno</p>
+                <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Acceso al Sistema Intranet</h1>
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2">Dirección Regional de Trabajo y Promoción del Empleo - Puno</p>
+                <p class="text-slate-400 text-[11px] font-medium mt-2">Acceso restringido para personal de Sede Central y Sedes Desconcentradas</p>
             </div>
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            {{-- Aviso de estado (ej. registro deshabilitado, sesión finalizada) --}}
+            @if (session('status'))
+                <div class="mb-6 p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-600 text-xs font-bold flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-red-500 mt-0.5"></i>
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
+
+            <form id="loginForm" method="POST" action="{{ route('login') }}" class="space-y-6" novalidate>
                 @csrf
+
+                {{-- Alerta de error (login AJAX: se muestra SIN recargar la página) --}}
+                <div id="loginAlert" class="hidden p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs font-bold items-start gap-2">
+                    <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                    <span id="loginAlertMsg"></span>
+                </div>
 
                 <div class="space-y-2">
                     <label for="username" class="block text-sm font-bold text-slate-700 ml-1">
@@ -121,8 +136,9 @@
                 </div>
 
                 <div class="pt-2">
-                    <button type="submit" class="w-full bg-slate-900 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_25px_-6px_rgba(220,38,38,0.5)] hover:-translate-y-0.5 flex justify-center items-center gap-3 group/btn">
-                        <span>Iniciar Sesión</span>
+                    <button type="submit" id="loginBtn" class="w-full bg-slate-900 hover:bg-red-700 disabled:hover:bg-slate-900 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_25px_-6px_rgba(220,38,38,0.5)] hover:-translate-y-0.5 disabled:hover:translate-y-0 flex justify-center items-center gap-3 group/btn border-none cursor-pointer">
+                        <i id="loginSpinner" class="fa-solid fa-circle-notch fa-spin hidden"></i>
+                        <span id="loginBtnLabel">Iniciar Sesión</span>
                         <i class="fa-solid fa-arrow-right-to-bracket group-hover/btn:translate-x-1 transition-transform"></i>
                     </button>
                 </div>
@@ -137,22 +153,93 @@
     </main>
 
     <script>
+        // ── Mostrar / ocultar contraseña ─────────────────────────────
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
         const eyeIcon = document.querySelector('#eyeIcon');
 
-        togglePassword.addEventListener('click', function (e) {
-            // Alternar el tipo de input
+        togglePassword.addEventListener('click', function () {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
-            
-            // Alternar el icono
-            if(type === 'text') {
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
+            eyeIcon.classList.toggle('fa-eye', type === 'password');
+            eyeIcon.classList.toggle('fa-eye-slash', type === 'text');
+        });
+
+        // ── Inicio de sesión por AJAX (sin recargar la página) ───────
+        const form = document.getElementById('loginForm');
+        const btn = document.getElementById('loginBtn');
+        const btnLabel = document.getElementById('loginBtnLabel');
+        const spinner = document.getElementById('loginSpinner');
+        const alertBox = document.getElementById('loginAlert');
+        const alertMsg = document.getElementById('loginAlertMsg');
+        const token = form.querySelector('input[name="_token"]').value;
+
+        function setLoading(on) {
+            btn.disabled = on;
+            spinner.classList.toggle('hidden', !on);
+            btnLabel.textContent = on ? 'Verificando…' : 'Iniciar Sesión';
+            btn.classList.toggle('opacity-70', on);
+            btn.classList.toggle('cursor-wait', on);
+        }
+        function showAlert(msg) {
+            alertMsg.textContent = msg;
+            alertBox.classList.remove('hidden');
+            alertBox.classList.add('flex');
+        }
+        function hideAlert() {
+            alertBox.classList.add('hidden');
+            alertBox.classList.remove('flex');
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            hideAlert();
+            setLoading(true);
+            let navigating = false;
+
+            try {
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': token,
+                    },
+                    body: new FormData(form),
+                });
+
+                if (res.ok) {
+                    // Credenciales válidas → navegamos al destino que indica el servidor.
+                    const data = await res.json();
+                    navigating = true;
+                    window.location.href = data.redirect || '{{ route('dashboard') }}';
+                    return;
+                }
+
+                if (res.status === 422) {
+                    // Error de validación / credenciales: se muestra inline, SIN recargar.
+                    const data = await res.json();
+                    const errs = data.errors || {};
+                    const msg = (errs.username && errs.username[0])
+                        || (errs.password && errs.password[0])
+                        || data.message
+                        || 'No se pudo iniciar sesión.';
+                    showAlert(msg);
+                } else if (res.status === 419) {
+                    showAlert('Su sesión expiró. Recargue la página e intente nuevamente.');
+                } else {
+                    // Respuesta inesperada → respaldo con el envío tradicional del formulario.
+                    navigating = true;
+                    form.submit();
+                    return;
+                }
+            } catch (err) {
+                // Sin conexión o error de red → respaldo con el envío tradicional.
+                navigating = true;
+                form.submit();
+                return;
+            } finally {
+                if (!navigating) setLoading(false);
             }
         });
     </script>

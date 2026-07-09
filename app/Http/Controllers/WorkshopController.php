@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class WorkshopController extends Controller
 {
+    /**
+     * Panel de gestión: separa claramente los eventos Programados (Por Hacer)
+     * de los Ejecutados (Hechos).
+     */
     public function index()
     {
-        // Paginación limpia ordenando por los registros más recientes
-        $workshops = Workshop::latest()->paginate(10);
-        return view('workshops.index', compact('workshops'));
+        $programados = Workshop::programados()->orderBy('scheduled_date')->get();
+        $ejecutados = Workshop::ejecutados()->orderByDesc('executed_date')->get();
+
+        return view('workshops.index', compact('programados', 'ejecutados'));
     }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // FASE A — EVENTO PROGRAMADO / POR HACER
+    // ─────────────────────────────────────────────────────────────────────
 
     public function create()
     {
@@ -22,42 +33,94 @@ class WorkshopController extends Controller
 
     public function store(Request $request)
     {
-        // 🎯 CORREGIDO: Eliminada la coma ilegal antes del operador de asignación '=>'
         $request->validate([
-            'title'        => 'required|string|max:255',
-            'description'  => 'required|string',
-            'type'         => 'required|in:capacitacion,coordinacion',
-            'scheduled_at' => 'required|date', 
-            'document'     => 'nullable|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
-            'requirements' => 'nullable|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
-            'images.*'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'title' => 'required|string|max:255',
+            'type' => 'required|in:taller,capacitacion',
+            'description' => 'required|string',
+            'scheduled_date' => 'required|date',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i|after:start_time',
+            'location' => 'nullable|string|max:255',
+            'flyer' => 'required|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
+            'attachments' => 'nullable|array|max:6',
+            'attachments.*' => 'file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
+            'publish_as_announcement' => 'nullable|boolean',
         ]);
 
-        $data = $request->only(['title', 'description', 'type', 'scheduled_at']);
+        $flyer = $request->file('flyer');
+        $flyerType = strtolower($flyer->getClientOriginalExtension()) === 'pdf' ? 'pdf' : 'image';
 
-        // 1. Carga de Afiche o Documento Matriz Principal
-        if ($request->hasFile('document')) {
-            $data['document_path'] = $request->file('document')->store('workshops/documents', 'public');
-        }
-
-        // 2. Bases Complementarias (Solo si aplica al módulo de capacitación)
-        if ($request->type === 'capacitacion' && $request->hasFile('requirements')) {
-            $data['requirements_path'] = $request->file('requirements')->store('workshops/requirements', 'public');
-        }
-
-        // 3. Soporte para evidencias fotográficas desde la creación inicial
-        if ($request->hasFile('images')) {
-            $photos = [];
-            foreach ($request->file('images') as $image) {
-                $photos[] = $image->store('workshops/evidence', 'public');
+        $attachments = [];
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $attachments[] = $file->store('workshops/attachments', 'public');
             }
-            $data['photos'] = $photos; // El Modelo se encarga de convertirlo a JSON gracias al cast
         }
 
-        Workshop::create($data);
+        $workshop = Workshop::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'type' => $request->type,
+            'status' => 'programado',
+            'scheduled_date' => $request->scheduled_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'location' => $request->location,
+            'flyer_path' => $flyer->store('workshops/flyers', 'public'),
+            'flyer_type' => $flyerType,
+            'attachments' => $attachments,
+            'publish_as_announcement' => $request->boolean('publish_as_announcement'),
+        ]);
 
-        return redirect()->route('workshops.index')->with('success', 'Actividad registrada con éxito en el portal.');
+        $this->syncAnnouncement($workshop);
+
+        return redirect()->route('workshops.index')
+            ->with('success', 'Evento programado y publicado en el portal correctamente.');
     }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // FASE B — REGISTRO DIRECTO DE EVENTO YA EJECUTADO / HECHO
+    // ─────────────────────────────────────────────────────────────────────
+
+    public function createExecuted()
+    {
+        return view('workshops.create-executed');
+    }
+
+    public function storeExecuted(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'type' => 'required|in:taller,capacitacion',
+            'description' => 'required|string',
+            'executed_date' => 'required|date',
+            'attendees_count' => 'nullable|integer|min:0',
+            'photos' => 'required|array|min:1',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+        ]);
+
+        $photos = [];
+        foreach ($request->file('photos') as $photo) {
+            $photos[] = $photo->store('workshops/evidence', 'public');
+        }
+
+        Workshop::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'type' => $request->type,
+            'status' => 'ejecutado',
+            'executed_date' => $request->executed_date,
+            'attendees_count' => $request->attendees_count,
+            'photos' => $photos,
+        ]);
+
+        return redirect()->route('workshops.index')
+            ->with('success', 'Evento ejecutado registrado con sus evidencias fotográficas.');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // EDICIÓN / TRANSICIÓN Programado → Ejecutado
+    // ─────────────────────────────────────────────────────────────────────
 
     public function edit(Workshop $workshop)
     {
@@ -67,60 +130,143 @@ class WorkshopController extends Controller
     public function update(Request $request, Workshop $workshop)
     {
         $request->validate([
-            'title'        => 'required|string|max:255',
-            'description'  => 'required|string',
-            'scheduled_at' => 'required|date',
-            'document'     => 'nullable|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
-            'requirements' => 'nullable|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
-            'images.*'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'title' => 'required|string|max:255',
+            'type' => 'required|in:taller,capacitacion',
+            'description' => 'required|string',
+            'scheduled_date' => 'nullable|date',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
+            'location' => 'nullable|string|max:255',
+            'flyer' => 'nullable|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
+            'attachments' => 'nullable|array|max:6',
+            'attachments.*' => 'file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
+            'mark_executed' => 'nullable|boolean',
+            'executed_date' => 'nullable|date',
+            'attendees_count' => 'nullable|integer|min:0',
+            'photos' => 'nullable|array',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+            'publish_as_announcement' => 'nullable|boolean',
         ]);
 
-        $data = $request->only(['title', 'description', 'scheduled_at']);
+        $data = [
+            'title' => $request->title,
+            'type' => $request->type,
+            'description' => $request->description,
+            'scheduled_date' => $request->scheduled_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'location' => $request->location,
+            'publish_as_announcement' => $request->boolean('publish_as_announcement'),
+        ];
 
-        // Actualizar Documento Informativo y limpiar disco duro
-        if ($request->hasFile('document')) {
-            if ($workshop->document_path) { 
-                Storage::disk('public')->delete($workshop->document_path); 
+        // Reemplazo del flyer promocional
+        if ($request->hasFile('flyer')) {
+            if ($workshop->flyer_path) {
+                Storage::disk('public')->delete($workshop->flyer_path);
             }
-            $data['document_path'] = $request->file('document')->store('workshops/documents', 'public');
+            $flyer = $request->file('flyer');
+            $data['flyer_type'] = strtolower($flyer->getClientOriginalExtension()) === 'pdf' ? 'pdf' : 'image';
+            $data['flyer_path'] = $flyer->store('workshops/flyers', 'public');
         }
 
-        // Actualizar Bases o Requisitos y limpiar disco duro
-        if ($workshop->type === 'capacitacion' && $request->hasFile('requirements')) {
-            if ($workshop->requirements_path) { 
-                Storage::disk('public')->delete($workshop->requirements_path); 
+        // Nuevos documentos/bases (se acumulan)
+        if ($request->hasFile('attachments')) {
+            $kept = $workshop->attachments ?? [];
+            foreach ($request->file('attachments') as $file) {
+                $kept[] = $file->store('workshops/attachments', 'public');
             }
-            $data['requirements_path'] = $request->file('requirements')->store('workshops/requirements', 'public');
+            $data['attachments'] = $kept;
         }
 
-        // Acumulación controlada de evidencias de auditoría sin pisar registros anteriores
-        if ($request->hasFile('images')) {
-            // Como agregamos cast array al modelo, esto ya viene mapeado como array de PHP limpio
-            $uploadedPhotos = $workshop->photos ?? []; 
-            foreach ($request->file('images') as $image) {
-                $uploadedPhotos[] = $image->store('workshops/evidence', 'public');
+        // Nuevas evidencias fotográficas (se acumulan)
+        if ($request->hasFile('photos')) {
+            $photos = $workshop->photos ?? [];
+            foreach ($request->file('photos') as $photo) {
+                $photos[] = $photo->store('workshops/evidence', 'public');
             }
-            $data['photos'] = $uploadedPhotos;
+            $data['photos'] = $photos;
+        }
+
+        // Transición explícita a "ejecutado"
+        if ($request->boolean('mark_executed')) {
+            $data['status'] = 'ejecutado';
+            $data['executed_date'] = $request->executed_date ?: now()->toDateString();
+        }
+
+        if ($request->filled('attendees_count')) {
+            $data['attendees_count'] = $request->attendees_count;
         }
 
         $workshop->update($data);
+        $workshop->refresh();
 
-        return redirect()->route('workshops.index')->with('success', 'Registro actualizado de forma limpia.');
+        $this->syncAnnouncement($workshop);
+
+        return redirect()->route('workshops.index')->with('success', 'Registro actualizado correctamente.');
     }
 
     public function destroy(Workshop $workshop)
     {
-        // Auditoría física de archivos para no dejar basura espacial en Laragon
-        if ($workshop->document_path) { Storage::disk('public')->delete($workshop->document_path); }
-        if ($workshop->requirements_path) { Storage::disk('public')->delete($workshop->requirements_path); }
-        
-        if ($workshop->photos && is_array($workshop->photos)) {
-            foreach ($workshop->photos as $photo) { 
-                Storage::disk('public')->delete($photo); 
-            }
+        // Limpieza física de archivos
+        if ($workshop->flyer_path) {
+            Storage::disk('public')->delete($workshop->flyer_path);
         }
-        
+        foreach (($workshop->attachments ?? []) as $path) {
+            Storage::disk('public')->delete($path);
+        }
+        foreach (($workshop->photos ?? []) as $path) {
+            Storage::disk('public')->delete($path);
+        }
+
+        // Elimina también el comunicado vinculado (si se generó automáticamente)
+        if ($workshop->announcement_id) {
+            optional($workshop->announcement)->delete();
+        }
+
         $workshop->delete();
-        return redirect()->route('workshops.index')->with('success', 'Evento eliminado de la base de datos.');
+
+        return redirect()->route('workshops.index')->with('success', 'Evento eliminado correctamente.');
+    }
+
+    /**
+     * Sincronización automática con el módulo de Comunicados.
+     *
+     * Si el operador marcó la publicación y existe un flyer, se crea/actualiza un
+     * comunicado institucional (sede = NULL) que vence el día del evento. Si se
+     * desmarca, se elimina el comunicado vinculado.
+     */
+    private function syncAnnouncement(Workshop $workshop): void
+    {
+        if (! $workshop->publish_as_announcement || ! $workshop->flyer_path) {
+            if ($workshop->announcement_id) {
+                optional($workshop->announcement)->delete();
+                $workshop->forceFill(['announcement_id' => null])->saveQuietly();
+            }
+
+            return;
+        }
+
+        $expira = ($workshop->scheduled_date && $workshop->scheduled_date->isFuture())
+            ? $workshop->scheduled_date->toDateString()
+            : now()->addWeeks(2)->toDateString();
+
+        $payload = [
+            'user_id' => Auth::id(),
+            'sede' => null, // difusión oficial institucional
+            'title' => $workshop->title,
+            'description' => $workshop->description,
+            'file_path' => $workshop->flyer_path,
+            'file_type' => $workshop->flyer_type ?? 'image',
+            'attachments' => $workshop->attachments ?? [],
+            'published_at' => now()->toDateString(),
+            'expired_at' => $expira,
+        ];
+
+        if ($workshop->announcement_id && $workshop->announcement) {
+            $workshop->announcement->update($payload);
+        } else {
+            $announcement = Announcement::create($payload);
+            $workshop->forceFill(['announcement_id' => $announcement->id])->saveQuietly();
+        }
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
+use App\Models\BranchActivity;
+use App\Models\Bulletin;
+use App\Models\Coordination;
 use App\Models\Event;
 use App\Models\PhotoReport;
-use App\Models\Bulletin;      
-use App\Models\Announcement;
 use App\Models\Workshop;
-use App\Models\BranchActivity;
-use Illuminate\Http\Request;
 
 class PublicViewerController extends Controller
 {
@@ -18,7 +18,7 @@ class PublicViewerController extends Controller
         $today = $now->toDateString();
 
         // 1. Cronología y actividades operativas base (Modelo Event)
-        $actividades = Event::with(['category', 'subEvents' => function($query) {
+        $actividades = Event::with(['category', 'subEvents' => function ($query) {
             $query->orderBy('event_date', 'desc');
         }])->get();
 
@@ -26,19 +26,20 @@ class PublicViewerController extends Controller
         $photoReports = PhotoReport::latest()->take(8)->get();
 
         // 3. Separación de Difusiones y Eventos Institucionales para los Sliders
-        $difusiones      = $photoReports->where('type', 'difusion')->values();
+        $difusiones = $photoReports->where('type', 'difusion')->values();
         $institucionales = $photoReports->where('type', 'evento')->values();
 
         // 4. Boletines Informativos para el footer claro
         $bulletins = Bulletin::latest()->take(4)->get();
 
-        // 5. Comunicados Oficiales Vigentes (Pop-up automático y Alertas).
-        //    En el portal general solo se muestran los de alcance General/Institucional
-        //    (sede = NULL); los dirigidos a una sede específica viven en su propio portal.
+        // 5. Comunicados Oficiales Vigentes (Pop-up automático y Tablón del inicio).
+        //    Se muestran TODOS los comunicados activos: primero los INSTITUCIONALES de la
+        //    Sede Central (sede = NULL) y luego los de las sedes desconcentradas, cada uno
+        //    identificado con su etiqueta de sede en la vista.
         $comunicadosActivos = Announcement::with('user')
-            ->globalPrincipal()
             ->where('published_at', '<=', $today)
             ->where('expired_at', '>=', $today)
+            ->orderByRaw('CASE WHEN sede IS NULL THEN 0 ELSE 1 END')
             ->latest()
             ->get();
 
@@ -46,59 +47,46 @@ class PublicViewerController extends Controller
         $todosSubEventos = collect();
         foreach ($actividades as $aIdx => $act) {
             foreach ($act->subEvents as $se) {
-                $se->category_name      = $act->category->name ?? 'General';
+                $se->category_name = $act->category->name ?? 'General';
                 $se->parent_description = $act->description;
-                $se->activity_index     = $aIdx;  
-               
+                $se->activity_index = $aIdx;
+
                 // Decodificamos las fotos reales
                 $rawPh = is_string($se->photos) ? json_decode($se->photos, true) : ($se->photos ?? []);
                 $photosArr = is_array($rawPh) ? $rawPh : [];
-               
+
                 // Decodificamos las prioridades asignadas
                 $rawPrio = is_string($se->photo_priority) ? json_decode($se->photo_priority, true) : ($se->photo_priority ?? []);
                 $prioArr = is_array($rawPrio) ? $rawPrio : [];
-               
+
                 // Si coinciden en tamaño, ordenamos por prioridad, si no, mantenemos el orden de subida
-                if (!empty($prioArr) && count($prioArr) === count($photosArr)) {
+                if (! empty($prioArr) && count($prioArr) === count($photosArr)) {
                     $combined = array_combine($prioArr, $photosArr);
                     ksort($combined);
                     $se->photos_sorted = array_values($combined);
                 } else {
                     $se->photos_sorted = $photosArr;
                 }
-               
+
                 // Extraemos la primera foto como portada oficial
                 $se->cover = count($se->photos_sorted) > 0 ? $se->photos_sorted[0] : null;
-               
+
                 $todosSubEventos->push($se);
             }
         }
-       
+
         // Filtramos el Top 3 de registros recientes para el bloque "Últimos Registros"
-        $ultimos3 = $todosSubEventos->filter(fn($s) => $s->cover !== null)
+        $ultimos3 = $todosSubEventos->filter(fn ($s) => $s->cover !== null)
             ->sortByDesc('event_date')
             ->take(3)
             ->values();
 
-        // 7. CONSULTAS DE NUEVO MÓDULO: Talleres regulados por el reloj del servidor
-        // Capacitaciones Vigentes (Por Hacer)
-        $capacitacionesPorHacer = Workshop::where('type', 'capacitacion')
-            ->where('scheduled_at', '>=', $now)
-            ->orderBy('scheduled_at', 'asc')
-            ->get();
+        // 7. TALLERES Y CAPACITACIONES (ciclo de vida Programado/Ejecutado)
+        //    + COORDINACIONES (módulo independiente). Se normalizan a estructuras planas.
+        $talleresProximos = Workshop::programados()->orderBy('scheduled_date')->get()->map->toPublicArray()->values();
+        $talleresEjecutados = Workshop::ejecutados()->orderByDesc('executed_date')->get()->map->toPublicArray()->values();
+        $coordinaciones = Coordination::orderByDesc('coordination_date')->get()->map->toPublicArray()->values();
 
-        // Capacitaciones Hechas (Pasadas)
-        $capacitacionesHechas = Workshop::where('type', 'capacitacion')
-            ->where('scheduled_at', '<', $now)
-            ->orderBy('scheduled_at', 'desc')
-            ->get();
-
-        // Reuniones de Coordinación Hechas
-        $coordinacionesHechas = Workshop::where('type', 'coordinacion')
-            ->orderBy('scheduled_at', 'desc')
-            ->get();
-
-        // 🎯 RETORNO SEGURO: Empaquetamos las 10 variables juntas hacia la vista welcome sin colisiones
         return view('welcome', compact(
             'actividades',
             'photoReports',
@@ -107,15 +95,33 @@ class PublicViewerController extends Controller
             'difusiones',
             'institucionales',
             'ultimos3',
-            'capacitacionesPorHacer',
-            'capacitacionesHechas',
-            'coordinacionesHechas'
+            'talleresProximos',
+            'talleresEjecutados',
+            'coordinaciones'
         ));
     }
+
+    /** Página pública dedicada: Talleres y Capacitaciones (próximos + ejecutados). */
+    public function talleresCapacitaciones()
+    {
+        $talleresProximos = Workshop::programados()->orderBy('scheduled_date')->get()->map->toPublicArray()->values();
+        $talleresEjecutados = Workshop::ejecutados()->orderByDesc('executed_date')->get()->map->toPublicArray()->values();
+
+        return view('portal.talleres-capacitaciones', compact('talleresProximos', 'talleresEjecutados'));
+    }
+
+    /** Página pública dedicada: Coordinaciones Institucionales Realizadas. */
+    public function coordinaciones()
+    {
+        $coordinaciones = Coordination::orderByDesc('coordination_date')->get()->map->toPublicArray()->values();
+
+        return view('portal.coordinaciones', compact('coordinaciones'));
+    }
+
     public function showSede($slug)
     {
         // Validamos que el slug corresponda a una sede desconcentrada válida
-        if (!in_array($slug, ['juliaca', 'taraco'])) {
+        if (! in_array($slug, Announcement::SEDES_DESCONCENTRADAS, true)) {
             abort(404);
         }
 
@@ -128,7 +134,7 @@ class PublicViewerController extends Controller
         $sedeName = ($slug === 'juliaca') ? 'Sede Juliaca' : 'Sede Taraco';
 
         // Normalizamos las colecciones en el servidor: la vista solo renderiza HTML.
-        $mappedActivities    = $this->mapActivities($activities);
+        $mappedActivities = $this->mapActivities($activities);
         $mappedAnnouncements = $this->mapAnnouncements($this->resolveAnnouncements($slug));
 
         return view('portal.sede-desconcentrada', compact(
@@ -147,14 +153,14 @@ class PublicViewerController extends Controller
     {
         return $activities->map(function ($a) {
             return [
-                'id'                => $a->id,
-                'title'             => $a->title,
-                'description'       => preg_replace('/\s+/', ' ', (string) $a->description),
-                'created_at'        => $a->created_at->toIso8601String(),
-                'date_string'       => $a->created_at->format('d/m/Y h:i A'),
-                'attendees_count'   => (int) ($a->attendees_count ?? 0),
-                'intervention_type' => $a->intervention_type ?? 'asesoria',
-                'photos'            => $a->photos ?? [],
+                'id' => $a->id,
+                'title' => $a->title,
+                'description' => preg_replace('/\s+/', ' ', (string) $a->description),
+                'created_at' => $a->created_at->toIso8601String(),
+                'date_string' => $a->created_at->format('d/m/Y h:i A'),
+                'attendees_count' => (int) ($a->attendees_count ?? 0),
+                'intervention_type' => $a->type ?? 'asesoria', // La columna real es 'type'; el front consume la clave 'intervention_type'
+                'photos' => $a->photos ?? [],
             ];
         })->values();
     }
@@ -189,31 +195,29 @@ class PublicViewerController extends Controller
         return $announcements->map(function ($an) {
             $attachments = collect($an->attachments ?? [])->map(function ($path, $i) {
                 return [
-                    'url'    => asset('storage/' . $path),
+                    'url' => asset('storage/'.$path),
                     'is_pdf' => str_ends_with(strtolower($path), '.pdf'),
-                    'label'  => 'Anexo N° ' . ($i + 1),
+                    'label' => 'Anexo N° '.($i + 1),
                 ];
             })->values();
 
             return [
-                'id'                => $an->id,
-                'title'             => $an->title,
-                'content'           => preg_replace('/\s+/', ' ', (string) $an->description),
-                'date'              => $an->created_at->format('d/m/Y'),
+                'id' => $an->id,
+                'title' => $an->title,
+                'content' => preg_replace('/\s+/', ' ', (string) $an->description),
+                'date' => $an->created_at->format('d/m/Y'),
                 'fecha_publicacion' => $an->published_at
                     ? $an->published_at->format('d/m/Y')
                     : $an->created_at->format('d/m/Y'),
                 'fecha_vencimiento' => $an->expired_at
                     ? $an->expired_at->format('d/m/Y')
                     : 'Sin Límite',
-                'file_url'          => $an->file_path ? asset('storage/' . $an->file_path) : null,
-                'is_image'          => $an->file_type === 'image',
-                'is_pdf'            => $an->file_type === 'pdf',
-                'attachments'       => $attachments,
-                'is_urgent'         => (bool) ($an->is_urgent ?? false),
+                'file_url' => $an->file_path ? asset('storage/'.$an->file_path) : null,
+                'is_image' => $an->file_type === 'image',
+                'is_pdf' => $an->file_type === 'pdf',
+                'attachments' => $attachments,
+                'is_urgent' => (bool) ($an->is_urgent ?? false),
             ];
         })->values();
     }
 }
-
-

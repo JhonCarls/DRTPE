@@ -24,7 +24,7 @@
             <button @click="openSidebar = true" class="text-slate-500 hover:text-indigo-600 focus:outline-none transition-colors p-2 -ml-2">
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-2 decoration-none">
+            <a href="{{ route('branch-activities.index') }}" class="flex items-center gap-2 decoration-none">
                 <span class="font-black text-slate-800 text-sm tracking-widest">DRTPE</span>
             </a>
             <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
@@ -50,7 +50,7 @@
                class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 flex flex-col transition-transform duration-300 ease-in-out sm:translate-x-0 shadow-2xl border-r border-slate-800 h-screen">
             
             <div class="h-20 flex items-center justify-between px-6 bg-slate-950/50 border-b border-slate-800 shrink-0">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group w-full bg-white p-2 rounded-xl shadow-lg border border-slate-200 transition-transform hover:scale-105 decoration-none">
+                <a href="{{ route('branch-activities.index') }}" class="flex items-center gap-3 group w-full bg-white p-2 rounded-xl shadow-lg border border-slate-200 transition-transform hover:scale-105 decoration-none">
                     <div class="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white"><i class="fa-solid fa-building-flag text-xs"></i></div>
                     <div class="flex flex-col text-left">
                         <span class="text-slate-900 font-black text-xs leading-none uppercase tracking-widest">DRTPE</span>
@@ -64,18 +64,13 @@
 
             <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1.5 scrollbar-thin">
                 <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2 mt-2">Principal</div>
-                <a href="{{ route('dashboard') }}"
-                   class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all group decoration-none {{ request()->routeIs('dashboard') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
+                <a href="{{ route('branch-activities.index') }}"
+                   class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all group decoration-none {{ request()->routeIs('branch-activities.index') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                     <i class="fa-solid fa-chart-pie text-lg"></i>
-                    <span>Página Principal Sede</span>
+                    <span>Panel de Sede</span>
                 </a>
 
                 <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3 ml-2 mt-6">Operaciones de Sede</div>
-                <a href="{{ route('branch-activities.index') }}"
-                   class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all group decoration-none {{ request()->routeIs('branch-activities.index') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
-                    <i class="fa-solid fa-folder-open text-lg"></i>
-                    <span>Gestionar Historial</span>
-                </a>
                 <a href="{{ route('branch-activities.create') }}"
                    class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-bold transition-all group decoration-none {{ request()->routeIs('branch-activities.create') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:bg-slate-800 hover:text-white' }}">
                     <i class="fa-solid fa-circle-plus text-lg"></i>

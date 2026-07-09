@@ -16,17 +16,36 @@ class Announcement extends Model
      */
     public const SEDES_DESCONCENTRADAS = ['juliaca', 'taraco'];
 
-    protected $fillable = ['user_id', 'sede', 'title', 'description', 'file_path', 'file_type', 'published_at', 'expired_at','attachments'];
+    protected $fillable = ['user_id', 'sede', 'title', 'description', 'file_path', 'file_type', 'published_at', 'expired_at', 'attachments'];
 
     protected $casts = [
         'attachments' => 'array',
         'published_at' => 'date',
-        'expired_at'   => 'date',
+        'expired_at' => 'date',
     ];
+
+    /**
+     * Se agrega la etiqueta legible de la sede a la serialización JSON para que las
+     * vistas (pop-up y tablón del inicio) puedan mostrar de qué sede es el comunicado.
+     */
+    protected $appends = ['sede_label'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Etiqueta legible de la sede destino: los institucionales (sede = NULL) se rotulan
+     * como "Sede Central"; los demás con el nombre de su sede desconcentrada.
+     */
+    public function getSedeLabelAttribute(): string
+    {
+        return match (mb_strtolower((string) $this->sede)) {
+            'juliaca' => 'Sede Juliaca',
+            'taraco' => 'Sede Taraco',
+            default => 'Sede Central',
+        };
     }
 
     /**
@@ -58,7 +77,7 @@ class Announcement extends Model
 
         return $query->where(function (Builder $q) use ($sedeLower) {
             $q->whereRaw('LOWER(sede) = ?', [$sedeLower])
-              ->orWhereNull('sede');
+                ->orWhereNull('sede');
         });
     }
 
@@ -70,23 +89,22 @@ class Announcement extends Model
     public function toRepositoryArray(): array
     {
         return [
-            'id'                => $this->id,
-            'title'             => $this->title,
-            'description'       => $this->description,
-            'vigencia'          => optional($this->published_at)->format('d/m/Y') . ' — ' . optional($this->expired_at)->format('d/m/Y'),
-            'main_url'          => $this->file_path ? asset('storage/' . $this->file_path) : null,
-            'main_is_pdf'       => $this->file_type === 'pdf',
-            'main_is_image'     => $this->file_type === 'image',
-            'attachments'       => collect($this->attachments ?? [])->map(function ($path, $i) {
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'vigencia' => optional($this->published_at)->format('d/m/Y').' — '.optional($this->expired_at)->format('d/m/Y'),
+            'main_url' => $this->file_path ? asset('storage/'.$this->file_path) : null,
+            'main_is_pdf' => $this->file_type === 'pdf',
+            'main_is_image' => $this->file_type === 'image',
+            'attachments' => collect($this->attachments ?? [])->map(function ($path, $i) {
                 return [
-                    'path'   => $path, // ruta cruda de storage (para gestionar eliminación en edición)
-                    'url'    => asset('storage/' . $path),
+                    'path' => $path, // ruta cruda de storage (para gestionar eliminación en edición)
+                    'url' => asset('storage/'.$path),
                     'is_pdf' => str_ends_with(strtolower((string) $path), '.pdf'),
-                    'label'  => 'Anexo N° ' . ($i + 1),
+                    'label' => 'Anexo N° '.($i + 1),
                 ];
             })->values()->all(),
             'attachments_count' => count($this->attachments ?? []),
         ];
     }
 }
-

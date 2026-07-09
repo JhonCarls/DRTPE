@@ -3,49 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
-        return view('auth.register');
-    }
-
-    /**
-     * Handle an incoming registration request.
+     * El registro público está deshabilitado de forma intencional.
      *
-     * @throws ValidationException
+     * La creación de cuentas es una operación privilegiada reservada al administrador
+     * de la Sede Central, que da de alta a los operadores desde el panel interno
+     * (App\Http\Controllers\UserController). Cualquier acceso a /register redirige al
+     * formulario de acceso con un aviso institucional.
      */
-    public function store(Request $request): RedirectResponse
+    public function create(): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect()
+            ->route('login')
+            ->with('status', 'El registro de cuentas es exclusivo de la Sede Central. Solicite su acceso al administrador del sistema.');
     }
 }

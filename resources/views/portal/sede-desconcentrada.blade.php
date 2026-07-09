@@ -84,7 +84,7 @@
                         <div class="w-full md:w-[42%] shrink-0 h-44 sm:h-52 md:h-full rounded-2xl overflow-hidden bg-slate-950 border border-white/10 relative">
                             {{-- Flyer / Afiche (imagen) --}}
                             <template x-if="ann.is_image">
-                                <img :src="ann.file_url" class="w-full h-full object-contain bg-slate-950" alt="Comunicado">
+                                <img :src="ann.file_url" loading="lazy" decoding="async" class="w-full h-full object-contain bg-slate-950" alt="Comunicado">
                             </template>
                             {{-- Documento PDF renderizado en línea --}}
                             <template x-if="ann.is_pdf">
@@ -203,7 +203,7 @@
                              @click="viewActivity(act)">
                         
                         <div class="relative w-full lg:w-[420px] h-64 sm:h-80 lg:h-auto min-h-[280px] bg-slate-50 overflow-hidden shrink-0">
-                            <img :src="act.photos.length > 0 ? '/storage/' + act.photos[0] : ''" 
+                            <img :src="act.photos.length > 0 ? '/storage/' + act.photos[0] : ''" loading="lazy" decoding="async"
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
                                  x-show="act.photos.length > 0" alt="Evidencia">
                             
