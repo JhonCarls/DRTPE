@@ -76,9 +76,9 @@
                     <div class="flex gap-3 items-start">
                         <i class="fa-solid fa-book-open" style="color: rgb(229, 14, 14);"></i>
                         <div class="flex-1">
-                            <h3 class="text-base font-bold text-white mb-2 m-0">[PLACEHOLDER] Asesoría Legal Gratuita</h3>
+                            <h3 class="text-base font-bold text-white mb-2 m-0">Asesoría y Orientación Jurídica Gratuita</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
-                                Descripción de servicio de asesoría jurídica a trabajadores.
+                                Consultas verbales, telefónicas y presenciales sobre la aplicación de las normas laborales y de seguridad social, dirigidas a trabajadores y ex trabajadores del régimen de la actividad privada, sin costo alguno.
                             </p>
                         </div>
                     </div>
@@ -89,9 +89,35 @@
                     <div class="flex gap-3 items-start">
                         <i class="fa-solid fa-building-columns" style="color: rgb(229, 14, 14);"></i>
                         <div class="flex-1">
-                            <h3 class="text-base font-bold text-white mb-2 m-0">[PLACEHOLDER] Defensa en Procesos Laborales</h3>
+                            <h3 class="text-base font-bold text-white mb-2 m-0">Patrocinio y Defensa en Procesos Laborales</h3>
                             <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
-                                Descripción de defensa legal en procedimientos administrativos y judiciales.
+                                Representación y patrocinio del ex trabajador ante el Poder Judicial y en procedimientos administrativos, en la reclamación de beneficios sociales y derechos laborales adeudados.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-green-500/50 transition-all">
+                    <div class="flex gap-3 items-start">
+                        <i class="fa-solid fa-calculator" style="color: rgb(229, 14, 14);"></i>
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold text-white mb-2 m-0">Liquidación de Beneficios Sociales</h3>
+                            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
+                                Cálculo de derechos y beneficios sociales (CTS, gratificaciones, vacaciones y remuneraciones adeudadas) con base en la documentación idónea proporcionada por el solicitante.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio 4 -->
+                <div class="bg-slate-900/80 border border-white/10 rounded-2xl p-6 hover:border-green-500/50 transition-all">
+                    <div class="flex gap-3 items-start">
+                        <i class="fa-solid fa-handshake" style="color: rgb(229, 14, 14);"></i>
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold text-white mb-2 m-0">Promoción de la Conciliación Laboral</h3>
+                            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed m-0">
+                                Impulso de acuerdos conciliatorios entre empleadores y trabajadores, velando por la solución armoniosa de los conflictos y evitando procesos judiciales prolongados.
                             </p>
                         </div>
                     </div>
@@ -105,10 +131,18 @@
                 <span class="text-green-500">💼</span> Derechos Laborales Promovidos
             </h2>
             
-            <article class="bg-gradient-to-br from-green-900/30 to-slate-900/80 border border-green-500/30 rounded-2xl p-6 sm:p-8">
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0 italic">
-                    [PLACEHOLDER] Información sobre derechos fundamentales del trabajador, convenios internacionales (OIT), y protección de derechos laborales básicos.
+            <article class="bg-gradient-to-br from-green-900/30 to-slate-900/80 border border-green-500/30 rounded-2xl p-6 sm:p-8 space-y-4">
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0">
+                    La Subdirección promueve el respeto irrestricto de los <strong class="text-white">derechos fundamentales en el trabajo</strong>, en concordancia con la Constitución Política del Estado y los Convenios de la Organización Internacional del Trabajo (OIT) ratificados por el Perú: la libertad sindical y la negociación colectiva, la erradicación del trabajo forzoso y del trabajo infantil, y la igualdad de oportunidades y de trato sin discriminación.
                 </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-slate-300 text-sm">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> Remuneración mínima vital</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> Jornada máxima y descanso semanal</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> Gratificaciones y CTS</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> Vacaciones y descansos remunerados</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> Seguridad y salud en el trabajo</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-check text-green-500"></i> Protección contra el despido arbitrario</span>
+                </div>
             </article>
         </section>
 
@@ -119,9 +153,27 @@
             </h2>
             
             <div class="bg-gradient-to-br from-green-900/40 to-slate-900/80 border border-green-500/30 rounded-2xl p-6 sm:p-8">
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0 italic">
-                    [PLACEHOLDER] Información sobre cómo acceder a los servicios de defensa legal gratuita, requisitos, horarios de atención y canales de contacto.
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0">
+                    El servicio es <strong class="text-white">totalmente gratuito</strong> y está dirigido a trabajadores y ex trabajadores del régimen laboral de la actividad privada.
                 </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="bg-slate-900/60 border border-white/10 rounded-xl p-5">
+                        <div class="text-green-500 mb-2"><i class="fa-solid fa-id-card text-xl"></i></div>
+                        <h4 class="text-white font-bold text-sm m-0 mb-1.5">Requisitos</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed m-0">Documento Nacional de Identidad (DNI) y la documentación laboral que disponga: boletas de pago, contratos, cartas o liquidaciones.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-white/10 rounded-xl p-5">
+                        <div class="text-green-500 mb-2"><i class="fa-regular fa-clock text-xl"></i></div>
+                        <h4 class="text-white font-bold text-sm m-0 mb-1.5">Horario de Atención</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed m-0">De lunes a viernes, de 8:00 a.m. a 4:00 p.m., en la sede de la Dirección Regional de Trabajo y Promoción del Empleo de Puno.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-white/10 rounded-xl p-5">
+                        <div class="text-green-500 mb-2"><i class="fa-solid fa-location-dot text-xl"></i></div>
+                        <h4 class="text-white font-bold text-sm m-0 mb-1.5">Dónde Acudir</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed m-0">Acérquese a Mesa de Partes de la Dirección Regional o solicite orientación a través de los canales oficiales de la institución.</p>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
