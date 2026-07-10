@@ -35,12 +35,12 @@
                     Estructura Orgánica <i class="fa-solid fa-chevron-down text-[10px] text-white/80 transition-transform" :class="openMenu === 'organica' ? 'rotate-180' : ''"></i>
                 </button>
                 <div x-show="openMenu === 'organica'" x-cloak x-transition class="absolute top-full left-0 bg-slate-950 border border-white/10 shadow-2xl py-4 w-80 text-sm text-slate-300 font-bold normal-case z-50">
-                    <a href="{{ route('portal.gerencia') }}" class="flex items-center gap-3 px-6 py-3 hover:bg-white/5 hover:text-white transition-colors border-b border-white/5 pb-3 mb-1 decoration-none"><i class="fa-solid fa-user-tie text-base text-red-500"></i> Gerencia Regional</a>
+                    <a href="{{ route('portal.gerencia') }}" class="flex items-center gap-3 px-6 py-3 hover:bg-white/5 hover:text-white transition-colors border-b border-white/5 pb-3 mb-1 decoration-none"><i class="fa-solid fa-user-tie text-base text-red-500"></i>Gerencia Regional</a>
                     
-                    {{-- Submenú: Administración --}}
+                    <!-- {{-- Submenú: Administración --}}
                     <div class="relative" @mouseenter="subMenu = 'admin'" @mouseleave="subMenu = null">
                         <div class="flex items-center justify-between px-6 py-3 hover:bg-white/5 hover:text-white cursor-pointer transition-colors" :class="subMenu === 'admin' ? 'bg-white/5 text-white' : ''">
-                            <span class="flex items-center gap-3"><i class="fa-solid fa-calculator text-base text-red-500"></i> Oficina de Administración</span>
+                            <span class="flex items-center gap-3"><i class="fa-solid fa-calculator text-base text-red-500"></i>Oficina de Administración</span>
                             <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i>
                         </div>
                         <div x-show="subMenu === 'admin'" x-cloak class="absolute top-0 left-full ml-px bg-slate-950 border border-white/10 shadow-2xl py-3 w-52 text-slate-400 font-medium">
@@ -49,17 +49,44 @@
                             <a href="{{ route('portal.admin-abastecimiento') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Abastecimiento</a>
                             <a href="{{ route('portal.admin-presupuesto') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Presupuesto</a>
                         </div>
-                    </div>
+                    </div> -->
 
+                    {{-- Submenú: Dirección de Prevención y Solución de Conflictos --}}
+                    <div class="relative" @mouseenter="subMenu = 'conflictos'" @mouseleave="subMenu = null">
+                        <div class="flex items-center justify-between px-6 py-3 hover:bg-white/5 hover:text-white cursor-pointer transition-colors border-t border-white/5 pt-3 mt-1" :class="subMenu === 'conflictos' ? 'bg-white/5 text-white' : ''">
+                            <span class="flex items-center gap-3"><i class="fa-solid fa-scale-balanced text-base text-red-500"></i>Prevención de Conflictos</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i>
+                        </div>
+                        <div x-show="subMenu === 'conflictos'" x-cloak class="absolute top-0 left-full ml-px bg-slate-950 border border-white/10 shadow-2xl py-3 w-72 text-slate-400 font-medium">
+                            <a href="{{ route('portal.Sconflictos') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none font-bold text-white border-b border-white/10 pb-2 mb-2">Dirección Principal</a>
+                            <a href="{{ route('portal.sub-negociaciones') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Negociaciones Colectivas</a>
+                            <a href="{{ route('portal.sub-inspeccion') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Inspección Laboral</a>
+                            <a href="{{ route('portal.sub-defensa') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Defensa Legal Gratuita</a>
+                        </div>
+                    </div>
+                
                     {{-- Submenú: Dirección del Empleo --}}
                     <div class="relative" @mouseenter="subMenu = 'empleo'" @mouseleave="subMenu = null">
                         <div class="flex items-center justify-between px-6 py-3 hover:bg-white/5 hover:text-white cursor-pointer transition-colors" :class="subMenu === 'empleo' ? 'bg-white/5 text-white' : ''">
-                            <span class="flex items-center gap-3"><i class="fa-solid fa-passport text-base text-red-500"></i> Dirección del Empleo</span>
+                            <span class="flex items-center gap-3"><i class="fa-solid fa-passport text-base text-red-500"></i>Dirección del Empleo</span>
                             <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i>
                         </div>
-                        <div x-show="subMenu === 'empleo'" x-cloak class="absolute top-0 left-full ml-px bg-slate-950 border border-white/10 shadow-2xl py-3 w-64 text-slate-400 font-medium">
+                        <div x-show="subMenu === 'empleo'" x-cloak class="absolute top-0 left-full ml-px bg-slate-950 border border-white/10 shadow-2xl py-3 w-72 text-slate-400 font-medium">
                             <a href="{{ route('portal.empleo-general') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Información General</a>
+                            <a href="{{ route('portal.empleo-subdireccion') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Subdirección de Empleo</a>
                             <a href="{{ route('portal.empleo-registros') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Registros Administrativos</a>
+                        </div>
+                    </div>
+
+                    {{-- Submenú: Órganos Desconcentrados --}}
+                    <div class="relative" @mouseenter="subMenu = 'organos'" @mouseleave="subMenu = null">
+                        <div class="flex items-center justify-between px-6 py-3 hover:bg-white/5 hover:text-white cursor-pointer transition-colors border-t border-white/5 pt-3 mt-1" :class="subMenu === 'organos' ? 'bg-white/5 text-white' : ''">
+                            <span class="flex items-center gap-3"><i class="fa-solid fa-sitemap text-base text-red-500"></i>Órganos Desconcentrados</span>
+                            <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i>
+                        </div>
+                        <div x-show="subMenu === 'organos'" x-cloak class="absolute top-0 left-full ml-px bg-slate-950 border border-white/10 shadow-2xl py-3 w-72 text-slate-400 font-medium">
+                            <a href="{{ route('portal.organos-juliaca') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Zona de Juliaca</a>
+                            <a href="{{ route('portal.organos-taraco') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Centro de Taraco</a>
                         </div>
                     </div>
                 </div>

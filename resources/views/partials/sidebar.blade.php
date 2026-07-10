@@ -153,8 +153,7 @@
 
     <div class="px-3 space-y-1.5">
         {{-- Enlace 1: Registro REMYPE --}}
-        <a href="https://www.gob.pe/remype" target="_blank"
-           class="flex items-center gap-3 p-2.5 hover:bg-slate-800/60 rounded-xl border border-transparent hover:border-slate-700/60 transition-all duration-200 decoration-none group">
+        <a href="https://www.gob.pe/279-registro-de-la-micro-y-pequena-empresa-remype" target="_blank" class="flex items-center gap-3 p-2 hover:bg-white/5 rounded-xl border border-transparent hover:border-slate-800 transition-all decoration-none group">
             <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center rounded-lg shadow-sm group-hover:scale-105 transition-transform shrink-0">
                 <i class="fa-solid fa-building-shield text-white text-xs"></i>
             </div>
@@ -209,8 +208,7 @@
         </a>
 
         {{-- Enlace 2: Certificado Único Laboral --}}
-        <a href="https://www.gob.pe/certificado-unico-laboral" target="_blank"
-           class="flex items-center gap-3 p-2.5 hover:bg-slate-800/60 rounded-xl border border-transparent hover:border-slate-700/60 transition-all duration-200 decoration-none group">
+        <a href="https://www.empleosperu.gob.pe/CertificadoUnicoLaboral/irIndex.html" target="_blank" class="flex items-center gap-3 p-2 hover:bg-white/5 rounded-xl border border-transparent hover:border-slate-800 transition-all decoration-none group">
             <div class="w-8 h-8 bg-gradient-to-br from-cyan-600 to-blue-600 flex items-center justify-center rounded-lg shadow-sm group-hover:scale-105 transition-transform shrink-0">
                 <i class="fa-solid fa-id-card text-white text-xs"></i>
             </div>
