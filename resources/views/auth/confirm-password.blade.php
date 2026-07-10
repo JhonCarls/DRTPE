@@ -1,27 +1,37 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+    <div class="text-center mb-6">
+        <div class="w-12 h-12 mx-auto bg-red-50 border border-red-100 rounded-xl flex items-center justify-center text-red-600 mb-3">
+            <i class="fa-solid fa-shield-halved text-lg"></i>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight m-0">Zona Segura</h1>
+        <p class="text-slate-500 text-xs font-medium mt-2 leading-relaxed px-2">
+            Esta es un área protegida del sistema. Por favor, confirme su contraseña antes de continuar.
+        </p>
     </div>
 
-    <form method="POST" action="{{ route('password.confirm') }}">
+    <form method="POST" action="{{ route('password.confirm') }}" class="space-y-5">
         @csrf
 
-        <!-- Password -->
-        <div>
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="space-y-2">
+            <label for="password" class="block text-sm font-bold text-slate-700 ml-1">Contraseña de Acceso</label>
+            <div class="relative group" x-data="{ show: false }">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-lock text-slate-400 group-focus-within:text-red-600 transition-colors"></i>
+                </div>
+                <input id="password" :type="show ? 'text' : 'password'" name="password" required autocomplete="current-password"
+                       class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition-all shadow-inner"
+                       placeholder="••••••••">
+                <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 bg-transparent border-none cursor-pointer">
+                    <i class="fa-regular" :class="show ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+            </div>
+            @error('password')
+                <p class="text-red-500 text-xs font-bold ml-1 flex items-center gap-1 mt-1"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+            @enderror
         </div>
 
-        <div class="flex justify-end mt-4">
-            <x-primary-button>
-                {{ __('Confirm') }}
-            </x-primary-button>
-        </div>
+        <button type="submit" class="w-full bg-slate-900 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-xl transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 flex justify-center items-center gap-3 border-none cursor-pointer">
+            <i class="fa-solid fa-check"></i> Confirmar Contraseña
+        </button>
     </form>
 </x-guest-layout>

@@ -1,23 +1,24 @@
 <?php
-
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BranchActivityController;
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CoordinationController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\SubEventController;
+use App\Http\Controllers\PhotoReportController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicViewerController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SubEventController;
+use App\Http\Controllers\TrashController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkshopController;
+use App\Models\Announcement;
 use App\Models\Event;
 use App\Models\SubEvent;
-use App\Http\Controllers\TrashController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\PhotoReportController;
-use App\Http\Controllers\BulletinController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\WorkshopController;
-use App\Http\Controllers\BranchActivityController;
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,9 +57,12 @@ Route::view('/estructura/conflictos-laborales', 'portal.Sconflictos')->name('por
 Route::view('/estructura/conflictos/negociaciones-colectivas', 'portal.sub_negociaciones')->name('portal.sub-negociaciones');
 Route::view('/estructura/conflictos/inspeccion-laboral', 'portal.sub_inspeccion')->name('portal.sub-inspeccion');
 Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa')->name('portal.sub-defensa');
+// ── PORTAL PÚBLICO: TALLERES/CAPACITACIONES Y COORDINACIONES (páginas dedicadas) ──
+Route::get('/talleres-capacitaciones', [PublicViewerController::class, 'talleresCapacitaciones'])->name('portal.talleres');
+Route::get('/coordinaciones-institucionales', [PublicViewerController::class, 'coordinaciones'])->name('portal.coordinaciones');
+
 // ── 🎯 PORTAL PÚBLICO: ZONAS DESCONCENTRADAS (DINÁMICA MULTI-SEDE) ──
 Route::get('/zonas-desconcentradas/{slug}', [PublicViewerController::class, 'showSede'])->name('portal.sede');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -67,19 +71,21 @@ Route::get('/zonas-desconcentradas/{slug}', [PublicViewerController::class, 'sho
 */
 
 Route::middleware('auth')->group(function () {
-    
+
     // Perfil de Usuario
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Dashboard Operativo (Procesamiento analítico de gráficos de Chart.js)
-    Route::get('/dashboard', function (Request $request) {
-        
+    Route::get('/dashboard', function () {
+
         // ── 🎯 INTERCEPCIÓN DE SEGURIDAD MULTI-SEDE ──────────────────
-        // Si el usuario logueado es un operador de sede, lo desviamos de las gráficas globales
-        $user = $request->user();
-        if ($user && $user->role === 'user' && in_array($user->sede, ['juliaca', 'taraco'])) {
+        // Cualquier usuario NO administrador con jurisdicción en una sede desconcentrada
+        // (operador o director) es desviado de las gráficas globales hacia su panel de sede.
+        /** @var User $u */
+        $u = Auth::user();
+        if ($u->role !== 'admin' && in_array($u->sede, Announcement::SEDES_DESCONCENTRADAS, true)) {
             return redirect()->route('branch-activities.index');
         }
         // ─────────────────────────────────────────────────────────────
@@ -94,9 +100,9 @@ Route::middleware('auth')->group(function () {
 
         $chartBar = $eventos->map(function ($e) {
             return [
-                'code'   => $e->event_code,
-                'avance' => (int)($e->total_attendees ?? 0),
-                'meta'   => (int)$e->goal_people,
+                'code' => $e->event_code,
+                'avance' => (int) ($e->total_attendees ?? 0),
+                'meta' => (int) $e->goal_people,
             ];
         })->values();
 
@@ -112,7 +118,7 @@ Route::middleware('auth')->group(function () {
             ->limit(24)
             ->get();
 
-        $completadas = $eventos->filter(fn($e) => ($e->total_attendees ?? 0) >= $e->goal_people)->count();
+        $completadas = $eventos->filter(fn ($e) => ($e->total_attendees ?? 0) >= $e->goal_people)->count();
         $totalActividades = $eventos->count();
 
         return view('dashboard', compact(
@@ -163,7 +169,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/general', [ReportController::class, 'generateGeneral'])->name('reports.generate.general');
     Route::get('/reports/specific', [ReportController::class, 'generateSpecific'])->name('reports.generate.specific');
-    
+
     // GALERÍA DE REPORTES FOTOGRÁFICOS
     Route::get('/photo-reports', [PhotoReportController::class, 'index'])->name('photo-reports.index');
     Route::get('/photo-reports/create', [PhotoReportController::class, 'create'])->name('photo-reports.create');
@@ -172,10 +178,22 @@ Route::middleware('auth')->group(function () {
     // MANTENIMIENTOS CRUD ADICIONALES
     Route::resource('bulletins', BulletinController::class);
     Route::resource('announcements', AnnouncementController::class);
-    Route::resource('workshops', WorkshopController::class);    
-    
+
+    // ── TALLERES Y CAPACITACIONES (ciclo de vida Programado ⇄ Ejecutado) ──
+    // Rutas del registro directo de eventos ya ejecutados (deben ir ANTES del resource).
+    Route::get('workshops/create-executed', [WorkshopController::class, 'createExecuted'])->name('workshops.create-executed');
+    Route::post('workshops/executed', [WorkshopController::class, 'storeExecuted'])->name('workshops.executed');
+    Route::resource('workshops', WorkshopController::class)->except(['show']);
+
+    // ── COORDINACIONES INSTITUCIONALES (módulo independiente) ──
+    Route::resource('coordinations', CoordinationController::class)->except(['show']);
+
     // ── 🎯 INTRANET: CRUD DE ACTIVIDADES EXCLUSIVAS POR SEDE DESCONCENTRADA ──
     Route::resource('branch-activities', BranchActivityController::class);
+
+    // ── GESTIÓN DE OPERADORES DE SEDE (solo administrador general) ──
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/toggle', [UserController::class, 'toggle'])->name('users.toggle');
     Route::resource('users', UserController::class)->only(['create', 'store']);
 
 });

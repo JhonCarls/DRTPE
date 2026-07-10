@@ -184,8 +184,11 @@
         </div>
         @endif
 
-        {{-- ── SUB-MÓDULO DE TALLERES Y MAPEOS (MÓDULO DE DEEP ALPINE) ── --}}
+        {{-- ── SUB-MÓDULO DE TALLERES Y CAPACITACIONES (Programado/Ejecutado) ── --}}
         @include('partials.talleres')
+
+        {{-- ── SUB-MÓDULO INDEPENDIENTE DE COORDINACIONES INSTITUCIONALES ── --}}
+        @include('partials.coordinaciones')
 
         {{-- ── SUB-MÓDULO DE LA CRONOLOGÍA DE ACTIVIDADES OPERATIVAS ── --}}
         @include('partials.cronologia')
@@ -221,7 +224,7 @@
                         
                         <div class="w-full md:w-[45%] flex-shrink-0 bg-slate-950 border-b md:border-b-0 md:border-r border-white/05 flex items-center justify-center relative overflow-hidden h-48 sm:h-64 md:h-full">
                             @if($comunicado->file_type === 'image')
-                                <img src="{{ asset('storage/' . $comunicado->file_path) }}" class="w-full h-full object-cover">
+                                <img src="{{ asset('storage/' . $comunicado->file_path) }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
                             @else
                                 <div class="w-full h-full bg-slate-900">
                                     <iframe src="{{ asset('storage/' . $comunicado->file_path) }}#toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-none" allow="autoplay"></iframe>
@@ -232,6 +235,12 @@
                         <div class="flex-1 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto scrollbar-thin">
                             <div>
                                 <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md">Comunicado Activo</span>
+                                {{-- Etiqueta de la sede de origen: institucional (rojo) vs sede desconcentrada (índigo) --}}
+                                <span class="font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md border ml-1.5 inline-flex items-center gap-1 {{ is_null($comunicado->sede) ? 'bg-red-500/10 text-red-300 border-red-500/20' : 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' }}">
+                                    <i class="fa-solid fa-location-dot text-[8px]"></i>{{ $comunicado->sede_label }}
+                                </span>
+                                @php $nAnexos = (isset($comunicado->attachments) && is_array($comunicado->attachments)) ? count($comunicado->attachments) : 0; @endphp
+                                <span class="inline-flex items-center gap-1.5 bg-white/5 text-slate-300 border border-white/10 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md ml-1.5"><i class="fa-solid fa-paperclip text-red-400"></i> 1 Matriz{{ $nAnexos > 0 ? ' + '.$nAnexos.' '.($nAnexos === 1 ? 'Anexo' : 'Anexos') : '' }}</span>
                                 <h3 class="text-white font-black text-xl sm:text-2xl leading-tight mt-3 mb-3 m-0">{{ $comunicado->title }}</h3>
                                 <p class="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed line-clamp-3 mb-4 m-0">{{ $comunicado->description ?? 'Comunicado oficial de la institución.' }}</p>
 

@@ -79,7 +79,14 @@
 
                         {{-- Detalles del Comunicado --}}
                         <div class="space-y-2">
-                            <span class="bg-slate-100 text-slate-600 border border-slate-200/60 font-mono text-[9px] font-black uppercase px-2 py-0.5 rounded">Comunicado Activo</span>
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="bg-slate-100 text-slate-600 border border-slate-200/60 font-mono text-[9px] font-black uppercase px-2 py-0.5 rounded">Comunicado Activo</span>
+                                {{-- Etiqueta de la sede de origen del comunicado --}}
+                                <span class="font-mono text-[9px] font-black uppercase px-2 py-0.5 rounded border inline-flex items-center gap-1"
+                                      :class="!current.sede ? 'bg-red-50 text-red-700 border-red-200' : 'bg-indigo-50 text-indigo-700 border-indigo-200'">
+                                    <i class="fa-solid fa-location-dot text-[8px]"></i><span x-text="current.sede_label"></span>
+                                </span>
+                            </div>
                             <h3 class="text-slate-900 font-black text-base sm:text-lg tracking-tight uppercase leading-snug break-words" x-text="current.title"></h3>
                             
                             <div class="text-[10px] font-bold text-slate-400 flex items-center gap-1">

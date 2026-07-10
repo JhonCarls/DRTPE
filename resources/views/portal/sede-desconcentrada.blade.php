@@ -1,62 +1,13 @@
 @extends('layouts.portal')
 
 @section('content')
-{{-- Mapeo seguro y optimización de las colecciones de datos enviadas por el Controlador --}}
-@php
-    $mappedActivities = $activities->map(function($a) {
-        return [
-            'id' => $a->id,
-            'title' => addslashes($a->title),
-            'description' => addslashes(preg_replace('/\s+/', ' ', $a->description)),
-            'created_at' => $a->created_at->toIso8601String(),
-            'date_string' => $a->created_at->format('d/m/Y h:i A'),
-            'attendees_count' => (int)($a->attendees_count ?? 0),
-            'photos' => $a->photos ?? []
-        ];
-    })->values();
+{{-- Las colecciones $mappedActivities y $mappedAnnouncements llegan ya normalizadas
+     desde PublicViewerController@showSede. La vista solo se encarga de renderizar. --}}
 
-    // ── 🎯 SOLUCIÓN AL ERROR: FALLBACK AUTOMÁTICO DE COMUNICADOS ──────────
-    // Si el controlador no inyecta la variable, la resolvemos defensivamente aquí
-    if (!isset($announcements)) {
-        // Evaluamos dinámicamente si la tabla tiene 'user_id', 'sede' o si usamos el slug de la URL
-        $hasUserId = \Illuminate\Support\Facades\Schema::hasColumn('announcements', 'user_id');
-        $hasSede = \Illuminate\Support\Facades\Schema::hasColumn('announcements', 'sede');
-        
-        $annQuery = \App\Models\Announcement::query();
-        
-        if ($hasUserId) {
-            $annQuery->whereHas('user', function($q) use ($slug) {
-                $q->where('sede', $slug);
-            });
-        } elseif ($hasSede) {
-            $annQuery->where('sede', $slug);
-        } else {
-            // Fallback por texto si tu tabla usa una columna category tipo 'Sede Juliaca'
-            $annQuery->where('category', 'like', '%' . $slug . '%');
-        }
-        
-        $announcementsCollection = $annQuery->latest()->limit(5)->get();
-    } else {
-        $announcementsCollection = $announcements;
-    }
-
-    // Mapeo seguro para inyectar al estado virtual de Alpine.js
-    $mappedAnnouncements = $announcementsCollection->map(function($an) {
-        return [
-            'id' => $an->id,
-            'title' => addslashes($an->title),
-            'content' => addslashes(preg_replace('/\s+/', ' ', $an->content ?? $an->description ?? '')),
-            'date' => $an->created_at->format('d/m/Y'),
-            'fecha_publicacion' => $an->published_at ? \Carbon\Carbon::parse($an->published_at)->format('d/m/Y') : $an->created_at->format('d/m/Y'),
-            'fecha_vencimiento' => $an->expired_at ? \Carbon\Carbon::parse($an->expired_at)->format('d/m/Y') : 'Sin Límite',
-            'is_urgent' => (bool)($an->is_urgent ?? false)
-        ];
-    })->values();
-@endphp
+{{-- 🎯 CORRECCIÓN DE HOJA DE ESTILOS: Caracteres codificados con &amp; para compatibilidad total --}}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,700;0,900;1,400&amp;family=Sora:wght@400;700;800&amp;display=swap">
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Sora:wght@400;700;800&display=swap');
-
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -72,7 +23,7 @@
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-10">
 
-        {{-- CABECERA INSTITUCIONAL ESTILO DASHBOARD --}}
+        {{-- CABECERA INSTITUCIONAL --}}
         <header class="bg-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-200 shadow-[0_2px_12px_rgba(0,0,0,0.01)] relative overflow-hidden">
             <div class="flex items-center gap-4 relative z-10">
                 <div class="w-14 h-14 bg-gradient-to-br from-red-600 to-red-700 rounded-2xl flex items-center justify-center text-white shadow-sm">
@@ -83,34 +34,117 @@
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1.5" style="font-family: 'Sora', sans-serif;">{{ $sedeName }}</h1>
                 </div>
             </div>
+            
+            {{-- Texto Corregido: "Comunicados de Sede" sin POI --}}
             <div class="text-[10px] font-mono font-black bg-slate-900 border border-slate-950 px-4 py-2.5 rounded-xl text-white shadow-xs tracking-wider uppercase z-10">
-                <i class="fa-solid fa-feather-pointed text-red-500 mr-1.5"></i> Desconcentrado POI
+                <i class="fa-solid fa-bullhorn text-red-500 mr-1.5"></i> Comunicados de Sede
             </div>
         </header>
 
-        {{-- 📢 SECCIÓN DE ANUNCIOS EXCLUSIVOS EN FORMATO CARRUSEL AUTOMÁTICO (5S) --}}
-        <div class="bg-gradient-to-r from-slate-900 to-slate-950 text-white rounded-2xl p-6 shadow-md border border-slate-800 relative overflow-hidden min-h-[120px] flex flex-col justify-center"
-             x-show="announcements.length > 0" x-cloak>
-            
-            <div class="absolute right-6 top-6 z-20 flex items-center gap-2">
-                <span class="text-[9px] font-mono font-black bg-red-600 text-white px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">Avisos Vigentes</span>
-                <div class="flex gap-1" x-show="announcements.length > 1">
-                    <button @click="activeAnnIdx = (activeAnnIdx - 1 + announcements.length) % announcements.length" class="w-6 h-6 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center"><i class="fa-solid fa-chevron-left text-[10px]"></i></button>
-                    <button @click="activeAnnIdx = (activeAnnIdx + 1) % announcements.length" class="w-6 h-6 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center"><i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+        {{-- 📢 TABLÓN DE ANUNCIOS EN VIVO: CARRUSEL DE COMUNICADOS (imagen / PDF / adjuntos) --}}
+        <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-800/80 relative overflow-hidden"
+             x-show="announcements.length > 0" x-cloak
+             @mouseenter="pauseAnn()" @mouseleave="resumeAnn()">
+
+            {{-- Encabezado del tablón --}}
+            <div class="flex items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0"></span>
+                    <h2 class="text-sm font-black text-white uppercase tracking-widest m-0 flex items-center gap-2">
+                        <i class="fa-solid fa-bullhorn text-red-500"></i> Comunicados Oficiales de Sede
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[11px] font-mono font-black text-slate-200 bg-black/40 px-3 py-1 rounded-lg border border-white/10">
+                        <span x-text="activeAnnIdx + 1"></span> / <span x-text="announcements.length"></span>
+                    </span>
+                    <div class="flex gap-1.5" x-show="announcements.length > 1">
+                        <button @click="prevAnn()" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition focus-ring"><i class="fa-solid fa-chevron-left text-[11px]"></i></button>
+                        <button @click="nextAnn()" class="w-7 h-7 bg-white/10 hover:bg-white/20 text-white border-none rounded-lg cursor-pointer flex items-center justify-center transition focus-ring"><i class="fa-solid fa-chevron-right text-[11px]"></i></button>
+                    </div>
                 </div>
             </div>
 
+            {{-- Carril de ALTURA FIJA (anti-CLS): los slides van en posición absoluta y
+                 hacen cross-fade, así el cambio de comunicado no empuja ni salta la página. --}}
+            <div class="relative h-[560px] sm:h-[400px] md:h-[360px]">
             <template x-for="(ann, idx) in announcements" :key="ann.id">
-                <div class="space-y-2 pr-24" x-show="activeAnnIdx === idx" x-transition.opacity>
-                    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-mono font-bold">
-                        <span class="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded" :class="ann.is_urgent ? 'bg-red-600 text-white' : 'bg-indigo-600 text-white'" x-text="ann.is_urgent ? 'Alerta Urgente' : 'Comunicado Sede'"></span>
-                        <span class="text-slate-400">Publicación: <span class="text-slate-200" x-text="ann.fecha_publicacion"></span></span>
-                        <span class="text-amber-400">Retiro: <span class="text-amber-300" x-text="ann.fecha_vencimiento"></span></span>
+                <div class="absolute inset-0 flex flex-col md:flex-row items-stretch gap-6"
+                     x-show="activeAnnIdx === idx"
+                     x-transition:enter="transition ease-out duration-500"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-300"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     x-cloak>
+
+                    {{-- Media principal: se VISUALIZA en la página (imagen embebida o PDF embebido) --}}
+                    <template x-if="ann.file_url">
+                        <div class="w-full md:w-[42%] shrink-0 h-44 sm:h-52 md:h-full rounded-2xl overflow-hidden bg-slate-950 border border-white/10 relative">
+                            {{-- Flyer / Afiche (imagen) --}}
+                            <template x-if="ann.is_image">
+                                <img :src="ann.file_url" loading="lazy" decoding="async" class="w-full h-full object-contain bg-slate-950" alt="Comunicado">
+                            </template>
+                            {{-- Documento PDF renderizado en línea --}}
+                            <template x-if="ann.is_pdf">
+                                <iframe :src="ann.file_url + '#toolbar=0&navpanes=0&scrollbar=0'" class="w-full h-full border-none bg-white" loading="lazy" title="Documento del comunicado"></iframe>
+                            </template>
+                            {{-- Botón flotante para abrir el archivo a pantalla completa --}}
+                            <a :href="ann.file_url" target="_blank" class="absolute bottom-3 right-3 z-10 inline-flex items-center gap-1.5 bg-black/70 hover:bg-black text-white text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg backdrop-blur-sm border border-white/10 transition decoration-none focus-ring">
+                                <i class="fa-solid fa-expand"></i> Ampliar
+                            </a>
+                        </div>
+                    </template>
+
+                    {{-- Texto y acciones (scrolleable dentro de la altura fija, sin descuadrar el layout) --}}
+                    <div class="flex-1 min-w-0 flex flex-col justify-between gap-4 overflow-y-auto custom-scrollbar pr-1">
+                        <div class="space-y-3">
+                            <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-mono font-bold">
+                                <span class="text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md" :class="ann.is_urgent ? 'bg-red-600 text-white animate-pulse' : 'bg-red-500/15 text-red-300 border border-red-500/25'" x-text="ann.is_urgent ? 'Alerta Urgente' : 'Comunicado Oficial'"></span>
+                                <span class="text-slate-400">Vigencia: <span class="text-slate-200" x-text="ann.fecha_publicacion"></span> — <span class="text-amber-400" x-text="ann.fecha_vencimiento"></span></span>
+                                {{-- Badge dinámico: Documento Matriz + N Anexos --}}
+                                <span class="inline-flex items-center gap-1.5 text-[9px] font-black uppercase tracking-wider bg-white/10 border border-white/15 text-slate-200 px-2.5 py-1 rounded-md" x-show="ann.file_url">
+                                    <i class="fa-solid fa-paperclip text-red-400"></i>
+                                    <span>1 Matriz</span>
+                                    <template x-if="ann.attachments.length > 0">
+                                        <span class="text-amber-300">+ <span x-text="ann.attachments.length"></span> <span x-text="ann.attachments.length === 1 ? 'Anexo' : 'Anexos'"></span></span>
+                                    </template>
+                                </span>
+                            </div>
+                            <h3 class="text-lg sm:text-2xl font-black tracking-tight text-white m-0 leading-tight" x-text="ann.title"></h3>
+                            <p class="text-sm text-slate-200 m-0 line-clamp-3 leading-relaxed text-justify font-medium" x-text="ann.content"></p>
+
+                            {{-- Archivos Adjuntos / Requisitos (documentos secundarios: bases, requisitos, anexos) --}}
+                            <div class="space-y-2.5 pt-3 mt-1 border-t border-white/10" x-show="ann.attachments.length > 0">
+                                <p class="text-red-300 text-[11px] font-black uppercase tracking-widest m-0 flex items-center gap-2">
+                                    <i class="fa-solid fa-paperclip"></i> Archivos Adjuntos / Requisitos
+                                    <span class="text-slate-400 font-mono text-[10px] normal-case tracking-normal" x-text="'(' + ann.attachments.length + ')'"></span>
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <template x-for="adj in ann.attachments" :key="adj.url">
+                                        <a :href="adj.url" target="_blank" class="flex items-center gap-2.5 bg-slate-800/60 hover:bg-slate-800 border border-white/10 hover:border-red-500/40 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-200 hover:text-white transition truncate decoration-none focus-ring">
+                                            <span class="w-8 h-8 bg-red-600/15 rounded-lg flex items-center justify-center shrink-0">
+                                                <i class="fa-solid text-sm" :class="adj.is_pdf ? 'fa-file-pdf text-red-400' : 'fa-image text-sky-400'"></i>
+                                            </span>
+                                            <span class="truncate flex-1" x-text="adj.label"></span>
+                                            <i class="fa-solid fa-download text-slate-500 text-[11px]"></i>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Botón principal --}}
+                        <div class="flex items-center justify-between gap-3 pt-3 border-t border-white/10" x-show="ann.file_url">
+                            <a :href="ann.file_url" target="_blank" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-black text-[11px] uppercase tracking-wider py-2.5 px-5 rounded-xl shadow-lg transition decoration-none focus-ring">
+                                <i class="fa-solid fa-file-arrow-down"></i> Ver / Descargar Comunicado
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-base font-black tracking-tight text-white m-0 uppercase mt-1" x-text="ann.title"></h3>
-                    <p class="text-xs sm:text-sm text-slate-300 m-0 line-clamp-2 leading-relaxed text-justify font-medium" x-text="ann.content"></p>
                 </div>
             </template>
+            </div>
         </div>
 
         {{-- CENTRO DE CONTROL: BUSCADOR Y FILTROS ORDENADOS --}}
@@ -155,7 +189,7 @@
             </div>
         </section>
 
-        {{-- HISTORIAL OPERATIVO DE FILTRADO SENEADO --}}
+        {{-- HISTORIAL CRONOLÓGICO MACRO --}}
         <section class="relative ml-2 sm:ml-6 space-y-8" x-ref="timelineContainer">
             <div class="absolute left-0 top-3 bottom-3 w-1 bg-slate-200 rounded-full pointer-events-none">
                 <div class="w-full bg-indigo-600 rounded-full transition-all duration-500" :style="'height: ' + scrollPercent + '%'"></div>
@@ -169,7 +203,7 @@
                              @click="viewActivity(act)">
                         
                         <div class="relative w-full lg:w-[420px] h-64 sm:h-80 lg:h-auto min-h-[280px] bg-slate-50 overflow-hidden shrink-0">
-                            <img :src="act.photos.length > 0 ? '/storage/' + act.photos[0] : ''" 
+                            <img :src="act.photos.length > 0 ? '/storage/' + act.photos[0] : ''" loading="lazy" decoding="async"
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
                                  x-show="act.photos.length > 0" alt="Evidencia">
                             
@@ -299,7 +333,6 @@
 
 <script>
     document.addEventListener('alpine:init', () => {
-        // Recibe y asimila los datos de actividades y comunicados en el cliente de Alpine
         Alpine.data('activitiesPortalComponent', (initialActivities, initialAnnouncements) => ({
             rawActivities: initialActivities,
             announcements: initialAnnouncements,
@@ -311,6 +344,7 @@
             limit: 10,
 
             activeAnnIdx: 0,
+            annInterval: null,
 
             openModal: false,
             selectedActivity: null,
@@ -340,13 +374,28 @@
                 { label: 'Asesorías Especializadas', value: 'asesoria' }
             ],
 
+            // ── Carrusel de comunicados (5 s, con reinicio al navegar y pausa al hover) ──
+            startAnnCarousel() {
+                if (this.announcements.length <= 1) return;
+                clearInterval(this.annInterval);
+                this.annInterval = setInterval(() => {
+                    this.activeAnnIdx = (this.activeAnnIdx + 1) % this.announcements.length;
+                }, 5000);
+            },
+            nextAnn() {
+                this.activeAnnIdx = (this.activeAnnIdx + 1) % this.announcements.length;
+                this.startAnnCarousel();
+            },
+            prevAnn() {
+                this.activeAnnIdx = (this.activeAnnIdx - 1 + this.announcements.length) % this.announcements.length;
+                this.startAnnCarousel();
+            },
+            pauseAnn() { clearInterval(this.annInterval); },
+            resumeAnn() { this.startAnnCarousel(); },
+
             init() {
-                // Rotador automático fijado exactamente en 5000 milisegundos
-                if (this.announcements.length > 1) {
-                    setInterval(() => {
-                        this.activeAnnIdx = (this.activeAnnIdx + 1) % this.announcements.length;
-                    }, 5000);
-                }
+                // Rotación automática cada 5 s (gestionada por startAnnCarousel).
+                this.startAnnCarousel();
 
                 window.addEventListener('scroll', () => {
                     this.showBackToTop = window.scrollY > 400;
@@ -363,8 +412,7 @@
             },
 
             levenshtein(a, b) {
-                if (a.length === 0) return b.length;
-                if (b.length === 0) return a.length;
+                if (a.length === 0) return b.length; if (b.length === 0) return a.length;
                 let matrix = [];
                 for (let i = 0; i <= b.length; i++) { matrix[i] = [i]; }
                 for (let j = 0; j <= a.length; j++) { matrix[0][j] = j; }
@@ -414,13 +462,7 @@
                 }
 
                 if (this.typeFilter !== 'all') {
-                    result = result.filter(a => {
-                        let contentText = (a.title + ' ' + a.description).toLowerCase();
-                        if (this.typeFilter === 'feria') return contentText.includes('feria') || contentText.includes('itinerante');
-                        if (this.typeFilter === 'capacitacion') return contentText.includes('capacita') || contentText.includes('taller') || contentText.includes('charla');
-                        if (this.typeFilter === 'asesoria') return contentText.includes('asesor') || contentText.includes('orienta') || contentText.includes('consulta');
-                        return true;
-                    });
+                    result = result.filter(a => a.intervention_type === this.typeFilter);
                 }
 
                 if (this.sortBy === 'recent') { result.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); } 

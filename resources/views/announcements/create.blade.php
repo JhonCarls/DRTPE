@@ -1,7 +1,7 @@
-<x-branch-layout>
-    <div class="max-w-3xl mx-auto space-y-6">
-        
-        {{-- 1. ENCABEZADO UNIFORME DE LA SEDE (Adaptado del slot anterior) --}}
+<x-dynamic-component :component="$layout ?? 'branch-layout'">
+    <div class="max-w-3xl mx-auto space-y-6 py-2">
+
+        {{-- 1. ENCABEZADO (adaptado al rol: Central o Sede Desconcentrada) --}}
         <div class="flex items-center gap-3 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
             <div class="p-2.5 bg-gradient-to-br from-slate-800 to-slate-950 rounded-xl text-white shadow-md">
                 <i class="fa-solid fa-bullhorn text-lg"></i>
@@ -10,9 +10,11 @@
                 <h2 class="font-black text-xl text-slate-800 tracking-tight leading-none">
                     Publicar Nuevo Comunicado
                 </h2>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1.5">Difusión Oficial de Documentos y Acuerdos de Sede</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1.5">
+                    {{ ($isCentral ?? false) ? 'Difusión Institucional General (Sede Principal)' : 'Difusión Oficial de Documentos y Acuerdos de Sede' }}
+                </p>
             </div>
-            <a href="{{ route('branch-activities.index') }}" class="ml-auto w-9 h-9 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors decoration-none">
+            <a href="{{ $backUrl ?? route('branch-activities.index') }}" class="ml-auto w-9 h-9 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors decoration-none">
                 <i class="fa-solid fa-arrow-left text-sm"></i>
             </a>
         </div>
@@ -62,10 +64,21 @@
               }">
             @csrf
             
-            {{-- Campos de control automatizados para asociar la Sede e impedir errores SQL --}}
-            <input type="hidden" name="sede" value="{{ auth()->user()->sede }}">
-            <input type="hidden" name="category" value="Sede {{ ucfirst(auth()->user()->sede) }}">
-           
+            {{-- Alcance del comunicado --}}
+            @if($isCentral ?? false)
+                {{-- Sede Central: Difusión Oficial Institucional (sin selectores) --}}
+                <div class="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
+                    <div class="w-9 h-9 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0"><i class="fa-solid fa-landmark"></i></div>
+                    <div>
+                        <p class="text-xs font-black text-red-700 uppercase tracking-wider m-0">Difusión Oficial Institucional</p>
+                        <p class="text-[11px] text-red-500/80 font-medium m-0">Este comunicado será visible en todas las sedes del sistema.</p>
+                    </div>
+                </div>
+            @else
+                {{-- Operador de sede: la sede se hereda forzada de la sesión (no editable) --}}
+                <input type="hidden" name="sede" value="{{ auth()->user()->sede }}">
+            @endif
+
             {{-- Panel de Control de Errores de Validación Backend --}}
             @if ($errors->any())
                 <div class="p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-bold rounded-xl space-y-1">
@@ -107,7 +120,8 @@
                        :required="!mainPreviewUrl" class="hidden" @change="handleMainFile($event)">
 
                 <div x-show="!mainPreviewUrl" @click="$refs.mainFileInput.click()"
-                     class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-xl p-6 text-center bg-slate-50 hover:bg-slate-100/30 transition-colors relative cursor-pointer group">
+                     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                     class="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-xl p-6 text-center bg-slate-50 hover:bg-slate-100/30 transition-colors relative cursor-pointer group min-h-[320px] flex items-center justify-center">
                     <div class="space-y-2 relative z-10">
                         <div class="w-10 h-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center mx-auto text-slate-400 group-hover:text-indigo-500 transition-colors shadow-sm"><i class="fa-solid fa-file-invoice text-base"></i></div>
                         <p class="text-xs font-black text-slate-600">Suelte el afiche o el PDF matriz aquí o explore</p>
@@ -116,6 +130,7 @@
                 </div>
 
                 <div x-show="mainPreviewUrl" x-cloak
+                     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-[0.98]" x-transition:enter-end="opacity-100 scale-100"
                      class="border border-slate-200 bg-slate-50 rounded-2xl p-4 flex flex-col md:flex-row gap-4 items-stretch h-[320px]">
                     <div class="w-full md:w-[55%] bg-slate-950 flex items-center justify-center rounded-xl overflow-hidden border border-slate-200 relative">
                         <template x-if="mainFileType === 'image'">
@@ -172,8 +187,10 @@
 
                 <template x-if="attachedFiles.length > 0">
                     <div class="bg-slate-50 border border-slate-200/70 rounded-xl p-3 space-y-1.5 shadow-inner">
-                        <template x-for="(file, index) in attachedFiles" :key="index">
-                            <div class="flex items-center justify-between bg-white border border-slate-100 rounded-xl p-2.5 shadow-sm group">
+                        <template x-for="(file, index) in attachedFiles" :key="file.name + '-' + file.size">
+                            <div class="flex items-center justify-between bg-white border border-slate-100 rounded-xl p-2.5 shadow-sm group"
+                                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
+
                                 <div class="flex items-center gap-2.5 min-w-0 flex-1 pr-4">
                                     <div class="w-7 h-7 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
                                         <i class="fa-solid text-xs" :class="file.name.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf text-red-500' : 'fa-image text-blue-500'"></i>
@@ -203,11 +220,11 @@
             </div>
 
             <div class="flex justify-end pt-5 border-t border-slate-100 gap-4">
-                <a href="{{ route('branch-activities.index') }}" class="px-5 py-3 rounded-xl text-slate-400 hover:text-slate-700 font-bold text-sm transition-colors uppercase tracking-wider decoration-none flex items-center">Cancelar</a>
+                <a href="{{ $backUrl ?? route('branch-activities.index') }}" class="px-5 py-3 rounded-xl text-slate-400 hover:text-slate-700 font-bold text-sm transition-colors uppercase tracking-wider decoration-none flex items-center">Cancelar</a>
                 <button type="submit" :disabled="attachedFiles.length > 6" class="bg-slate-900 hover:bg-indigo-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-wider py-3.5 px-8 rounded-xl transition-all shadow-md flex items-center gap-2 border-none cursor-pointer">
                     <i class="fa-solid fa-paper-plane"></i> Lanzar Comunicado Oficial
                 </button>
             </div>
         </form>
     </div>
-</x-branch-layout>
+</x-dynamic-component>
