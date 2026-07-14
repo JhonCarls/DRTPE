@@ -8,8 +8,9 @@
     <div class="flex items-center gap-4 mb-8">
         <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0"><i class="fa-solid fa-handshake-angle text-white text-sm"></i></div>
         <div>
-            <h2 class="text-xl font-black text-white m-0 tracking-tight">Coordinaciones Institucionales Realizadas</h2>
-            <p class="text-slate-400 text-xs font-bold m-0">Mesas de trabajo y acuerdos de cooperación interinstitucional</p>
+            <span class="eyebrow text-amber-600">Cooperación interinstitucional</span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-900 m-0 tracking-tight">Coordinaciones Institucionales Realizadas</h2>
+            <p class="text-slate-500 text-xs font-bold m-0">Mesas de trabajo y acuerdos de cooperación interinstitucional</p>
         </div>
         <div class="flex-1 h-px bg-slate-200 hidden sm:block"></div>
     </div>

@@ -23,7 +23,7 @@
     <div id="main-content">
 
         {{-- ── SECCIÓN DE SLIDERS HERO (DINÁMICOS) ────────────────── --}}
-        <div class="bg-scene relative">
+        <div class="bg-scene-light relative">
 
             {{-- Slider A: Actividades de Difusión --}}
             @if(isset($difusiones) && $difusiones->count() > 0)
@@ -99,32 +99,59 @@
         </div>
 
         {{-- ── CAPTURA: TEXTO INSTITUCIONAL FIJO (Evita que el portal quede vacío) ── --}}
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-12">
-            <div class="bg-slate-900/45 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 space-y-6">
-                <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight uppercase border-b border-red-600 pb-3 m-0">
-                    Portal Informativo y Transparencia - DRTPE Puno
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-12 space-y-8">
+
+            {{-- Banner institucional --}}
+            <div data-reveal class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-red-600 via-red-700 to-red-800 p-8 sm:p-14 text-center shadow-xl">
+                <div class="pointer-events-none absolute -top-24 -right-16 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="pointer-events-none absolute -bottom-28 -left-16 w-80 h-80 bg-black/15 rounded-full blur-3xl"></div>
+                <span class="relative inline-flex items-center gap-2 text-red-100 font-bold text-[11px] sm:text-xs uppercase tracking-[0.25em] mb-3">
+                    <i class="fa-solid fa-landmark"></i> Dirección Regional de Trabajo y Promoción del Empleo · Puno
+                </span>
+                <h1 class="relative text-3xl sm:text-5xl font-black text-white tracking-tight uppercase leading-tight m-0">
+                    Portal Informativo y de Transparencia
                 </h1>
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0">
+                <div class="relative mx-auto h-1.5 w-24 bg-white/70 rounded-full mt-5"></div>
+            </div>
+
+            {{-- Contenido de bienvenida --}}
+            <div data-reveal class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-sm">
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed m-0">
                     Bienvenido al Portal Oficial de Actividades de la Dirección Regional de Trabajo y Promoción del Empleo (DRTPE) de Puno. Este espacio ha sido diseñado para consolidar de manera transparente el acceso a la información institucional, cronogramas operativos y servicios al ciudadano de nuestra región.
                 </p>
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0">
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed m-0">
                     A través de los menús superiores, usted podrá navegar entre las distintas direcciones operativas, revisar los reportes fotográficos de las actividades de difusión descentralizadas, así como informarse sobre los próximos talleres de capacitación orientados a la inserción laboral y el respeto de los derechos fundamentales en el trabajo.
                 </p>
-                
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                    <div class="card-hover flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4">
+                        <div class="icon-tile flex h-11 w-11 items-center justify-center rounded-xl bg-red-100 text-red-600"><i class="fa-solid fa-sitemap"></i></div>
+                        <span class="text-slate-800 text-xs sm:text-sm font-bold">Direcciones operativas</span>
+                    </div>
+                    <div class="card-hover flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4">
+                        <div class="icon-tile flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-blue-600"><i class="fa-solid fa-camera-retro"></i></div>
+                        <span class="text-slate-800 text-xs sm:text-sm font-bold">Reportes fotográficos</span>
+                    </div>
+                    <div class="card-hover flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4">
+                        <div class="icon-tile flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-600"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <span class="text-slate-800 text-xs sm:text-sm font-bold">Talleres y capacitaciones</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         {{-- ── ÚLTIMOS REGISTROS FOTOGRÁFICOS ─────────────────────── --}}
         @if(isset($ultimos3) && $ultimos3->count() > 0)
-        <div class="section-after-sliders pb-14">
+        <div class="band-white band-top-red pt-14 pb-14">
             <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
                 <div class="flex items-center gap-4 mb-8">
-                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0"><i class="fa-solid fa-bolt text-white"></i></div>
+                    <div class="w-11 h-11 bg-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-600/25 flex-shrink-0"><i class="fa-solid fa-bolt text-white"></i></div>
                     <div>
-                        <h2 class="text-xl font-black text-white m-0">Últimos Registros</h2>
-                        <p class="text-slate-400 text-xs font-medium m-0">Actividades recientes con evidencia fotográfica · clic para ir al registro</p>
+                        <span class="eyebrow text-red-600">Actividad reciente</span>
+                        <h2 class="text-xl sm:text-2xl font-black text-slate-900 m-0">Últimos Registros</h2>
+                        <p class="text-slate-500 text-xs font-medium m-0">Actividades recientes con evidencia fotográfica · clic para ir al registro</p>
                     </div>
-                    <div class="flex-1 h-px bg-gradient-to-r from-red-700/40 to-transparent hidden sm:block"></div>
+                    <div class="flex-1 h-px bg-gradient-to-r from-red-300 to-transparent hidden sm:block"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     @foreach($ultimos3 as $se)
@@ -136,10 +163,10 @@
                             <div class="absolute bottom-3 right-3"><span class="bg-black/40 backdrop-blur-sm text-slate-200 text-[9px] font-bold px-2 py-1 rounded-md border border-white/15"><i class="fa-regular fa-calendar mr-1"></i>{{ \Carbon\Carbon::parse($se->event_date)->format('d/m/Y') }}</span></div>
                         </div>
                         <div class="p-4">
-                            <h3 class="text-sm font-black text-slate-100 leading-snug line-clamp-2 m-0">{{ $se->report_title }}</h3>
+                            <h3 class="text-sm font-black text-slate-900 leading-snug line-clamp-2 m-0">{{ $se->report_title }}</h3>
                             <div class="flex items-center justify-between mt-3">
-                                <span class="text-[10px] text-slate-400 font-medium"><i class="fa-solid fa-users text-blue-400 mr-1"></i>{{ $se->attendees_count }} asistentes</span>
-                                <span class="text-[10px] text-red-400 font-bold flex items-center gap-1">Ver en cronología &rarr;</span>
+                                <span class="text-[10px] text-slate-500 font-medium"><i class="fa-solid fa-users text-blue-500 mr-1"></i>{{ $se->attendees_count }} asistentes</span>
+                                <span class="text-[10px] text-red-600 font-bold flex items-center gap-1">Ver en cronología &rarr;</span>
                             </div>
                         </div>
                     </div>
@@ -156,10 +183,10 @@
                 <div class="flex items-center gap-4 mb-8">
                     <div class="w-10 h-10 bg-emerald-700 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-newspaper text-white text-sm"></i></div>
                     <div>
-                        <h2 class="text-xl font-black text-white m-0">Noticias</h2>
-                        <p class="text-slate-400 text-xs font-medium m-0">Información institucional y comunicados recientes</p>
+                        <h2 class="text-xl font-black text-slate-900 m-0">Noticias</h2>
+                        <p class="text-slate-500 text-xs font-medium m-0">Información institucional y comunicados recientes</p>
                     </div>
-                    <div class="flex-1 h-px bg-gradient-to-r from-emerald-700/40 to-transparent hidden sm:block"></div>
+                    <div class="flex-1 h-px bg-gradient-to-r from-emerald-300 to-transparent hidden sm:block"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     @foreach($noticias as $noticia)
@@ -173,9 +200,9 @@
                         </div>
                         @endif
                         <div class="p-5">
-                            <p class="text-slate-400 text-[10px] font-bold mb-2"><i class="fa-regular fa-calendar text-emerald-400 mr-1"></i>{{ \Carbon\Carbon::parse($noticia->published_at)->format('d M. Y') }}</p>
-                            <h3 class="text-base font-black text-slate-100 leading-snug mb-3 m-0">{{ $noticia->title }}</h3>
-                            @if($noticia->description)<p class="text-slate-400 text-xs leading-relaxed line-clamp-4 m-0">{{ $noticia->description }}</p>@endif
+                            <p class="text-slate-500 text-[10px] font-bold mb-2"><i class="fa-regular fa-calendar text-emerald-500 mr-1"></i>{{ \Carbon\Carbon::parse($noticia->published_at)->format('d M. Y') }}</p>
+                            <h3 class="text-base font-black text-slate-900 leading-snug mb-3 m-0">{{ $noticia->title }}</h3>
+                            @if($noticia->description)<p class="text-slate-600 text-xs leading-relaxed line-clamp-4 m-0">{{ $noticia->description }}</p>@endif
                         </div>
                     </div>
                     @endforeach
@@ -185,36 +212,40 @@
         @endif
 
         {{-- ── SUB-MÓDULO DE TALLERES Y CAPACITACIONES (Programado/Ejecutado) ── --}}
-        @include('partials.talleres')
+        <div class="band-tint band-top-indigo py-8">
+            @include('partials.talleres')
+        </div>
 
         {{-- ── SUB-MÓDULO INDEPENDIENTE DE COORDINACIONES INSTITUCIONALES ── --}}
-        @include('partials.coordinaciones')
+        <div class="band-white band-top-amber py-8">
+            @include('partials.coordinaciones')
+        </div>
 
         {{-- ── SUB-MÓDULO DE LA CRONOLOGÍA DE ACTIVIDADES OPERATIVAS ── --}}
         @include('partials.cronologia')
 
         {{-- ── TABLÓN DINÁMICO DE COMUNICADOS OFICIALES ────────────── --}}
         @if(isset($comunicadosActivos) && $comunicadosActivos->count() > 0)
-        <section class="bg-slate-900/50 backdrop-blur-md border-t border-white/10 py-14"
+        <section class="band-white band-top-amber py-14"
                  x-data="{
                      active: 0,
                      count: {{ $comunicadosActivos->count() }},
                      init() { if(this.count > 1) { setInterval(() => { this.active = (this.active + 1) % this.count; }, 5000); } }
                  }">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-6 bg-slate-950/50 p-4 rounded-2xl border border-white/05">
+                <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                     <div class="flex items-center gap-3">
                         <div class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse flex-shrink-0"></div>
-                        <h2 class="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 m-0">
+                        <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 m-0">
                             <i class="fa-solid fa-bullhorn text-amber-500"></i> Tablón de Comunicados Oficiales
                         </h2>
                     </div>
-                    <div class="text-xs font-mono text-slate-400 font-bold bg-black/40 px-3 py-1 rounded-md border border-white/05">
+                    <div class="text-xs font-mono text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-md border border-slate-200">
                         <span x-text="active + 1"></span> / <span x-text="count"></span>
                     </div>
                 </div>
 
-                <div class="relative bg-slate-950/70 border border-white/10 rounded-3xl overflow-hidden shadow-2xl h-[580px] sm:h-[450px] md:h-[360px]">
+                <div class="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-lg h-[580px] sm:h-[450px] md:h-[360px]">
                     @foreach($comunicadosActivos as $index => $comunicado)
                     <div x-show="active === {{ $index }}"
                          x-transition:enter="transition-opacity duration-500 ease-in-out" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
@@ -222,11 +253,11 @@
                          class="absolute inset-0 w-full h-full flex flex-col md:flex-row items-stretch"
                          x-cloak>
                         
-                        <div class="w-full md:w-[45%] flex-shrink-0 bg-slate-950 border-b md:border-b-0 md:border-r border-white/05 flex items-center justify-center relative overflow-hidden h-48 sm:h-64 md:h-full">
+                        <div class="w-full md:w-[45%] flex-shrink-0 bg-slate-100 border-b md:border-b-0 md:border-r border-slate-200 flex items-center justify-center relative overflow-hidden h-48 sm:h-64 md:h-full">
                             @if($comunicado->file_type === 'image')
                                 <img src="{{ asset('storage/' . $comunicado->file_path) }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full bg-slate-900">
+                                <div class="w-full h-full bg-slate-100">
                                     <iframe src="{{ asset('storage/' . $comunicado->file_path) }}#toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-none" allow="autoplay"></iframe>
                                 </div>
                             @endif
@@ -234,34 +265,34 @@
 
                         <div class="flex-1 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto scrollbar-thin">
                             <div>
-                                <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md">Comunicado Activo</span>
+                                <span class="bg-amber-50 text-amber-700 border border-amber-200 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md">Comunicado Activo</span>
                                 {{-- Etiqueta de la sede de origen: institucional (rojo) vs sede desconcentrada (índigo) --}}
-                                <span class="font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md border ml-1.5 inline-flex items-center gap-1 {{ is_null($comunicado->sede) ? 'bg-red-500/10 text-red-300 border-red-500/20' : 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' }}">
+                                <span class="font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md border ml-1.5 inline-flex items-center gap-1 {{ is_null($comunicado->sede) ? 'bg-red-50 text-red-600 border-red-200' : 'bg-indigo-50 text-indigo-600 border-indigo-200' }}">
                                     <i class="fa-solid fa-location-dot text-[8px]"></i>{{ $comunicado->sede_label }}
                                 </span>
                                 @php $nAnexos = (isset($comunicado->attachments) && is_array($comunicado->attachments)) ? count($comunicado->attachments) : 0; @endphp
-                                <span class="inline-flex items-center gap-1.5 bg-white/5 text-slate-300 border border-white/10 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md ml-1.5"><i class="fa-solid fa-paperclip text-red-400"></i> 1 Matriz{{ $nAnexos > 0 ? ' + '.$nAnexos.' '.($nAnexos === 1 ? 'Anexo' : 'Anexos') : '' }}</span>
-                                <h3 class="text-white font-black text-xl sm:text-2xl leading-tight mt-3 mb-3 m-0">{{ $comunicado->title }}</h3>
-                                <p class="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed line-clamp-3 mb-4 m-0">{{ $comunicado->description ?? 'Comunicado oficial de la institución.' }}</p>
+                                <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-600 border border-slate-200 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md ml-1.5"><i class="fa-solid fa-paperclip text-red-500"></i> 1 Matriz{{ $nAnexos > 0 ? ' + '.$nAnexos.' '.($nAnexos === 1 ? 'Anexo' : 'Anexos') : '' }}</span>
+                                <h3 class="text-slate-900 font-black text-xl sm:text-2xl leading-tight mt-3 mb-3 m-0">{{ $comunicado->title }}</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed line-clamp-3 mb-4 m-0">{{ $comunicado->description ?? 'Comunicado oficial de la institución.' }}</p>
 
                                 @if(isset($comunicado->attachments) && is_array($comunicado->attachments) && count($comunicado->attachments) > 0)
                                 <div class="space-y-2 mb-4">
                                     <p class="text-slate-500 text-[10px] font-black uppercase tracking-wider mb-2 m-0"><i class="fa-solid fa-paperclip mr-1"></i> Documentos adjuntos</p>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                         @foreach($comunicado->attachments as $indexAnexo => $adj)
-                                        <a href="{{ asset('storage/' . $adj) }}" target="_blank" class="flex items-center gap-2.5 bg-slate-800/60 hover:bg-slate-800 border border-white/08 hover:border-white/18 rounded-xl px-3 py-2 text-xs font-bold text-slate-300 hover:text-white transition group truncate decoration-none">
-                                            <div class="w-7 h-7 bg-red-600/15 rounded-lg flex items-center justify-center flex-shrink-0">
-                                                <i class="fa-solid {{ str_ends_with(strtolower($adj), '.pdf') ? 'fa-file-pdf text-red-400' : 'fa-image text-blue-400' }} text-[11px]"></i>
+                                        <a href="{{ asset('storage/' . $adj) }}" target="_blank" class="flex items-center gap-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 transition group truncate decoration-none">
+                                            <div class="w-7 h-7 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <i class="fa-solid {{ str_ends_with(strtolower($adj), '.pdf') ? 'fa-file-pdf text-red-500' : 'fa-image text-blue-500' }} text-[11px]"></i>
                                             </div>
                                             <span class="truncate flex-1">Anexo N° {{ $indexAnexo + 1 }}</span>
-                                            <i class="fa-solid fa-arrow-up-right-from-square text-slate-500 group-hover:text-white text-[10px]"></i>
+                                            <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 group-hover:text-slate-700 text-[10px]"></i>
                                         </a>
                                         @endforeach
                                     </div>
                                 </div>
                                 @endif
                             </div>
-                            <div class="flex items-center justify-between pt-4 border-t border-white/05 mt-auto">
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-200 mt-auto">
                                 <a href="{{ asset('storage/' . $comunicado->file_path) }}" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-black uppercase tracking-wider shadow transition decoration-none"><i class="fa-solid fa-file-arrow-down"></i> Descargar Principal</a>
                                 <span class="text-slate-500 text-[10px] font-bold"><i class="fa-regular fa-calendar mr-1"></i>{{ $comunicado->published_at->format('d/m/Y') }}</span>
                             </div>
@@ -273,7 +304,7 @@
                 @if($comunicadosActivos->count() > 1)
                 <div class="flex justify-center gap-1.5 mt-4">
                     @foreach($comunicadosActivos as $index => $c)
-                    <button @click="active = {{ $index }}" class="h-2 rounded-full transition-all duration-300 border-none cursor-pointer" :class="active === {{ $index }} ? 'bg-amber-500 w-5 shadow-[0_0_8px_#f59e0b]' : 'bg-white/20 w-2'"></button>
+                    <button @click="active = {{ $index }}" class="h-2 rounded-full transition-all duration-300 border-none cursor-pointer" :class="active === {{ $index }} ? 'bg-amber-500 w-5 shadow-[0_0_8px_#f59e0b]' : 'bg-slate-300 w-2'"></button>
                     @endforeach
                 </div>
                 @endif

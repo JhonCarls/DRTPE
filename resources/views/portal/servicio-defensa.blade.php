@@ -1,8 +1,7 @@
 @extends('layouts.portal')
 
 @section('content')
-<div class="bg-scene min-h-screen relative py-12">
-    <div class="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] z-0"></div>
+<div class="bg-scene-light min-h-screen relative py-12">
     <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="space-y-10">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

@@ -9,8 +9,9 @@
         <div class="flex items-center gap-4 mb-8">
             <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0"><i class="fa-solid fa-calendar-plus text-white text-sm"></i></div>
             <div>
-                <h2 class="text-xl font-black text-white m-0 tracking-tight">Próximos Talleres y Capacitaciones</h2>
-                <p class="text-slate-400 text-xs font-bold m-0">Convocatorias abiertas con flyer y bases de participación</p>
+                <span class="eyebrow text-indigo-600">Convocatorias abiertas</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 m-0 tracking-tight">Próximos Talleres y Capacitaciones</h2>
+                <p class="text-slate-500 text-xs font-bold m-0">Convocatorias abiertas con flyer y bases de participación</p>
             </div>
             <div class="flex-1 h-px bg-slate-200 hidden sm:block"></div>
         </div>
@@ -62,8 +63,9 @@
         <div class="flex items-center gap-4 mb-8">
             <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0"><i class="fa-solid fa-user-graduate text-white text-sm"></i></div>
             <div>
-                <h2 class="text-xl font-black text-white m-0 tracking-tight">Talleres y Capacitaciones Ejecutados</h2>
-                <p class="text-slate-400 text-xs font-bold m-0">Galería de evidencias de los eventos realizados</p>
+                <span class="eyebrow text-emerald-600">Evidencias fotográficas</span>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 m-0 tracking-tight">Talleres y Capacitaciones Ejecutados</h2>
+                <p class="text-slate-500 text-xs font-bold m-0">Galería de evidencias de los eventos realizados</p>
             </div>
             <div class="flex-1 h-px bg-slate-200 hidden sm:block"></div>
         </div>

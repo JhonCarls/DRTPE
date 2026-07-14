@@ -61,6 +61,12 @@ Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa
 Route::get('/talleres-capacitaciones', [PublicViewerController::class, 'talleresCapacitaciones'])->name('portal.talleres');
 Route::get('/coordinaciones-institucionales', [PublicViewerController::class, 'coordinaciones'])->name('portal.coordinaciones');
 
+// ── PORTAL PÚBLICO: DIRECCIÓN DE PREVENCIÓN Y SOLUCIÓN DE CONFLICTOS (trabajo de Miguel) ──
+Route::view('/estructura/conflictos-laborales', 'portal.Sconflictos')->name('portal.Sconflictos');
+Route::view('/estructura/conflictos/negociaciones-colectivas', 'portal.sub_negociaciones')->name('portal.sub-negociaciones');
+Route::view('/estructura/conflictos/inspeccion-laboral', 'portal.sub_inspeccion')->name('portal.sub-inspeccion');
+Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa')->name('portal.sub-defensa');
+
 // ── 🎯 PORTAL PÚBLICO: ZONAS DESCONCENTRADAS (DINÁMICA MULTI-SEDE) ──
 Route::get('/zonas-desconcentradas/{slug}', [PublicViewerController::class, 'showSede'])->name('portal.sede');
 

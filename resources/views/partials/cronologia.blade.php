@@ -1,17 +1,16 @@
 {{-- ── CRONOLOGÍA OPERATIVA E HISTORIAL ──────────────────────── --}}
-<div class="bg-scene relative">
-    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-[1px]"></div>
+<div class="band-slate band-top-red relative">
     <section class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-16" x-data="{ limit: 10 }">
 
         {{-- Encabezado de la sección --}}
         <div class="mb-12">
-            <div class="inline-flex items-center gap-3 bg-white/05 backdrop-blur-md border border-white/09 rounded-2xl px-6 py-4">
-                <div class="w-9 h-9 bg-red-700/80 rounded-xl flex items-center justify-center">
+            <div class="inline-flex items-center gap-3 bg-white border border-slate-200 shadow-sm rounded-2xl px-6 py-4">
+                <div class="w-9 h-9 bg-red-600 rounded-xl flex items-center justify-center">
                     <i class="fa-solid fa-timeline text-white text-sm"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-black text-white">Cronología Operativa</h2>
-                    <p class="text-slate-400 text-[11px] mt-0.5 font-medium">Historial de cumplimiento de metas institucionales</p>
+                    <h2 class="text-xl font-black text-slate-900 m-0">Cronología Operativa</h2>
+                    <p class="text-slate-500 text-[11px] mt-0.5 font-medium m-0">Historial de cumplimiento de metas institucionales</p>
                 </div>
             </div>
         </div>
@@ -119,7 +118,7 @@
                             @if($restSub->count() > 0)
                                 <button id="expand-toggle-{{ $aIdx }}" @click="expanded = !expanded"
                                         class="w-full py-2.5 flex items-center justify-center gap-2 rounded-xl border text-xs font-bold uppercase tracking-wide transition-all"
-                                        :class="expanded ? 'bg-slate-700/40 border-slate-600/40 text-slate-300 hover:bg-slate-600/40' : 'bg-white/06 border-white/10 text-slate-400 hover:bg-white/10 hover:text-slate-200'">
+                                        :class="expanded ? 'bg-slate-100 border-slate-300 text-slate-600 hover:bg-slate-200' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700'">
                                     <i class="fa-solid transition-transform duration-300" :class="expanded ? 'fa-chevron-up' : 'fa-list-ul'"></i>
                                     <span x-text="expanded ? 'Ocultar registros anteriores' : 'Ver {{ $restSub->count() }} registro(s) anterior(es) de esta actividad'"></span>
                                 </button>
