@@ -27,21 +27,86 @@
 
     body {
         font-family: 'DM Sans', sans-serif;
-        background-color: var(--navy);
-        color: #e2e8f0;
+        background-color: #eceff4;
+        background-image: linear-gradient(180deg, #f6f8fb 0%, #e9edf3 100%);
+        background-attachment: fixed;
+        color: #334155;
         overflow-x: hidden;
         margin: 0;
     }
     h1, h2, h3, h4, h5 { font-family: 'Sora', sans-serif; }
 
     /* ── BG SCENE ──────────────────────────────────────────── */
+    /* Fondo institucional limpio: degradado profundo con sutiles halos
+       rojo/azul para dar profundidad sin ruido visual, mejorando la
+       legibilidad del texto sobre las tarjetas. */
     .bg-scene {
-        background-image: url('/images/fondodash2.png');
-        background-size: cover;
-        background-position: center top;
+        background-color: #070d1e;
+        background-image:
+            radial-gradient(1100px 620px at 6% -8%, rgba(220, 38, 38, .20), transparent 58%),
+            radial-gradient(1000px 720px at 102% 2%, rgba(37, 99, 235, .16), transparent 56%),
+            radial-gradient(1200px 900px at 50% 120%, rgba(30, 58, 138, .22), transparent 60%),
+            linear-gradient(180deg, #0b1327 0%, #080f21 48%, #05091a 100%);
         background-attachment: fixed;
         background-repeat: no-repeat;
+        background-size: cover;
     }
+
+    /* Fondo CLARO institucional para las subsecciones (Estructura Orgánica,
+       Servicios, Administración). Limpio, con tintes muy sutiles. */
+    .bg-scene-light {
+        background-color: #eef2f7;
+        background-image:
+            radial-gradient(1000px 560px at 100% -6%, rgba(37, 99, 235, .08), transparent 60%),
+            radial-gradient(900px 520px at -4% 2%, rgba(220, 38, 38, .06), transparent 58%),
+            linear-gradient(180deg, #f8fafc 0%, #eff3f8 55%, #e9eef5 100%);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    /* ── ANIMACIONES DE ENTRADA (scroll reveal) ────────────── */
+    [data-reveal] {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity .65s cubic-bezier(.16, .84, .44, 1),
+                    transform .65s cubic-bezier(.16, .84, .44, 1);
+        will-change: opacity, transform;
+    }
+    [data-reveal].revealed { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+        [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* Realce de tarjetas institucionales (hover) */
+    .card-hover {
+        transition: transform .3s cubic-bezier(.16, .84, .44, 1),
+                    box-shadow .3s ease, border-color .3s ease;
+    }
+    .card-hover:hover { transform: translateY(-6px); }
+
+    /* Ícono en pastilla con brillo al pasar el cursor */
+    .icon-tile { transition: transform .3s ease, box-shadow .3s ease; }
+    .card-hover:hover .icon-tile { transform: scale(1.08) rotate(-3deg); }
+
+    @keyframes floatSoft { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .float-soft { animation: floatSoft 4s ease-in-out infinite; }
+
+    /* ── BANDAS DE SECCIÓN (ritmo visual institucional) ─────── */
+    /* Alternan fondo blanco / tintado con un borde superior de color
+       para dividir claramente cada sección y darle vida a la página. */
+    .band-white { background: #ffffff; border-bottom: 1px solid #e5e9f0; }
+    .band-tint  { background: linear-gradient(180deg, #eef3fb 0%, #e6edf7 100%); border-bottom: 1px solid #dce3ee; }
+    .band-slate { background: linear-gradient(180deg, #f1f5f9 0%, #e8eef6 100%); border-bottom: 1px solid #dce3ee; }
+    .band-amber { background: linear-gradient(180deg, #fffdf5 0%, #fef7e6 100%); border-bottom: 1px solid #f5e6c8; }
+    .band-top-red     { border-top: 3px solid #dc2626; }
+    .band-top-indigo  { border-top: 3px solid #6366f1; }
+    .band-top-amber   { border-top: 3px solid #f59e0b; }
+    .band-top-emerald { border-top: 3px solid #10b981; }
+    .band-top-blue    { border-top: 3px solid #3b82f6; }
+
+    /* Etiqueta "eyebrow" de sección */
+    .eyebrow { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; }
 
     /* ── SIDEBAR ───────────────────────────────────────────── */
     #sidebar {
@@ -133,20 +198,15 @@
         position: relative;
         margin-top: calc(-1 * var(--diag));
         padding-top: calc(var(--diag) + 2.5rem);
-        background: rgba(5, 9, 20, .38);
-        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-        border-bottom: 1px solid rgba(255, 255, 255, .06);
+        background: transparent;
     }
     .section-dark {
-        background: rgba(5, 9, 20, .40);
-        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-        border-top: 1px solid rgba(255, 255, 255, .06);
-        border-bottom: 1px solid rgba(255, 255, 255, .06);
+        background: rgba(255, 255, 255, .55);
+        border-top: 1px solid rgba(15, 23, 42, .07);
+        border-bottom: 1px solid rgba(15, 23, 42, .07);
     }
     .section-deep {
-        background: rgba(3, 6, 16, .55);
-        backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-        border-top: 1px solid rgba(255, 255, 255, .06);
+        background: transparent;
     }
 
     /* ── GALLERY ───────────────────────────────────────────── */
@@ -177,19 +237,20 @@
 
     /* ── CARDS ─────────────────────────────────────────────── */
     .record-card {
-        background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .09);
+        background: #ffffff; border: 1px solid #e2e8f0;
         border-radius: 18px; overflow: hidden;
-        transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
-        cursor: pointer; display: block;
+        transition: border-color .2s, transform .2s, box-shadow .2s;
+        cursor: pointer; display: block; box-shadow: 0 1px 3px rgba(15, 23, 42, .06);
     }
-    .record-card:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0, 0, 0, .4); }
+    .record-card:hover { border-color: #cbd5e1; transform: translateY(-4px); box-shadow: 0 18px 36px rgba(15, 23, 42, .14); }
 
     .noticia-card {
-        background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .09);
+        background: #ffffff; border: 1px solid #e2e8f0;
         border-radius: 18px; overflow: hidden;
-        transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
+        transition: border-color .2s, transform .2s, box-shadow .2s;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, .06);
     }
-    .noticia-card:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .2); transform: translateY(-3px); box-shadow: 0 16px 36px rgba(0, 0, 0, .4); }
+    .noticia-card:hover { border-color: #cbd5e1; transform: translateY(-3px); box-shadow: 0 16px 32px rgba(15, 23, 42, .14); }
     .noticia-img-wrap.portrait  { height: 280px; }
     .noticia-img-wrap.landscape { height: 180px; }
 
@@ -231,3 +292,24 @@
     /* ── TOP NAVBAR DROPDOWN ───────────────────────────────── */
     [x-cloak] { display: none !important; }
 </style>
+
+<script>
+    // Scroll reveal institucional: activa elementos con [data-reveal] al entrar al viewport.
+    document.addEventListener('DOMContentLoaded', function () {
+        var els = document.querySelectorAll('[data-reveal]');
+        if (!els.length) return;
+        if (!('IntersectionObserver' in window)) {
+            els.forEach(function (el) { el.classList.add('revealed'); });
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        els.forEach(function (el) { io.observe(el); });
+    });
+</script>
