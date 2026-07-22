@@ -6,7 +6,7 @@
 <aside id="sidebar"
        class="bg-slate-950/98 backdrop-blur-xl border-r border-slate-700/50 shadow-2xl shadow-black/50 flex flex-col h-screen overflow-y-auto custom-scrollbar select-none text-slate-200 transition-all duration-300">
 
-    {{-- 1. LOGO DE LA DIRECCIÓN REGIONAL --}}
+    <!-- {{-- 1. LOGO DE LA DIRECCIÓN REGIONAL --}}
     <div class="p-5 pb-4 border-b border-slate-800/80 bg-gradient-to-b from-slate-900/60 to-transparent">
         <div class="flex items-center gap-3 pt-1">
             <img src="{{ asset('images/logo.png') }}" alt="Logo"
@@ -16,7 +16,7 @@
                 <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] m-0 mt-0.5">Dirección Regional</p>
             </div>
         </div>
-    </div>
+    </div> -->
 
     {{-- 2. SECCIÓN DESTACADA: SEDES DESCONCENTRADAS (DISEÑO DE ALTO IMPACTO VISUAL) --}}
     <div class="mx-3 my-4 p-4 bg-gradient-to-br from-red-800/70 via-red-950/50 to-slate-900/60 border-2 border-red-700/60 rounded-2xl shadow-xl shadow-red-900/30 backdrop-blur-md">
@@ -30,32 +30,32 @@
 
         <div class="space-y-3">
             {{-- Enlace Sede Juliaca Corregido --}}
-<a href="{{ route('portal.sede', 'juliaca') }}"
-   class="flex items-center gap-3 p-3 bg-slate-950/80 hover:bg-red-950/70 rounded-xl border border-slate-700/60 hover:border-red-500/60 transition-all duration-200 decoration-none group shadow-md hover:shadow-red-900/30">
-    <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center rounded-lg shadow-lg group-hover:scale-110 transition-transform shrink-0">
-        <i class="fa-solid fa-city text-white text-sm"></i>
-    </div>
-    <div class="flex-1 min-w-0">
-        <p class="text-slate-100 text-sm font-black truncate m-0 group-hover:text-red-300 transition-colors">Sede Juliaca</p>
-        <p class="text-slate-400 text-[11px] font-semibold mt-0.5 m-0 truncate group-hover:text-slate-300">Actividades Operativas Norte</p>
-    </div>
-    <i class="fa-solid fa-chevron-right text-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity text-xs"></i>
-</a>
+            <a href="{{ route('portal.sede', 'juliaca') }}"
+            class="flex items-center gap-3 p-3 bg-slate-950/80 hover:bg-red-950/70 rounded-xl border border-slate-700/60 hover:border-red-500/60 transition-all duration-200 decoration-none group shadow-md hover:shadow-red-900/30">
+                <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center rounded-lg shadow-lg group-hover:scale-110 transition-transform shrink-0">
+                    <i class="fa-solid fa-city text-white text-sm"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-slate-100 text-sm font-black truncate m-0 group-hover:text-red-300 transition-colors">Sede Juliaca</p>
+                    <p class="text-slate-400 text-[11px] font-semibold mt-0.5 m-0 truncate group-hover:text-slate-300">Actividades Operativas Norte</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity text-xs"></i>
+            </a>
 
-{{-- Enlace Sede Taraco Corregido --}}
-<a href="{{ route('portal.sede', 'taraco') }}"
-   class="flex items-center gap-3 p-3 bg-slate-950/80 hover:bg-red-950/70 rounded-xl border border-slate-700/60 hover:border-red-500/60 transition-all duration-200 decoration-none group shadow-md hover:shadow-red-900/30">
-    <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center rounded-lg shadow-lg group-hover:scale-110 transition-transform shrink-0">
-        <i class="fa-solid fa-building-flag text-white text-sm"></i>
-    </div>
-    <div class="flex-1 min-w-0">
-        <p class="text-slate-100 text-sm font-black truncate m-0 group-hover:text-red-300 transition-colors">Sede Taraco</p>
-        <p class="text-slate-400 text-[11px] font-semibold mt-0.5 m-0 truncate group-hover:text-slate-300">Intervenciones Itinerantes</p>
-    </div>
-    <i class="fa-solid fa-chevron-right text-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity text-xs"></i>
-</a>
-        </div>
-    </div>
+            {{-- Enlace Sede Taraco Corregido --}}
+            <a href="{{ route('portal.sede', 'taraco') }}"
+            class="flex items-center gap-3 p-3 bg-slate-950/80 hover:bg-red-950/70 rounded-xl border border-slate-700/60 hover:border-red-500/60 transition-all duration-200 decoration-none group shadow-md hover:shadow-red-900/30">
+                <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center rounded-lg shadow-lg group-hover:scale-110 transition-transform shrink-0">
+                    <i class="fa-solid fa-building-flag text-white text-sm"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-slate-100 text-sm font-black truncate m-0 group-hover:text-red-300 transition-colors">Sede Taraco</p>
+                    <p class="text-slate-400 text-[11px] font-semibold mt-0.5 m-0 truncate group-hover:text-slate-300">Intervenciones Itinerantes</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-red-500/80 opacity-0 group-hover:opacity-100 transition-opacity text-xs"></i>
+            </a>
+                    </div>
+                </div>
 
     {{-- 3. DIRECCIONES TEXTUALES DE CONTACTO GENERAL --}}
     <div class="px-5 pb-5 border-b border-slate-800/80 space-y-4">
@@ -110,6 +110,16 @@
          x-data="{ openMobileSec: null }">
         <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-2 mb-1">Navegación del Portal</p>
 
+        {{-- Enlace: Inicio --}}
+       <div class="bg-slate-900/90 border border-slate-700 rounded-xl overflow-hidden shadow-md backdrop-blur-sm">
+            <a href="{{ route('public.viewer') }}"
+            class="flex items-center gap-2.5 w-full px-4 py-3 text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors decoration-none">
+
+                <i class="fa-solid fa-house text-red-500"></i>
+                <span>Inicio</span>
+
+            </a>
+        </div>  
         <div class="bg-slate-900/90 border border-slate-700 rounded-xl overflow-hidden shadow-md backdrop-blur-sm">
             <button
                 @click="openMobileSec = openMobileSec === 'inst' ? null : 'inst'"
@@ -120,27 +130,292 @@
             </button>
             <div class="bg-slate-950/80 px-4 py-2 space-y-2 text-[11px] font-bold text-slate-400 border-t border-slate-800/80 flex flex-col"
                  x-show="openMobileSec === 'inst'" x-cloak>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-circle-info text-[9px] text-red-500/70"></i> Sobre Nosotros</a>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-sitemap text-[9px] text-red-500/70"></i> Organigrama</a>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-address-book text-[9px] text-red-500/70"></i> Directorio</a>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-scale-balanced text-[9px] text-red-500/70"></i> Marco Legal</a>
+                <a href="{{ route('portal.sobre-nosotros') }}" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-circle-info text-[9px] text-red-500/70"></i> Sobre Nosotros</a>
+                <a href="{{ route('portal.organigrama') }}" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-sitemap text-[9px] text-red-500/70"></i> Organigrama</a>
+                <a href="{{ route('portal.directorio') }}" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-address-book text-[9px] text-red-500/70"></i> Directorio</a>
+                <a href="{{ route('portal.marco-legal') }}" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-scale-balanced text-[9px] text-red-500/70"></i> Marco Legal</a>
+            </div>
+        </div>
+
+       <div class="bg-slate-900/90 border border-slate-700 rounded-xl overflow-hidden shadow-md backdrop-blur-sm">
+            <button
+                @click="openMobileSec = openMobileSec === 'org' ? null : 'org'"
+                class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-300 hover:text-white bg-transparent border-none cursor-pointer transition-colors">
+
+                <span class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-sitemap text-red-500"></i>
+                    Estructura Orgánica
+                </span>
+
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 transition-transform duration-200"
+                    :class="openMobileSec === 'org' ? 'rotate-180 text-white' : ''"></i>
+            </button>
+
+            <div
+                x-show="openMobileSec === 'org'"
+                x-collapse
+                x-cloak
+                class="bg-slate-950/80 border-t border-slate-800">
+
+                <div x-data="{ subOrg:null }" class="flex flex-col text-[11px] font-bold">
+
+                    <!-- Gerencia -->
+                    <a href="{{ route('portal.gerencia') }}"
+                    class="px-4 py-3 hover:bg-slate-800 hover:text-white text-slate-300 decoration-none flex items-center gap-2">
+                        <i class="fa-solid fa-user-tie text-red-500"></i>
+                        Gerencia Regional
+                    </a>
+
+                    <!-- Formaliza -->
+                    <a href="{{ route('portal.formaliza_peru') }}"
+                    class="px-4 py-3 hover:bg-slate-800 hover:text-white text-slate-300 decoration-none flex items-center gap-2 border-t border-slate-800">
+                        <i class="fa-solid fa-file-contract text-red-500"></i>
+                        Formaliza Perú
+                    </a>
+
+                    <!-- Prevención de Conflictos -->
+                    <div class="border-t border-slate-800">
+
+                        <button
+                            @click="subOrg = subOrg === 'conflictos' ? null : 'conflictos'"
+                            class="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white">
+
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-scale-balanced text-red-500"></i>
+                                Prevención de Conflictos
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down transition-transform duration-200"
+                                :class="subOrg === 'conflictos' ? 'rotate-180 text-white' : ''"></i>
+
+                        </button>
+
+                        <div
+                            x-show="subOrg==='conflictos'"
+                            x-collapse
+                            class="bg-slate-900 flex flex-col">
+
+                            <a href="{{ route('portal.Sconflictos') }}"
+                            class="px-8 py-2 text-white decoration-none font-bold hover:bg-slate-800">
+                                Dirección Principal
+                            </a>
+
+                            <a href="{{ route('portal.sub-negociaciones') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Negociaciones Colectivas
+                            </a>
+
+                            <a href="{{ route('portal.sub-inspeccion') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Inspección Laboral
+                            </a>
+
+                            <a href="{{ route('portal.sub-defensa') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Defensa Legal Gratuita
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Dirección del Empleo -->
+                    <div class="border-t border-slate-800">
+
+                        <button
+                            @click="subOrg = subOrg === 'empleo' ? null : 'empleo'"
+                            class="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white">
+
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-passport text-red-500"></i>
+                                Dirección del Empleo
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down transition-transform duration-200"
+                                :class="subOrg === 'empleo' ? 'rotate-180 text-white' : ''"></i>
+
+                        </button>
+
+                        <div
+                            x-show="subOrg==='empleo'"
+                            x-collapse
+                            class="bg-slate-900 flex flex-col">
+
+                            <a href="{{ route('portal.empleo-general') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Información General
+                            </a>
+
+                            <a href="{{ route('portal.empleo-subdireccion') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Subdirección de Empleo
+                            </a>
+
+                            <a href="{{ route('portal.empleo-registros') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Registros Administrativos
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Órganos Desconcentrados -->
+                    <div class="border-t border-slate-800">
+
+                        <button
+                            @click="subOrg = subOrg === 'organos' ? null : 'organos'"
+                            class="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white">
+
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-sitemap text-red-500"></i>
+                                Órganos Desconcentrados
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down transition-transform duration-200"
+                                :class="subOrg === 'organos' ? 'rotate-180 text-white' : ''"></i>
+
+                        </button>
+
+                        <div
+                            x-show="subOrg==='organos'"
+                            x-collapse
+                            class="bg-slate-900 flex flex-col">
+
+                            <a href="{{ route('portal.organos-juliaca') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Zona de Juliaca
+                            </a>
+
+                            <a href="{{ route('portal.organos-taraco') }}"
+                            class="px-8 py-2 text-slate-400 hover:text-white decoration-none hover:bg-slate-800">
+                                Centro de Taraco
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
         <div class="bg-slate-900/90 border border-slate-700 rounded-xl overflow-hidden shadow-md backdrop-blur-sm">
             <button
-                @click="openMobileSec = openMobileSec === 'org' ? null : 'org'"
+                @click="openMobileSec = openMobileSec === 'servicios' ? null : 'servicios'"
                 class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-300 hover:text-white bg-transparent border-none cursor-pointer transition-colors">
-                <span class="flex items-center gap-2.5"><i class="fa-solid fa-sitemap text-red-500"></i> Estructura Orgánica</span>
+
+                <span class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-briefcase text-red-500"></i>
+                    Servicios
+                </span>
+
                 <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 transition-transform duration-200"
-                   :class="openMobileSec === 'org' ? 'rotate-180 text-white' : ''"></i>
+                    :class="openMobileSec === 'servicios' ? 'rotate-180 text-white' : ''"></i>
+
             </button>
-            <div class="bg-slate-950/80 px-4 py-2 space-y-2 text-[11px] font-bold text-slate-400 border-t border-slate-800/80 flex flex-col"
-                 x-show="openMobileSec === 'org'" x-cloak>
-                <a href="#" class="py-1.5 hover:text-white flex items-center gap-2 decoration-none transition-colors"><i class="fa-solid fa-user-tie text-[9px] text-red-500/70"></i> Gerencia Regional</a>
-                <p class="font-black text-[9px] text-slate-500 uppercase tracking-wider pt-1.5 border-t border-slate-800 m-0">Áreas Internas</p>
-                <a href="#" class="py-1 hover:text-white pl-2 decoration-none transition-colors">&bull; Administración</a>
-                <a href="#" class="py-1 hover:text-white pl-2 decoration-none transition-colors">&bull; Dirección del Empleo</a>
+
+            <div
+                x-show="openMobileSec === 'servicios'"
+                x-collapse
+                x-cloak
+                class="bg-slate-950/80 border-t border-slate-800 flex flex-col text-[11px] font-bold">
+
+                <a href="{{ route('portal.servicio-empleo') }}"
+                class="px-4 py-3 flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800 decoration-none transition-colors">
+                    <i class="fa-solid fa-briefcase text-red-500"></i>
+                    Centro de Empleo Puno
+                </a>
+
+                <a href="{{ route('portal.servicio-multas') }}"
+                class="px-4 py-3 flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800 decoration-none transition-colors border-t border-slate-800">
+                    <i class="fa-solid fa-receipt text-red-500"></i>
+                    Fraccionamiento de Multas
+                </a>
+
+                <a href="{{ route('portal.servicio-capacitacion') }}"
+                class="px-4 py-3 flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800 decoration-none transition-colors border-t border-slate-800">
+                    <i class="fa-solid fa-user-graduate text-red-500"></i>
+                    Capacitación
+                </a>
+
+                <a href="{{ route('portal.servicio-defensa') }}"
+                class="px-4 py-3 flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800 decoration-none transition-colors border-t border-slate-800">
+                    <i class="fa-solid fa-gavel text-red-500"></i>
+                    Defensa Legal
+                </a>
+
+            </div>
+
+        </div>
+        <div class="bg-slate-900/90 border border-slate-700 rounded-xl overflow-hidden shadow-md backdrop-blur-sm">
+            <button
+                @click="openMobileSec = openMobileSec === 'talleres' ? null : 'talleres'"
+                class="w-full px-4 py-3 flex items-center justify-between font-bold text-xs text-slate-300 hover:text-white bg-transparent border-none cursor-pointer transition-colors">
+
+                <span class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-chalkboard-user text-red-500"></i>
+                    Talleres
+                </span>
+
+                <i class="fa-solid fa-chevron-down text-[10px] text-slate-500 transition-transform duration-200"
+                    :class="openMobileSec === 'talleres' ? 'rotate-180 text-white' : ''"></i>
+
+            </button>
+
+            <div
+                x-show="openMobileSec === 'talleres'"
+                x-collapse
+                x-cloak
+                class="bg-slate-950/80 border-t border-slate-800 flex flex-col text-[11px] font-bold">
+
+                <button
+                    onclick="scrollToSection('seccion-por-hacer')"
+                    class="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800 transition-colors bg-transparent border-none">
+
+                    <span class="flex items-center gap-2">
+                        <i class="fa-regular fa-clock text-red-500"></i>
+                        Capacitaciones por Hacer
+                    </span>
+
+                    <span class="text-[10px] font-mono font-black px-2 py-1 rounded
+                        {{ isset($capacitacionesPorHacer) && $capacitacionesPorHacer->count() > 0 ? 'bg-red-600 text-white animate-pulse' : 'bg-slate-700 text-slate-300' }}">
+                        {{ isset($capacitacionesPorHacer) ? $capacitacionesPorHacer->count() : 0 }}
+                    </span>
+
+                </button>
+
+                <button
+                    onclick="scrollToSection('seccion-hechas')"
+                    class="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800 transition-colors bg-transparent border-none border-t border-slate-800">
+
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-red-500"></i>
+                        Capacitaciones Hechas
+                    </span>
+
+                    <span class="text-[10px] font-mono font-black px-2 py-1 rounded bg-slate-700 text-slate-300">
+                        {{ isset($capacitacionesHechas) ? $capacitacionesHechas->count() : 0 }}
+                    </span>
+
+                </button>
+
+                <button
+                    onclick="scrollToSection('seccion-coordinaciones')"
+                    class="w-full px-4 py-3 flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-800 transition-colors bg-transparent border-none border-t border-slate-800">
+
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-handshake text-red-500"></i>
+                        Coordinaciones Hechas
+                    </span>
+
+                    <span class="text-[10px] font-mono font-black px-2 py-1 rounded bg-slate-700 text-slate-300">
+                        {{ isset($coordinacionesHechas) ? $coordinacionesHechas->count() : 0 }}
+                    </span>
+
+                </button>
+
             </div>
         </div>
     </div>

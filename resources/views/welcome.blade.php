@@ -11,15 +11,12 @@
     @include('partials.popup')
 
     {{-- 2. Encabezado Oficial (Header) --}}
-    @include('partials.header')
+    @include('partials.header', ['showNavbar' => false])
 
-    {{-- 3. Barra de Navegación Superior Estática --}}
-    @include('partials.navbar')
-
-    {{-- 4. Barra Lateral de Navegación y Accesos Rápidos (Sidebar) --}}
+    {{-- 3. Barra Lateral de Navegación y Accesos Rápidos (Sidebar) --}}
     @include('partials.sidebar')
 
-    {{-- 5. Contenedor Unificado de Contenido Principal --}}
+    {{-- 4. Contenedor Unificado de Contenido Principal --}}
     <div id="main-content">
 
         {{-- ── SECCIÓN DE SLIDERS HERO (DINÁMICOS) ────────────────── --}}

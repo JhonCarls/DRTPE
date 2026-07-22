@@ -36,6 +36,7 @@ Route::view('/institucional/marco-legal', 'portal.marco-legal')->name('portal.ma
 
 // ── PORTAL PÚBLICO: ESTRUCTURA ORGÁNICA ────────────────────────────
 Route::view('/estructura/gerencia-regional', 'portal.gerencia')->name('portal.gerencia');
+Route::view('/estructura/formaliza', 'portal.formaliza_peru')->name('portal.formaliza_peru');
 Route::view('/estructura/administracion/personal', 'portal.admin-personal')->name('portal.admin-personal');
 Route::view('/estructura/administracion/contabilidad', 'portal.admin-contabilidad')->name('portal.admin-contabilidad');
 Route::view('/estructura/administracion/abastecimiento', 'portal.admin-abastecimiento')->name('portal.admin-abastecimiento');
@@ -46,26 +47,21 @@ Route::view('/estructura/empleo/registros', 'portal.empleo-registros')->name('po
 Route::view('/estructura/organos/juliaca', 'portal.organos-juliaca')->name('portal.organos-juliaca');
 Route::view('/estructura/organos/taraco', 'portal.organos-taraco')->name('portal.organos-taraco');
 
+// ── PORTAL PÚBLICO: DIRECCIÓN DE PREVENCIÓN Y SOLUCIÓN DE CONFLICTOS (trabajo de Miguel) ──
+Route::view('/estructura/conflictos-laborales', 'portal.Sconflictos')->name('portal.Sconflictos');
+Route::view('/estructura/conflictos/negociaciones-colectivas', 'portal.sub_negociaciones')->name('portal.sub-negociaciones');
+Route::view('/estructura/conflictos/inspeccion-laboral', 'portal.sub_inspeccion')->name('portal.sub-inspeccion');
+Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa')->name('portal.sub-defensa');
+
 // ── PORTAL PÚBLICO: SERVICIOS AL CIUDADANO ─────────────────────────
 Route::view('/servicios/centro-empleo', 'portal.servicio-empleo')->name('portal.servicio-empleo');
 Route::view('/servicios/fraccionamiento-multas', 'portal.servicio-multas')->name('portal.servicio-multas');
 Route::view('/servicios/capacitacion', 'portal.servicio-capacitacion')->name('portal.servicio-capacitacion');
 Route::view('/servicios/defensa-legal', 'portal.servicio-defensa')->name('portal.servicio-defensa');
 
-// ── PORTAL PÚBLICO: DIRECCIÓN DE PREVENCIÓN Y SOLUCIÓN DE CONFLICTOS ──
-Route::view('/estructura/conflictos-laborales', 'portal.Sconflictos')->name('portal.Sconflictos');
-Route::view('/estructura/conflictos/negociaciones-colectivas', 'portal.sub_negociaciones')->name('portal.sub-negociaciones');
-Route::view('/estructura/conflictos/inspeccion-laboral', 'portal.sub_inspeccion')->name('portal.sub-inspeccion');
-Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa')->name('portal.sub-defensa');
 // ── PORTAL PÚBLICO: TALLERES/CAPACITACIONES Y COORDINACIONES (páginas dedicadas) ──
 Route::get('/talleres-capacitaciones', [PublicViewerController::class, 'talleresCapacitaciones'])->name('portal.talleres');
 Route::get('/coordinaciones-institucionales', [PublicViewerController::class, 'coordinaciones'])->name('portal.coordinaciones');
-
-// ── PORTAL PÚBLICO: DIRECCIÓN DE PREVENCIÓN Y SOLUCIÓN DE CONFLICTOS (trabajo de Miguel) ──
-Route::view('/estructura/conflictos-laborales', 'portal.Sconflictos')->name('portal.Sconflictos');
-Route::view('/estructura/conflictos/negociaciones-colectivas', 'portal.sub_negociaciones')->name('portal.sub-negociaciones');
-Route::view('/estructura/conflictos/inspeccion-laboral', 'portal.sub_inspeccion')->name('portal.sub-inspeccion');
-Route::view('/estructura/conflictos/defensa-legal-gratuita', 'portal.sub_defensa')->name('portal.sub-defensa');
 
 // ── 🎯 PORTAL PÚBLICO: ZONAS DESCONCENTRADAS (DINÁMICA MULTI-SEDE) ──
 Route::get('/zonas-desconcentradas/{slug}', [PublicViewerController::class, 'showSede'])->name('portal.sede');

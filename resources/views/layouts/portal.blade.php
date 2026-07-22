@@ -8,7 +8,6 @@
     {{-- Componentes globales fijos --}}
     @include('partials.popup')
     @include('partials.header')
-    @include('partials.navbar')
     @include('partials.sidebar')
 
     {{-- Aquí se inyectará el contenido de cada página --}}
