@@ -12,29 +12,28 @@
             </div>
 
             <section class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-                <div class="grid gap-8 p-8 lg:grid-cols-[1.2fr_0.8fr] lg:p-10">
+                <div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-red-950 p-8 sm:p-10 text-white">
                     <div class="space-y-6">
-                        <div class="inline-flex items-center gap-3 rounded-2xl bg-slate-900/5 px-4 py-2 text-sm font-semibold text-slate-700">
-                            <i class="fa-solid fa-id-card text-red-600"></i>
-                            Formaliza Perú Puno
-                        </div>
                         <div class="space-y-4">
-                            <h1 class="text-xl font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 m-0">
+                            <h1 class="text-xl font-white text-red-600 uppercase tracking-wider flex items-center gap-2 m-0">
                                 <i class="fa-solid fa-briefcase text-red-600"></i>
                                 <span>Formaliza Perú Puno</span>
                             </h1>
-                            <p class="max-w-3xl text-base leading-8 text-slate-600">
+                            <p class="max-w-3xl text-base leading-8 text-white-80">
                                 Dirección Regional de Trabajo y Promoción del Empleo Puno - Gobierno Regional Puno / MTPE.
                             </p>
                         </div>
                     </div>
-                    <div class="rounded-[1.75rem] border border-slate-200 bg-slate-900/5 p-8 shadow-sm">
-                        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Servicio institucional</p>
-                        <h2 class="mt-4 text-3xl font-black text-slate-900">Acompañamiento para la formalización laboral y empresarial</h2>
-                        <p class="mt-4 text-sm leading-7 text-slate-600">
-                            El Centro Integrado Formaliza Perú impulsa la formalización, el cumplimiento normativo y la mejora de condiciones para emprendedores y trabajadores.
-                        </p>
-                    </div>
+                </div>
+            </section>
+            
+            <section class="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+                <div class="space-y-6">
+                    <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Servicio institucional</p>
+                    <h2 class="mt-4 text-3xl font-black text-slate-900">Acompañamiento para la formalización laboral y empresarial</h2>
+                    <p class="mt-4 text-sm leading-7 text-slate-600">
+                        El Centro Integrado Formaliza Perú impulsa la formalización, el cumplimiento normativo y la mejora de condiciones para emprendedores y trabajadores.
+                    </p>
                 </div>
             </section>
 
@@ -135,13 +134,19 @@
                     <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 m-0">Registro de la Micro y Pequeña Empresa (REMYPE)</h2>
                 </div>
 
-                <div class="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+                <div class="mt-6 space-y-6">
+
+                    <!-- PRIMERA SECCIÓN -->
                     <article class="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6 shadow-sm">
                         <p class="text-sm leading-8 text-slate-600">
                             Se denomina a la acreditación de las micro y pequeñas empresas que cumplen con determinadas características, además de autorizar el acogimiento a sus beneficios y registrarla mediante el registro de la MYPE.
                         </p>
+
                         <div class="mt-6 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
-                            <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider m-0">Requisitos para el registro</h3>
+                            <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider m-0">
+                                Requisitos para el registro
+                            </h3>
+
                             <ul class="mt-4 list-disc space-y-3 pl-5 text-sm leading-7 text-slate-700">
                                 <li>Nº RUC.</li>
                                 <li>Usuario.</li>
@@ -151,39 +156,55 @@
                         </div>
                     </article>
 
+                    <!-- SEGUNDA SECCIÓN -->
                     <article class="rounded-[1.75rem] border border-slate-200 bg-slate-900/5 p-6 shadow-sm">
-                        <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider m-0">Ventajas de ser una MYPE</h3>
-                        <div class="mt-5 space-y-3 text-sm leading-7 text-slate-700">
+
+                        <h3 class="text-sm font-black text-slate-900 uppercase tracking-wider m-0">
+                            Ventajas de ser una MYPE
+                        </h3>
+
+                        <div class="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+
+                            <!-- Tarjeta -->
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
                                 <p class="font-semibold text-slate-900">Crédito Financiero</p>
                                 <p class="mt-1">Acceso a crédito de instituciones financieras.</p>
                             </div>
+
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
                                 <p class="font-semibold text-slate-900">Compras Estatales (COMPRAS MYPErú)</p>
-                                <p class="mt-1">El Estado adquiere bienes y servicios mediante la página COMPRAS MYPERU, solo para MYPES.</p>
+                                <p class="mt-1">El Estado adquiere bienes y servicios mediante la página COMPRAS MYPERU.</p>
                             </div>
+
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
-                                <p class="font-semibold text-slate-900">Apoyo Financiero (Impulso MYPErú)</p>
+                                <p class="font-semibold text-slate-900">Apoyo Financiero</p>
                                 <p class="mt-1">Apoyo del Estado a préstamos solo para MYPES.</p>
                             </div>
+
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
                                 <p class="font-semibold text-slate-900">Bonificación en Licitaciones</p>
-                                <p class="mt-1">Bonificación del 5% en contrataciones con el Estado siendo MYPE.</p>
+                                <p class="mt-1">Bonificación del 5% en contrataciones con el Estado.</p>
                             </div>
+
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
                                 <p class="font-semibold text-slate-900">Régimen Laboral</p>
                                 <p class="mt-1">Pertenecer al régimen laboral especial.</p>
                             </div>
+
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
                                 <p class="font-semibold text-slate-900">Registro de Marca</p>
                                 <p class="mt-1">Descuento del 25% registrando mi marca.</p>
                             </div>
+
                             <div class="rounded-2xl border border-slate-200 bg-white p-4">
                                 <p class="font-semibold text-slate-900">Cuota Estatal de Compras</p>
-                                <p class="mt-1">El Estado debe programar no menos del 40% de sus contrataciones de bienes y servicios para las MYPES.</p>
+                                <p class="mt-1">El Estado debe programar no menos del 40% de sus contrataciones para las MYPES.</p>
                             </div>
+
                         </div>
+
                     </article>
+
                 </div>
             </section>
         </div>

@@ -61,5 +61,46 @@
             </div>
         </section>
     </div>
+     <div class="mt-10">
+
+        <a href="{{ route('portal.sede', 'taraco') }}" 
+            class="block bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-[0_2px_12px_rgba(0,0,0,0.01)] relative overflow-hidden decoration-none transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-red-300 group">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                
+                <div class="flex items-center gap-4 relative z-10">
+                    
+                    <div class="w-14 h-14 bg-gradient-to-br from-red-600 to-red-700 rounded-2xl flex items-center justify-center text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+                        <i class="fa-solid fa-map-location-dot text-xl"></i>
+                    </div>
+                    
+                        <div>
+                            <span class="text-red-600 font-black text-[10px] uppercase tracking-widest block leading-none">
+                                Gaceta Oficial de Transparencia
+                            </span>
+                            
+                            <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1.5 group-hover:text-red-700 transition-colors"
+                            style="font-family: 'Sora', sans-serif;">
+                            Sede Taraco
+                        </h1>
+                    </div>
+                    
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    
+                    <div class="text-[10px] font-mono font-black bg-slate-900 border border-slate-950 px-4 py-2.5 rounded-xl text-white tracking-wider uppercase">
+                        <i class="fa-solid fa-bullhorn text-red-500 mr-1.5"></i>
+                        Comunicados de Sede
+                    </div>
+                    
+                    <i class="fa-solid fa-arrow-right text-red-600 text-lg opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300"></i>
+                    
+                </div>
+                
+            </div>
+            
+        </a>
+    </div>
 </div>
 @endsection

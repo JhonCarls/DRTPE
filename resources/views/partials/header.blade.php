@@ -32,7 +32,7 @@
             <div id="top-navbar" class="relative hidden lg:block">
 
             <div class="max-w-full px-2 lg:px-6">
-                    <div class="flex items-center justify-around h-[var(--navbar-h)] text-xs font-black uppercase tracking-wider relative"
+                    <div class="flex items-center justify-around h-[var(--navbar-h)] text-xs font-black tracking-wider relative"
                         x-data="{ openMenu: null }" 
                         style="height: var(--navbar-h);">
 
@@ -93,7 +93,7 @@
                                         <i class="fa-solid fa-chevron-right text-[10px] text-slate-500"></i>
                                     </div>
                                     <div x-show="subMenu === 'empleo'" x-cloak class="absolute top-0 left-full ml-px bg-slate-950 border border-white/10 shadow-2xl py-3 w-72 text-slate-400 font-medium">
-                                        <a href="{{ route('portal.empleo-general') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Información General</a>
+                                        <a href="{{ route('portal.empleo-general') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">General</a>
                                         <a href="{{ route('portal.empleo-subdireccion') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Subdirección de Empleo</a>
                                         <a href="{{ route('portal.empleo-registros') }}" class="block px-6 py-2 hover:bg-white/5 hover:text-white transition-colors decoration-none">Registros Administrativos</a>
                                     </div>

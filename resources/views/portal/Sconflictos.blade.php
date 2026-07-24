@@ -86,47 +86,47 @@
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600"><i class="fa-solid fa-calendar-check"></i></div><span class="text-red-600 font-black text-sm">a)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-red-600"><i class="fa-solid fa-calendar-check"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Elaborar el Plan Anual</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Formular planes estratégicos alineados con las políticas nacionales.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-600"><i class="fa-solid fa-file-lines"></i></div><span class="text-red-600 font-black text-sm">b)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-100 text-blue-600"><i class="fa-solid fa-file-lines"></i></div></span></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Implementar TUPA Sectorial</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Administrar el texto único de procedimientos administrativos en materia laboral.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-purple-100 text-purple-600"><i class="fa-solid fa-gavel"></i></div><span class="text-red-600 font-black text-sm">c)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-purple-100 text-purple-600"><i class="fa-solid fa-gavel"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Emitir Resoluciones</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Conocer y resolver en primera instancia los recursos administrativos sobre relaciones laborales.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-600"><i class="fa-solid fa-triangle-exclamation"></i></div><span class="text-red-600 font-black text-sm">d)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-600"><i class="fa-solid fa-triangle-exclamation"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Reportar Incidencias</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Elaborar informes sobre conflictividad laboral, huelgas y paralizaciones.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-100 text-teal-600"><i class="fa-solid fa-clipboard-list"></i></div><span class="text-red-600 font-black text-sm">e)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-100 text-teal-600"><i class="fa-solid fa-clipboard-list"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Proponer Directivas</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Formular directivas operativas para la mejora continua de los procesos.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-600"><i class="fa-solid fa-headset"></i></div><span class="text-red-600 font-black text-sm">f)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-600"><i class="fa-solid fa-headset"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Asesoría Técnica</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Brindar orientación especializada en asuntos de relaciones laborales y normativa.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-green-100 text-green-600"><i class="fa-solid fa-chalkboard-user"></i></div><span class="text-red-600 font-black text-sm">g)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-green-100 text-green-600"><i class="fa-solid fa-chalkboard-user"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Capacitación del Personal</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Desarrollar programas de formación para técnicos y profesionales.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600"><i class="fa-solid fa-people-group"></i></div><span class="text-red-600 font-black text-sm">h)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-100 text-indigo-600"><i class="fa-solid fa-people-group"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Representación Institucional</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Representar a la institución en eventos, conferencias y coordinaciones interinstitucionales.</p>
                 </article>
                 <article data-reveal class="card-hover bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-red-300">
-                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600"><i class="fa-solid fa-ellipsis"></i></div><span class="text-red-600 font-black text-sm">i)</span></div>
+                    <div class="flex items-center gap-3 mb-3"><div class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600"><i class="fa-solid fa-ellipsis"></i></div></div>
                     <h3 class="text-base font-bold text-slate-900 mb-2 m-0">Otras Funciones</h3>
                     <p class="text-slate-600 text-sm leading-relaxed m-0">Ejecutar otras funciones asignadas por la Dirección Nacional o regulaciones específicas.</p>
                 </article>
