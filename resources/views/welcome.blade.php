@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     {{-- Meta, Tailwind, AlpineJS, Fuentes y Estilos CSS Globales --}}
     @include('partials.head')
+    {{-- Estilos del chatbot --}}
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
 </head>
 
 <body class="antialiased selection:bg-red-700 selection:text-white">
@@ -28,25 +31,25 @@
             {{-- Slider A: Actividades de Difusión --}}
             @if(isset($difusiones) && $difusiones->count() > 0)
             <section class="relative w-full overflow-hidden clip-top z-30"
-                     style="height: clamp(340px, 62vh, 680px); background: rgba(15, 28, 80, .40);"
-                     x-data="autoSlider({{ $difusiones->toJson() }}, 5000)">
+                style="height: clamp(340px, 62vh, 680px); background: rgba(15, 28, 80, .40);"
+                x-data="autoSlider({{ $difusiones->toJson() }}, 5000)">
                 <div class="absolute top-5 left-5 z-30 flex items-center gap-3 flex-wrap">
                     <span class="bg-blue-600/85 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-blue-400/30 shadow-lg">
                         <i class="fa-solid fa-radio mr-1.5"></i> Actividades de Difusión
                     </span>
                     <div class="flex gap-1.5">
                         <template x-for="(item, i) in items" :key="i">
-                            <button @click="active = i; progress = 0" 
-                                    class="border-none p-0 cursor-pointer"
-                                    :class="active === i ? 'slider-dot is-active' : 'slider-dot'"></button>
+                            <button @click="active = i; progress = 0"
+                                class="border-none p-0 cursor-pointer"
+                                :class="active === i ? 'slider-dot is-active' : 'slider-dot'"></button>
                         </template>
                     </div>
                 </div>
                 <template x-for="(item, index) in items" :key="index">
                     <div x-show="active === index"
-                         x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity duration-700" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                         class="absolute inset-0 cursor-pointer group" @click="$dispatch('open-modal', { report: item })">
+                        x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity duration-700" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                        class="absolute inset-0 cursor-pointer group" @click="$dispatch('open-modal', { report: item })">
                         <img :src="'{{ asset('storage') }}/' + item.photos[0]" class="w-full h-full object-cover ken-burns" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/30 to-blue-950/10"></div>
                         <div class="absolute left-5 sm:left-12 max-w-2xl" style="bottom: calc(var(--diag) + 2.5rem);">
@@ -57,32 +60,34 @@
                         </div>
                     </div>
                 </template>
-                <div class="slider-progress-wrap"><div class="slider-progress-fill bg-blue-400 shadow-[0_0_7px_#60a5fa]" :style="'width:' + progress + '%'"></div></div>
+                <div class="slider-progress-wrap">
+                    <div class="slider-progress-fill bg-blue-400 shadow-[0_0_7px_#60a5fa]" :style="'width:' + progress + '%'"></div>
+                </div>
             </section>
             @endif
 
             {{-- Slider B: Eventos Institucionales --}}
             @if(isset($institucionales) && $institucionales->count() > 0)
             <section class="relative w-full overflow-hidden clip-bottom z-20"
-                     style="height: clamp(340px, 62vh, 680px); margin-top: calc(-1 * var(--diag)); background: rgba(70, 8, 8, .40);"
-                     x-data="autoSlider({{ $institucionales->toJson() }}, 5000)">
+                style="height: clamp(340px, 62vh, 680px); margin-top: calc(-1 * var(--diag)); background: rgba(70, 8, 8, .40);"
+                x-data="autoSlider({{ $institucionales->toJson() }}, 5000)">
                 <div class="absolute z-30 flex flex-col items-end gap-2" style="top: calc(var(--diag) + 14px); right: 1.25rem;">
                     <span class="bg-red-600/85 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-red-400/30 shadow-lg">
                         <i class="fa-solid fa-calendar-star mr-1.5"></i> Eventos Institucionales
                     </span>
                     <div class="flex gap-1.5">
                         <template x-for="(item, i) in items" :key="i">
-                            <button @click="active = i; progress = 0" 
-                                    class="border-none p-0 cursor-pointer"
-                                    :class="active === i ? 'slider-dot is-active' : 'slider-dot'"></button>
+                            <button @click="active = i; progress = 0"
+                                class="border-none p-0 cursor-pointer"
+                                :class="active === i ? 'slider-dot is-active' : 'slider-dot'"></button>
                         </template>
                     </div>
                 </div>
                 <template x-for="(item, index) in items" :key="index">
                     <div x-show="active === index"
-                         x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity duration-700" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                         class="absolute inset-0 cursor-pointer group" @click="$dispatch('open-modal', { report: item })">
+                        x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity duration-700" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                        class="absolute inset-0 cursor-pointer group" @click="$dispatch('open-modal', { report: item })">
                         <img :src="'{{ asset('storage') }}/' + item.photos[0]" class="w-full h-full object-cover ken-burns" loading="lazy">
                         <div class="absolute inset-0 bg-gradient-to-t from-red-950 via-red-900/30 to-red-950/10"></div>
                         <div class="absolute left-5 sm:left-12 max-w-2xl" style="bottom: calc(var(--diag) + 2.5rem);">
@@ -93,7 +98,9 @@
                         </div>
                     </div>
                 </template>
-                <div class="slider-progress-wrap"><div class="slider-progress-fill bg-red-400 shadow-[0_0_7px_#f87171]" :style="'width:' + progress + '%'"></div></div>
+                <div class="slider-progress-wrap">
+                    <div class="slider-progress-fill bg-red-400 shadow-[0_0_7px_#f87171]" :style="'width:' + progress + '%'"></div>
+                </div>
             </section>
             @endif
         </div>
@@ -110,7 +117,7 @@
                 <p class="text-slate-300 text-sm sm:text-base leading-relaxed m-0">
                     A través de los menús superiores, usted podrá navegar entre las distintas direcciones operativas, revisar los reportes fotográficos de las actividades de difusión descentralizadas, así como informarse sobre los próximos talleres de capacitación orientados a la inserción laboral y el respeto de los derechos fundamentales en el trabajo.
                 </p>
-                
+
             </div>
         </section>
 
@@ -184,11 +191,8 @@
         </div>
         @endif
 
-        {{-- ── SUB-MÓDULO DE TALLERES Y CAPACITACIONES (Programado/Ejecutado) ── --}}
+        {{-- ── SUB-MÓDULO DE TALLERES Y MAPEOS (MÓDULO DE DEEP ALPINE) ── --}}
         @include('partials.talleres')
-
-        {{-- ── SUB-MÓDULO INDEPENDIENTE DE COORDINACIONES INSTITUCIONALES ── --}}
-        @include('partials.coordinaciones')
 
         {{-- ── SUB-MÓDULO DE LA CRONOLOGÍA DE ACTIVIDADES OPERATIVAS ── --}}
         @include('partials.cronologia')
@@ -196,7 +200,7 @@
         {{-- ── TABLÓN DINÁMICO DE COMUNICADOS OFICIALES ────────────── --}}
         @if(isset($comunicadosActivos) && $comunicadosActivos->count() > 0)
         <section class="bg-slate-900/50 backdrop-blur-md border-t border-white/10 py-14"
-                 x-data="{
+            x-data="{
                      active: 0,
                      count: {{ $comunicadosActivos->count() }},
                      init() { if(this.count > 1) { setInterval(() => { this.active = (this.active + 1) % this.count; }, 5000); } }
@@ -217,30 +221,24 @@
                 <div class="relative bg-slate-950/70 border border-white/10 rounded-3xl overflow-hidden shadow-2xl h-[580px] sm:h-[450px] md:h-[360px]">
                     @foreach($comunicadosActivos as $index => $comunicado)
                     <div x-show="active === {{ $index }}"
-                         x-transition:enter="transition-opacity duration-500 ease-in-out" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity duration-400 ease-in-out" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                         class="absolute inset-0 w-full h-full flex flex-col md:flex-row items-stretch"
-                         x-cloak>
-                        
+                        x-transition:enter="transition-opacity duration-500 ease-in-out" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity duration-400 ease-in-out" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                        class="absolute inset-0 w-full h-full flex flex-col md:flex-row items-stretch"
+                        x-cloak>
+
                         <div class="w-full md:w-[45%] flex-shrink-0 bg-slate-950 border-b md:border-b-0 md:border-r border-white/05 flex items-center justify-center relative overflow-hidden h-48 sm:h-64 md:h-full">
                             @if($comunicado->file_type === 'image')
-                                <img src="{{ asset('storage/' . $comunicado->file_path) }}" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                            <img src="{{ asset('storage/' . $comunicado->file_path) }}" class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full bg-slate-900">
-                                    <iframe src="{{ asset('storage/' . $comunicado->file_path) }}#toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-none" allow="autoplay"></iframe>
-                                </div>
+                            <div class="w-full h-full bg-slate-900">
+                                <iframe src="{{ asset('storage/' . $comunicado->file_path) }}#toolbar=0&navpanes=0&scrollbar=0" class="w-full h-full border-none" allow="autoplay"></iframe>
+                            </div>
                             @endif
                         </div>
 
                         <div class="flex-1 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto scrollbar-thin">
                             <div>
                                 <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md">Comunicado Activo</span>
-                                {{-- Etiqueta de la sede de origen: institucional (rojo) vs sede desconcentrada (índigo) --}}
-                                <span class="font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md border ml-1.5 inline-flex items-center gap-1 {{ is_null($comunicado->sede) ? 'bg-red-500/10 text-red-300 border-red-500/20' : 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' }}">
-                                    <i class="fa-solid fa-location-dot text-[8px]"></i>{{ $comunicado->sede_label }}
-                                </span>
-                                @php $nAnexos = (isset($comunicado->attachments) && is_array($comunicado->attachments)) ? count($comunicado->attachments) : 0; @endphp
-                                <span class="inline-flex items-center gap-1.5 bg-white/5 text-slate-300 border border-white/10 font-mono text-[9px] font-black uppercase px-2.5 py-1 rounded-md ml-1.5"><i class="fa-solid fa-paperclip text-red-400"></i> 1 Matriz{{ $nAnexos > 0 ? ' + '.$nAnexos.' '.($nAnexos === 1 ? 'Anexo' : 'Anexos') : '' }}</span>
                                 <h3 class="text-white font-black text-xl sm:text-2xl leading-tight mt-3 mb-3 m-0">{{ $comunicado->title }}</h3>
                                 <p class="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed line-clamp-3 mb-4 m-0">{{ $comunicado->description ?? 'Comunicado oficial de la institución.' }}</p>
 
@@ -281,75 +279,159 @@
         </section>
         @endif
 
-        {{-- ── PIE DE PÁGINA (MEDIOS DE INFORMACIÓN Y REDES) ──────── --}}
-        <section class="footer-light border-t border-slate-300">
-            <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-12">
-                <div class="flex items-center gap-4 mb-10"><h2 class="text-2xl font-black text-slate-800 m-0">Medios e Información</h2><div class="flex-1 h-px bg-slate-300"></div></div>
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    <div class="lg:col-span-4">
-                        <div class="flex items-center gap-2 mb-4"><i class="fa-brands fa-facebook text-blue-600 text-lg"></i><h4 class="text-xs font-black text-slate-600 uppercase tracking-wider m-0">Facebook</h4></div>
-                        <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-200" style="height: 480px;">
-                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FDRTPEPunoOFICIAL&tabs=timeline&width=340&height=480&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
-                                    width="100%" height="480" style="border:none;overflow:hidden;" scrolling="no" frameborder="0" allowfullscreen allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share"></iframe>
+        {{-- ── PIE DE PÁGINA INSTITUCIONAL (5 COLUMNAS EN FILA) ── --}}
+        <footer class="bg-slate-900 text-slate-300 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-5 gap-6 overflow-x-auto">
+
+                    {{-- COLUMNA 1: LOGO + REDES SOCIALES (TODO CENTRADO) --}}
+                    <div class="flex flex-col items-center min-w-[160px]">
+                        <div class="mb-3">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo DRTPE Puno" class="h-14 w-auto">
                         </div>
-                    </div>
-                    <div class="lg:col-span-8 lg:pl-10 lg:border-l lg:border-slate-300 space-y-8">
-                        <div>
-                            <div class="flex items-center gap-2 mb-4"><i class="fa-brands fa-tiktok text-slate-900 text-lg"></i><h4 class="text-xs font-black text-slate-600 uppercase tracking-wider m-0">TikTok</h4></div>
-                            <a href="#" target="_blank" class="flex items-center gap-5 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 border border-slate-700/60 hover:border-slate-500/80 transition group shadow-lg decoration-none">
-                                <div class="w-14 h-14 rounded-2xl bg-black flex items-center justify-center border border-white/10 flex-shrink-0"><i class="fa-brands fa-tiktok text-white text-2xl"></i></div>
-                                <div class="flex-1 min-w-0"><p class="text-white font-black text-base group-hover:text-slate-200 transition m-0">@DTREPuno</p><p class="text-slate-400 text-xs mt-1 m-0">Síganos en TikTok para ver nuestras actividades en formato corto.</p></div>
-                                <div class="w-9 h-9 rounded-xl bg-white/08 border border-white/12 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-arrow-up-right-from-square text-white/60 text-xs"></i></div>
+                        <p class="text-xs text-center text-slate-400 leading-relaxed">
+                            Dirección Regional de Trabajo y Promoción del Empleo – Puno.
+                        </p>
+                        <div class="flex gap-3 mt-4">
+                            <a href="https://www.facebook.com/DRTPEPunoOFICIAL" target="_blank"
+                                class="text-slate-400 hover:text-blue-500 transition text-xl">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                            <a href="#" target="_blank"
+                                class="text-slate-400 hover:text-sky-500 transition text-xl">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </a>
+                            <a href="https://www.gob.pe/institucion/regionpuno-drtpe" target="_blank"
+                                class="text-slate-400 hover:text-red-500 transition text-xl">
+                                <i class="fa-solid fa-globe"></i>
                             </a>
                         </div>
-                        <div>
-                            <div class="flex items-center gap-2 mb-4"><i class="fa-solid fa-newspaper text-red-600 text-lg"></i><h4 class="text-xs font-black text-slate-600 uppercase tracking-wider m-0">Boletines Informativos</h4></div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                @if(isset($bulletins) && $bulletins->count())
-                                    @forelse($bulletins as $boletin)
-                                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-md flex flex-col" style="height: 360px;">
-                                        <div class="bg-slate-50 px-4 py-2 border-b border-slate-200 flex justify-between items-center shrink-0">
-                                            <span class="text-xs font-black text-slate-800 truncate max-w-[70%]"><i class="fa-solid fa-file-pdf text-red-600 mr-1.5"></i>{{ $boletin->title }}</span>
-                                            <a href="{{ asset('storage/' . $boletin->file_path) }}" target="_blank" class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded font-bold uppercase hover:bg-red-700"><i class="fa-solid fa-expand"></i></a>
-                                        </div>
-                                        <div class="flex-1 w-full bg-slate-100"><iframe src="{{ asset('storage/' . $boletin->file_path) }}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="100%" class="border-none"></iframe></div>
-                                    </div>
-                                    @empty
-                                    <div class="col-span-2 bg-white border border-slate-200 rounded-2xl flex flex-col items-center justify-center p-8 text-slate-400 text-xs font-bold uppercase tracking-wider"><i class="fa-solid fa-folder-open text-xl mb-2 text-slate-300"></i> No hay boletines publicados</div>
-                                    @endforelse
-                                @else
-                                    <div class="bg-white border border-slate-200 rounded-2xl flex flex-col items-center justify-center p-8 shadow-sm hover:shadow-lg transition group cursor-pointer hover:-translate-y-1">
-                                        <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mb-3 border border-red-100"><i class="fa-solid fa-file-pdf text-2xl text-red-500"></i></div>
-                                        <p class="text-slate-800 font-bold text-sm m-0">Boletín 001</p><p class="text-slate-400 text-xs mt-1 m-0">Próximamente disponible</p>
-                                    </div>
-                                    <div class="bg-white border border-slate-200 rounded-2xl flex flex-col items-center justify-center p-8 shadow-sm hover:shadow-lg transition group cursor-pointer hover:-translate-y-1">
-                                        <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mb-3 border border-red-100"><i class="fa-solid fa-file-pdf text-2xl text-red-500"></i></div>
-                                        <p class="text-slate-800 font-bold text-sm m-0">Boletín 002</p><p class="text-slate-400 text-xs mt-1 m-0">Próximamente disponible</p>
-                                    </div>
-                                @endif
+                    </div>
+
+                    {{-- COLUMNA 2: INSTITUCIONAL --}}
+                    <div class="min-w-[140px]">
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-red-600 rounded-full"></span> Institucional
+                        </h4>
+                        <ul class="space-y-2 text-xs">
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Misión y Visión
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Estructura Orgánica
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Reseña Histórica
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Directorio Telefónico
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {{-- COLUMNA 3: TRÁMITES Y SERVICIOS --}}
+                    <div class="min-w-[160px]">
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-emerald-600 rounded-full"></span> Trámites y Servicios
+                        </h4>
+                        <ul class="space-y-2 text-xs">
+                            <li>
+                                <a href="https://portal.trabajo.gob.pe/retcc-virtual/" target="_blank"
+                                    class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Registro REMYPE
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Denuncias Virtuales
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Asesoría de Formalización
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.empleosperu.gob.pe/" target="_blank"
+                                    class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Portal Empleos Perú
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-slate-400 hover:text-white transition flex items-center gap-2 group">
+                                    <span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span>
+                                    Talleres de Capacitación
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {{-- COLUMNA 4: SEDES REGIONALES --}}
+                    <div class="min-w-[160px]">
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-amber-600 rounded-full"></span> Sedes Regionales
+                        </h4>
+                        <ul class="space-y-3 text-xs">
+                            <li>
+                                <span class="text-slate-400 font-semibold block">Sede Principal Puno</span>
+                                <span class="text-slate-500 text-xs">Jr. Ayacucho N° 858</span>
+                            </li>
+                            <li>
+                                <span class="text-slate-400 font-semibold block">Sede Juliaca</span>
+                                <span class="text-slate-500 text-xs">Jr. Santiago Mamani N° 200</span>
+                            </li>
+                            <li>
+                                <span class="text-slate-400 font-semibold block">Sede Taraco</span>
+                                <span class="text-slate-500 text-xs">Plaza de Armas N° 105</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {{-- COLUMNA 5: INFORMACIÓN DE CONTACTO --}}
+                    <div class="min-w-[180px]">
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-purple-600 rounded-full"></span> Contacto
+                        </h4>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-location-dot text-red-400 text-base mt-0.5"></i>
+                                <span class="text-slate-400 leading-tight">Jr. Ayacucho N° 858, Puno</span>
                             </div>
-                        </div>
-                        <div class="bg-slate-800 rounded-2xl p-6 shadow-lg">
-                            <h5 class="text-white font-black text-xs uppercase tracking-wider mb-5 flex items-center gap-2 m-0"><i class="fa-solid fa-headset text-red-400"></i> Contáctenos</h5>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                                <div class="flex items-start gap-2.5">
-                                    <div class="w-7 h-7 rounded-lg bg-red-600/20 border border-red-500/25 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fa-solid fa-location-dot text-red-400 text-xs"></i></div>
-                                    <div><p class="text-slate-200 text-xs font-bold m-0">Sede Puno</p><p class="text-slate-500 text-xs leading-snug mt-0.5 m-0">Jr. Ayacucho N° 658, Puno</p></div>
-                                </div>
-                                <div class="flex items-start gap-2.5">
-                                    <div class="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/25 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="fa-solid fa-location-dot text-blue-400 text-xs"></i></div>
-                                    <div><p class="text-slate-200 text-xs font-bold m-0">Sede Juliaca</p><p class="text-slate-500 text-xs leading-snug mt-0.5 m-0">Jr. Santiago Mamani N° 200, Juliaca</p></div>
-                                </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-phone text-green-400 text-base mt-0.5"></i>
+                                <span class="text-slate-400">+51 51 451273</span>
                             </div>
-                            <div class="flex gap-2 flex-wrap">
-                                <a href="https://www.facebook.com/DRTPEPunoOFICIAL/?locale=es_LA" target="_blank" class="social-badge badge-fb"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                                <a href="#" target="_blank" class="social-badge badge-tt"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-envelope text-blue-400 text-base mt-0.5"></i>
+                                <a href="mailto:informes@drtpepuno.gob.pe" class="text-slate-400 hover:text-white transition break-all">
+                                    informes@drtpepuno.gob.pe
+                                </a>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="fa-regular fa-clock text-amber-400 text-base mt-0.5"></i>
+                                <span class="text-slate-400">Lun a Vie: 8:00 AM – 4:00 PM</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </footer>
 
         {{-- ── FOOTER DERECHOS RESERVADOS ────────────────────────── --}}
         <footer class="bg-slate-950 text-slate-600 py-8 text-center border-t border-white/05">
@@ -366,158 +448,205 @@
 
     {{-- ── SCRIPTS JAVASCRIPT GLOBAL (Control Estructural del DOM) ── --}}
     <script>
-    // ── INTERFAZ DE USUARIO: SIDEBAR RESPONSIVE ─────────────────────
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    
-    document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
-        sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-    });
-    
-    function openSidebar()  { sidebar.classList.add('open');    overlay.classList.add('open');    }
-    function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+        // ── INTERFAZ DE USUARIO: SIDEBAR RESPONSIVE ─────────────────────
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
 
-    // ── SISTEMA INTELLIGENT SCROLLING (Navegación Anclada) ──────────
-    function scrollToSection(id) {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    function scrollToActivity(id) {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+            sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+        });
 
-    function scrollToSubEvent(seId, activityIdx) {
-        const el = document.getElementById(seId);
-        if (!el) return;
-        if (el.dataset.isLatest === '1') {
-            _ensureArticleVisible(activityIdx, () => _doScrollToEl(el));
-            return;
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
         }
-        _ensureArticleVisible(activityIdx, () => {
-            if (isElHidden(el)) {
-                const btn = document.getElementById('expand-toggle-' + activityIdx);
-                if (btn) {
-                    btn.click();
-                    setTimeout(() => _doScrollToEl(el), 550);
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        // ── SISTEMA INTELLIGENT SCROLLING (Navegación Anclada) ──────────
+        function scrollToSection(id) {
+            document.getElementById(id)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function scrollToActivity(id) {
+            document.getElementById(id)?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function scrollToSubEvent(seId, activityIdx) {
+            const el = document.getElementById(seId);
+            if (!el) return;
+            if (el.dataset.isLatest === '1') {
+                _ensureArticleVisible(activityIdx, () => _doScrollToEl(el));
+                return;
+            }
+            _ensureArticleVisible(activityIdx, () => {
+                if (isElHidden(el)) {
+                    const btn = document.getElementById('expand-toggle-' + activityIdx);
+                    if (btn) {
+                        btn.click();
+                        setTimeout(() => _doScrollToEl(el), 550);
+                    } else {
+                        _doScrollToEl(el);
+                    }
                 } else {
                     _doScrollToEl(el);
                 }
+            });
+        }
+
+        function _ensureArticleVisible(aIdx, callback) {
+            const article = document.getElementById('actividad-' + aIdx);
+            if (!article || isElHidden(article)) {
+                article?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                setTimeout(callback, 300);
             } else {
-                _doScrollToEl(el);
+                callback();
+            }
+        }
+
+        function isElHidden(el) {
+            let node = el;
+            while (node && node !== document.body) {
+                const s = window.getComputedStyle(node);
+                if (s.display === 'none' || s.visibility === 'hidden') return true;
+                node = node.parentElement;
+            }
+            return false;
+        }
+
+        function _doScrollToEl(el) {
+            el.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+            el.classList.add('highlight-target');
+            setTimeout(() => el.classList.remove('highlight-target'), 2800);
+        }
+
+        // ── REPRODUCTOR DE YOUTUBE CON RENDIMIENTO OPTIMIZADO ───────────
+        function playVideo(playButton, youtubeId, containerId) {
+            const c = document.getElementById(containerId);
+            c.querySelector('.video-thumbnail').style.display = 'none';
+            playButton.style.display = 'none';
+            const iframe = c.querySelector('.video-iframe');
+            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+            iframe.style.display = 'block';
+        }
+
+        // ── GALERÍAS FOTOGRÁFICAS DINÁMICAS (Botón "Ver más") ────────────
+        document.querySelectorAll('.btn-mostrar-mas').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const wrap = this.closest('.rounded-2xl') || this.closest('.bg-slate-50');
+                const grid = wrap?.querySelector('.galeria-fotos');
+                if (!grid) return;
+                const extras = grid.querySelectorAll('.foto-extra').length;
+                const span = this.querySelector('span');
+                const icon = this.querySelector('i');
+                const show = grid.classList.toggle('mostrar-todas');
+
+                span.textContent = show ? 'Ocultar fotografías adicionales' : `Ver ${extras} fotografías adicionales`;
+                icon.classList.toggle('fa-images', !show);
+                icon.classList.toggle('fa-chevron-up', show);
+            });
+        });
+
+        // ── CORE: SISTEMA DE VISOR LIGHTBOX TOTALMENTE NATIVO ───────────
+        let gallery = [],
+            lbIdx = 0;
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+        const lbCtr = document.getElementById('lb-counter');
+
+        document.addEventListener('click', function(e) {
+            const targetImg = e.target.closest('.foto-galeria');
+            if (targetImg) {
+                const grid = targetImg.closest('.galeria-fotos');
+                gallery = Array.from(grid.querySelectorAll('.foto-galeria'));
+                lbIdx = gallery.indexOf(targetImg);
+                openLB();
             }
         });
-    }
 
-    function _ensureArticleVisible(aIdx, callback) {
-        const article = document.getElementById('actividad-' + aIdx);
-        if (!article || isElHidden(article)) {
-            article?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setTimeout(callback, 300);
-        } else {
-            callback();
+        function updateLB() {
+            lbImg.style.opacity = '.4';
+            setTimeout(() => {
+                lbImg.src = gallery[lbIdx].src;
+                lbCtr.textContent = `IMAGEN ${lbIdx + 1} DE ${gallery.length}`;
+                lbImg.style.opacity = '1';
+            }, 160);
         }
-    }
 
-    function isElHidden(el) {
-        let node = el;
-        while (node && node !== document.body) {
-            const s = window.getComputedStyle(node);
-            if (s.display === 'none' || s.visibility === 'hidden') return true;
-            node = node.parentElement;
+        function openLB() {
+            updateLB();
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-        return false;
-    }
 
-    function _doScrollToEl(el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.classList.add('highlight-target');
-        setTimeout(() => el.classList.remove('highlight-target'), 2800);
-    }
+        function closeLB() {
+            lb.classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-    // ── REPRODUCTOR DE YOUTUBE CON RENDIMIENTO OPTIMIZADO ───────────
-    function playVideo(playButton, youtubeId, containerId) {
-        const c = document.getElementById(containerId);
-        c.querySelector('.video-thumbnail').style.display = 'none';
-        playButton.style.display = 'none';
-        const iframe = c.querySelector('.video-iframe');
-        iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
-        iframe.style.display = 'block';
-    }
-
-    // ── GALERÍAS FOTOGRÁFICAS DINÁMICAS (Botón "Ver más") ────────────
-    document.querySelectorAll('.btn-mostrar-mas').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const wrap = this.closest('.rounded-2xl') || this.closest('.bg-slate-50');
-            const grid = wrap?.querySelector('.galeria-fotos');
-            if (!grid) return;
-            const extras = grid.querySelectorAll('.foto-extra').length;
-            const span   = this.querySelector('span');
-            const icon   = this.querySelector('i');
-            const show   = grid.classList.toggle('mostrar-todas');
-            
-            span.textContent = show ? 'Ocultar fotografías adicionales' : `Ver ${extras} fotografías adicionales`;
-            icon.classList.toggle('fa-images', !show);
-            icon.classList.toggle('fa-chevron-up', show);
+        document.getElementById('lb-close').addEventListener('click', closeLB);
+        document.getElementById('lb-next').addEventListener('click', () => {
+            lbIdx = (lbIdx + 1) % gallery.length;
+            updateLB();
         });
-    });
+        document.getElementById('lb-prev').addEventListener('click', () => {
+            lbIdx = (lbIdx - 1 + gallery.length) % gallery.length;
+            updateLB();
+        });
 
-    // ── CORE: SISTEMA DE VISOR LIGHTBOX TOTALMENTE NATIVO ───────────
-    let gallery = [], lbIdx = 0;
-    const lb    = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lb-img');
-    const lbCtr = document.getElementById('lb-counter');
+        lb.addEventListener('click', e => {
+            if (e.target === lb) closeLB();
+        });
 
-    document.addEventListener('click', function (e) {
-        const targetImg = e.target.closest('.foto-galeria');
-        if (targetImg) {
-            const grid = targetImg.closest('.galeria-fotos');
-            gallery = Array.from(grid.querySelectorAll('.foto-galeria'));
-            lbIdx   = gallery.indexOf(targetImg);
-            openLB();
-        }
-    });
+        document.addEventListener('keydown', e => {
+            if (!lb.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLB();
+            if (e.key === 'ArrowRight') document.getElementById('lb-next').click();
+            if (e.key === 'ArrowLeft') document.getElementById('lb-prev').click();
+        });
 
-    function updateLB() {
-        lbImg.style.opacity = '.4';
-        setTimeout(() => {
-            lbImg.src         = gallery[lbIdx].src;
-            lbCtr.textContent = `IMAGEN ${lbIdx + 1} DE ${gallery.length}`;
-            lbImg.style.opacity = '1';
-        }, 160);
-    }
-    
-    function openLB()  { updateLB(); lb.classList.add('active');    document.body.style.overflow = 'hidden'; }
-    function closeLB() { lb.classList.remove('active'); document.body.style.overflow = ''; }
-
-    document.getElementById('lb-close').addEventListener('click', closeLB);
-    document.getElementById('lb-next').addEventListener('click',  () => { lbIdx = (lbIdx + 1) % gallery.length; updateLB(); });
-    document.getElementById('lb-prev').addEventListener('click',  () => { lbIdx = (lbIdx - 1 + gallery.length) % gallery.length; updateLB(); });
-    
-    lb.addEventListener('click', e => { if(e.target === lb) closeLB(); });
-    
-    document.addEventListener('keydown', e => {
-        if(!lb.classList.contains('active')) return;
-        if(e.key === 'Escape')     closeLB();
-        if(e.key === 'ArrowRight') document.getElementById('lb-next').click();
-        if(e.key === 'ArrowLeft')  document.getElementById('lb-prev').click();
-    });
-
-    // ── INTEGRACIÓN AUTOMÁTICA DE ALPINEJS PARA LOS HERO SLIDERS ───
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('autoSlider', (items, totalMs) => ({
-            items, active: 0, progress: 0, tick: 50,
-            init() { if(this.items.length > 1) this.startTimer(); },
-            startTimer() {
-                const step = 100 / (totalMs / this.tick);
-                setInterval(() => {
-                    this.progress += step;
-                    if(this.progress >= 100) {
-                        this.progress = 0;
-                        this.active = (this.active + 1) % this.items.length;
-                    }
-                }, this.tick);
-            }
-        }));
-    });
+        // ── INTEGRACIÓN AUTOMÁTICA DE ALPINEJS PARA LOS HERO SLIDERS ───
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('autoSlider', (items, totalMs) => ({
+                items,
+                active: 0,
+                progress: 0,
+                tick: 50,
+                init() {
+                    if (this.items.length > 1) this.startTimer();
+                },
+                startTimer() {
+                    const step = 100 / (totalMs / this.tick);
+                    setInterval(() => {
+                        this.progress += step;
+                        if (this.progress >= 100) {
+                            this.progress = 0;
+                            this.active = (this.active + 1) % this.items.length;
+                        }
+                    }, this.tick);
+                }
+            }));
+        });
     </script>
+
+    {{-- Chatbot widget --}}
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
+    <script src="{{ asset('js/chatbot.js') }}"></script>
 </body>
+
 </html>

@@ -11,180 +11,278 @@ class RAGChain:
         self.vector_store = VectorStore(persist_dir=settings.CHROMA_PERSIST_DIR)
         self.llm = get_llm_provider()
         self.k = settings.MAX_CONTEXT_CHUNKS
-        self.similarity_threshold = 0.55
+        self.similarity_threshold = 0.65  # ¡MÁS PERMISIVO!
+        self.history = {}
+        self.max_history = getattr(settings, 'MAX_HISTORY_LENGTH', 10)
 
-    # 1. Detección de saludos (regex, más confiable)
+    # ---------- UTILIDADES ----------
     def _is_greeting(self, text: str) -> bool:
         greetings = re.compile(
-            r"^(hola|buenos días|buenas tardes|buenas noches|qué tal|hey|saludos|gracias|adios|chao|ds|bye|hello|hi|ey|ola)$",
+            r"^(hola|buenos días|buenas tardes|buenas noches|qué tal|hey|saludos|gracias|adiós|chao|bye|hello|hi|ey|ola|buenas)$",
             re.IGNORECASE
         )
         return bool(greetings.match(text.strip()))
 
-    # 2. Reformulación con énfasis en siglas
+    def _is_employability_question(self, question: str) -> bool:
+        """Detecta preguntas sobre CV, entrevistas, habilidades, empleabilidad"""
+        patterns = re.compile(
+            r"(cv|currículum|curriculum|entrevista|habilidades|competencias|"
+            r"como (hacer|mejorar|crear|elaborar|hago) (mi |el |un )?(cv|currículum)|"
+            r"qué (es|son) (el |los )?(cv|currículum|habilidades))",
+            re.IGNORECASE
+        )
+        return bool(patterns.search(question))
+
+    # ---------- REFORMULACIÓN CON GEMINI ----------
     async def _reformulate_question(self, question: str) -> str:
+        """Usa Gemini para corregir, expandir y normalizar preguntas"""
         prompt = f"""
-Reescribe la siguiente pregunta corrigiendo errores ortográficos y haciéndola más clara.
-Si la pregunta contiene siglas o acrónimos (como RETCC, SOVIO, TUPA, DRTPE, etc.), escríbelos CORRECTAMENTE en mayúsculas.
-Si la pregunta no tiene sentido, responde "NO_COMPRENDIDO".
+Eres un asistente de normalización de texto. Reescribe la siguiente pregunta:
+
+REGLAS:
+- Corrige errores ortográficos y gramaticales.
+- Normaliza mayúsculas/minúsculas.
+- Si contiene siglas (SOVIO, RETCC, TUPA, REMYPE, etc.), escríbelas en mayúsculas.
+- Expande abreviaturas si es necesario (ej: "cv" → "currículum vitae").
+- Si la pregunta es ambigua, aclárala manteniendo el significado.
+- Devuelve SOLO la pregunta corregida, sin explicaciones.
 
 Pregunta original: "{question}"
-Pregunta reformulada:
+Pregunta corregida:
 """
         try:
-            reformulada = await self.llm.generate_response(prompt)
-            if "NO_COMPRENDIDO" in reformulada:
-                return question
-            return reformulada.strip()
+            response = await self.llm.generate_response(prompt)
+            return response.strip() if len(response.strip()) > 3 else question
         except:
             return question
 
-    # 3. Búsqueda exacta de siglas (mejorada)
-    def _exact_match_search(self, question: str) -> list:
-        # Extraer posibles siglas (mayúsculas, 2-6 letras)
-        siglas = re.findall(r'\b[A-ZÁÉÍÓÚÑ]{2,6}\b', question)
-        if not siglas:
-            return []
-        try:
-            # Obtener todos los documentos (limitado a 200)
-            results = self.vector_store.collection.get(limit=200)
-            docs = results.get('documents', [])
-            matched = []
-            for doc in docs:
-                for sigla in siglas:
-                    if sigla in doc:
-                        matched.append(doc)
-                        break
-            return matched
-        except:
-            return []
+    # ---------- KEYWORD SEARCH MEJORADA ----------
+    def _keyword_search(self, question: str, docs: list, min_shared: int = 2) -> list:
+        """Búsqueda por palabras clave con ponderación y sinónimos"""
+        stopwords = {
+            "el", "la", "los", "las", "un", "una", "unos", "unas", "de", "del", "al",
+            "y", "o", "pero", "si", "no", "en", "por", "para", "con", "sin", "sobre",
+            "entre", "hasta", "desde", "durante", "mediante", "que", "como", "cual",
+            "quien", "donde", "más", "menos", "muy", "tan", "tanto", "cuando",
+            "cómo", "cuál", "porque", "aunque", "sino", "también", "ya", "se", "lo"
+        }
 
-    # 4. Búsqueda por palabras clave (con pesos)
-    def _keyword_search(self, question: str, docs: list, min_shared: int = 1) -> list:
-        stopwords = {"el", "la", "los", "las", "un", "una", "unos", "unas", "de", "del", "al", "y", "o", "pero", "si", "no", "en", "por", "para", "con", "sin", "sobre", "entre", "hasta", "desde", "durante", "mediante", "que", "como", "cual", "quien", "donde"}
-        # Extraer palabras significativas (más de 3 letras y no stopwords)
-        question_words = {w.lower() for w in re.findall(r'\b\w+\b', question) if len(w) > 3 and w.lower() not in stopwords}
-        if not question_words:
-            return docs
+        # Extraer palabras clave (incluyendo siglas y palabras de 2 letras)
+        all_words = re.findall(r'\b\w+\b', question.lower())
+        question_words = {w for w in all_words if len(w) >= 2 and w not in stopwords}
+
+        # Añadir siglas (palabras en mayúsculas)
+        siglas = re.findall(r'\b[A-ZÁÉÍÓÚÑ]{2,6}\b', question)
+        question_words.update([s.lower() for s in siglas])
+
+        # Sinónimos básicos para palabras clave comunes
+        synonyms = {
+            "cv": ["currículum", "curriculum", "curriculum vitae", "hoja de vida"],
+            "bolsa": ["empleo", "trabajo", "vacante", "oferta"],
+            "inscribir": ["registrar", "apuntar", "anotar"],
+            "requisito": ["documento", "papel", "necesario", "obligatorio"],
+            "sovio": ["orientación vocacional", "vocacional", "carrera", "profesión"],
+            "remype": ["micro", "pequeña", "empresa", "registro"],
+            "retcc": ["construcción", "civil", "trabajador"],
+            "cul": ["certificado", "laboral", "único"],
+            "ruc": ["registro", "único", "contribuyente", "sunat"],
+            "formaliza": ["formalización", "formalizar", "formal", "empresa", "negocio"]
+        }
+
+        # Expandir con sinónimos
+        expanded_words = set(question_words)
+        for word in question_words:
+            for key, syns in synonyms.items():
+                if word in syns or word == key:
+                    expanded_words.update(syns)
+                    expanded_words.add(key)
+
+        if not expanded_words:
+            return docs[:3]
+
+        # Puntuar documentos
         scored_docs = []
         for doc in docs:
-            doc_words = {w.lower() for w in re.findall(r'\b\w+\b', doc) if len(w) > 3}
-            # Calcular intersección
-            common = question_words.intersection(doc_words)
-            score = len(common)
-            if score >= min_shared:
-                scored_docs.append((doc, score))
-        # Ordenar por puntuación (mayor coincidencia primero)
+            doc_lower = doc.lower()
+            doc_words = {w.lower() for w in re.findall(r'\b\w+\b', doc_lower) if len(w) >= 2}
+            common = expanded_words.intersection(doc_words)
+
+            # Ponderar: siglas y palabras clave largas tienen más peso
+            weighted_score = 0
+            for w in common:
+                if w in siglas or len(w) >= 6:
+                    weighted_score += 2
+                else:
+                    weighted_score += 1
+
+            # Bonus si la pregunta aparece literalmente en el documento
+            if question.lower() in doc_lower[:200]:
+                weighted_score += 3
+
+            if weighted_score >= min_shared:
+                scored_docs.append((doc, weighted_score))
+
         scored_docs.sort(key=lambda x: x[1], reverse=True)
-        return [doc for doc, _ in scored_docs]
+        return [doc for doc, _ in scored_docs[:5]]
 
-    # 5. Método principal
+    # ---------- RESPUESTA CON CONOCIMIENTO GENERAL ----------
+    async def _respond_with_general_knowledge(self, question: str) -> tuple[str, list]:
+        """Usa el conocimiento del modelo para preguntas de empleabilidad"""
+        prompt = f"""
+Eres BotDRTPE, un asistente virtual de la Dirección Regional de Trabajo y Promoción del Empleo.
+
+INSTRUCCIONES:
+- Responde a la siguiente pregunta usando TU CONOCIMIENTO GENERAL sobre empleo, trámites laborales y servicios de la DRTPE.
+- SIEMPRE relaciona la respuesta con el ámbito laboral y los servicios de la DRTPE.
+- Si la pregunta NO está relacionada con empleo o servicios de la DRTPE, deriva amablemente a un asesor.
+- Sé claro, conciso y profesional (máximo 3 párrafos).
+- No inventes información sobre trámites específicos que no conozcas.
+
+Pregunta: {question}
+
+Respuesta (conocimiento general):
+"""
+        answer = await self.llm.generate_response(prompt)
+        return answer, []
+
+    # ---------- FALLBACK ELEGANTE (NUEVO) ----------
+    def _fallback_response(self, question: str) -> tuple[str, list]:
+        """
+        Genera una respuesta de fallback para preguntas relacionadas con la base de conocimientos
+        pero que no tienen información específica.
+        """
+        fallback_msg = (
+            "Lamento no poder ayudarte con esa consulta específica en este momento. "
+            "Sin embargo, te invito a visitarnos en nuestra oficina principal, ubicada en "
+            "el **Jr. Ayacucho N° 658, Puno**, de lunes a viernes de 8:00 a.m. a 4:00 p.m., "
+            "donde un asesor especializado podrá brindarte atención personalizada sobre este tema."
+        )
+        return fallback_msg, []
+
+    # ---------- MÉTODO PRINCIPAL ----------
     async def ask(self, question: str, session_id: str = None) -> tuple[str, list[str]]:
-        # --- Paso 1: Saludos ---
+        # 1. SALUDOS
         if self._is_greeting(question):
-            return "¡Hola! Soy BotDRTPE, tu asistente virtual de la Dirección Regional de Trabajo y Promoción del Empleo. ¿En qué puedo ayudarte hoy?", []
+            return "¡Hola! Soy BotDRTPE, tu asistente virtual. ¿En qué puedo ayudarte hoy?", []
 
-        # --- Paso 2: Reformulación ---
+        # 2. REFORMULAR CON GEMINI
         reformulated = await self._reformulate_question(question)
-        logger.info(f"Original: {question} → Reformulada: {reformulated}")
+        logger.info(f"📝 Original: {question} → Reformulada: {reformulated}")
 
-        # --- Paso 3: Búsqueda híbrida ---
-        # 3a. Búsqueda exacta de siglas
-        exact_docs = self._exact_match_search(reformulated)
-
-        # 3b. Búsqueda vectorial
+        # 3. BÚSQUEDA HÍBRIDA (SIEMPRE COMBINADA)
+        # 3a. Búsqueda vectorial
         query_emb = self.vector_store.embeddings.embed_query(reformulated)
         results = self.vector_store.collection.query(
             query_embeddings=[query_emb],
-            n_results=self.k * 2,  # Recuperar más para filtrar después
+            n_results=self.k * 2,
             include=["documents", "distances"]
         )
         vector_docs = results['documents'][0] if results['documents'] else []
         distances = results['distances'][0] if results['distances'] else []
 
-        # 3c. Combinar (priorizar exactos)
-        combined = exact_docs + vector_docs
-        # Eliminar duplicados manteniendo orden
+        # 3b. Filtrar vectoriales por umbral
+        vector_filtered = []
+        for doc, dist in zip(vector_docs, distances):
+            if dist < self.similarity_threshold:
+                vector_filtered.append(doc)
+
+        logger.info(f"🔍 Vectoriales recuperados: {len(vector_docs)}, filtrados: {len(vector_filtered)}")
+
+        # 3c. Keyword search sobre TODOS los documentos (siempre)
+        all_docs = self.vector_store.collection.get(limit=500)['documents']
+        keyword_docs = self._keyword_search(reformulated, all_docs, min_shared=2)
+
+        # 3d. Combinar (priorizar vectoriales)
+        combined = vector_filtered + keyword_docs
         seen = set()
-        unique_docs = []
+        final_docs = []
         for doc in combined:
             if doc not in seen:
                 seen.add(doc)
-                unique_docs.append(doc)
-
-        # 3d. Filtrar por umbral para los vectoriales (los exactos pasan directo)
-        final_docs = []
-        for doc in unique_docs:
-            if doc in exact_docs:
                 final_docs.append(doc)
-            else:
-                idx = vector_docs.index(doc) if doc in vector_docs else -1
-                if idx != -1 and distances[idx] < self.similarity_threshold:
-                    final_docs.append(doc)
 
-        # 3e. Si aún no hay docs, aplicar filtro por palabras clave sobre los vectoriales
-        if not final_docs:
-            final_docs = self._keyword_search(reformulated, vector_docs, min_shared=2)
-
-        # 3f. Limitar a 3 fragmentos para el contexto
         context_docs = final_docs[:3]
+        logger.info(f"📄 Documentos finales: {len(context_docs)}")
 
-        # --- Paso 4: Construir contexto ---
-        if context_docs:
-            context = "\n\n---\n\n".join(context_docs)
-            tiene_contexto = True
+        # 4. DETECTAR PREGUNTAS DE EMPLEABILIDAD (CV, entrevistas, etc.)
+        es_empleabilidad = self._is_employability_question(question)
+
+        # 5. Si es empleabilidad y NO hay contexto, usar conocimiento general
+        if es_empleabilidad and not context_docs:
+            logger.info("🧠 Usando conocimiento general para pregunta de empleabilidad")
+            return await self._respond_with_general_knowledge(question)
+
+        # 6. Si no hay contexto y NO es empleabilidad, usar fallback elegante
+        if not context_docs:
+            logger.info("ℹ️ Sin contexto, usando fallback elegante")
+            return self._fallback_response(question)
+
+        # 7. CONSTRUIR CONTEXTO
+        context = "\n\n---\n\n".join(context_docs)
+
+        # 8. HISTORIAL
+        history_text = ""
+        if session_id and session_id in self.history:
+            last_msgs = self.history[session_id][-3:]
+            history_text = "\n".join([
+                f"Usuario: {m['user']}\nAsistente: {m['assistant']}"
+                for m in last_msgs
+            ])
+
+        # 9. DETERMINAR SI ES PRIMERA INTERACCIÓN
+        is_new_session = False
+        if session_id:
+            if session_id not in self.history or len(self.history.get(session_id, [])) == 0:
+                is_new_session = True
         else:
-            # Contexto base para dar información general mínima
-            context = """
-La Dirección Regional de Trabajo y Promoción del Empleo (DRTPE) es una entidad del gobierno regional que ofrece servicios de empleo, capacitación, certificación de competencias y asesoría laboral. 
-Para más detalles, consulta con un asesor.
-"""
-            tiene_contexto = False
+            # Si no hay session_id, asumimos que es nueva cada vez
+            is_new_session = True
 
-        # --- Paso 5: Determinar tipo de pregunta (para ajustar uso de contexto) ---
-        # Si la pregunta empieza con "qué es", "definición", "significa", etc. → forzar uso de contexto
-        definicion_pattern = re.compile(r"^(qué es|definición|significa|qué significa|qué son|qué hace)", re.IGNORECASE)
-        es_definicion = bool(definicion_pattern.match(question.strip()))
-
-        # --- Paso 6: Prompt final (diferenciado) ---
-        if es_definicion and not tiene_contexto:
-            # Si pide definición y no hay contexto, responder con derivación
-            return "No tengo información sobre eso en mi base de datos. ¿Te gustaría que te derive a un asesor?", []
-
-        if es_definicion and tiene_contexto:
-            # Forzar uso exclusivo del contexto
-            instruccion_contexto = "DEBES responder ÚNICAMENTE con la información del CONTEXTO. No uses tu conocimiento interno."
+        # 10. PROMPT INTELIGENTE CON INSTRUCCIÓN CONDICIONAL
+        saludo_instruccion = ""
+        if is_new_session:
+            saludo_instruccion = "PRESÉNTATE brevemente al inicio (ej: 'Hola, soy BotDRTPE, tu asistente virtual...'), pero solo en esta primera respuesta."
         else:
-            # Preguntas generales sobre empleo o trámites: usar contexto si existe, pero también se permite conocimiento general para temas como habilidades laborales, entrevistas, etc.
-            instruccion_contexto = """
-- Si la pregunta es sobre un trámite, servicio o normativa específica de la DRTPE, usa ÚNICAMENTE el CONTEXTO.
-- Si la pregunta es sobre habilidades laborales, cómo hacer un CV, preparación para entrevistas, etc., puedes usar tu conocimiento general (siempre relacionado con el ámbito laboral).
-- Si el CONTEXTO tiene información, priorízala.
-"""
+            saludo_instruccion = "NO te presentes ni saludes. Continúa la conversación de forma natural, respondiendo directamente a la pregunta del usuario."
 
         prompt = f"""
-Eres BotDRTPE, un asistente virtual amable y profesional de la Dirección Regional de Trabajo y Promoción del Empleo.
+Eres BotDRTPE, un asistente virtual de la Dirección Regional de Trabajo y Promoción del Empleo (DRTPE).
 
-INSTRUCCIONES:
-- Responde solo sobre temas relacionados con empleo, trámites laborales, servicios de la DRTPE y orientación vocacional.
-- Si la pregunta es sobre otro tema (deportes, política, clima, etc.), di: "Lo siento, solo puedo ayudar con consultas sobre empleo y servicios de la DRTPE. ¿Te gustaría que te derive a un asesor?"
-- {instruccion_contexto}
-- No inventes información. Si no sabes, di que no tienes información y ofrece derivación.
-- Sé claro, conciso y usa un tono amable.
+{saludo_instruccion}
 
-CONTEXTO (información oficial disponible):
+CONTEXTO OFICIAL (información extraída de documentos):
 {context}
 
-PREGUNTA DEL CIUDADANO: {question}
-(Pregunta reformulada para búsqueda: {reformulated})
+HISTORIAL RECIENTE:
+{history_text}
 
-RESPUESTA DEL ASISTENTE (en español):
+PREGUNTA DEL CIUDADANO:
+{question}
+
+INSTRUCCIONES:
+1. Usa el CONTEXTO OFICIAL como fuente principal de información.
+2. Si el CONTEXTO contiene la respuesta, responde con esa información de forma clara y completa.
+3. Si el CONTEXTO contiene información PARCIAL, puedes COMPLEMENTAR con tu conocimiento general sobre el tema (siempre relacionado con empleo y servicios de la DRTPE).
+4. Si el CONTEXTO NO contiene información relevante, di: "No tengo esa información en mi base de datos. ¿Te gustaría que te derive a un asesor?"
+5. NO inventes información sobre trámites específicos que no estén en el contexto.
+6. Responde en español, de forma clara, concisa y profesional.
+7. Mantén un tono amable y cercano, pero sin repetir saludos si ya hay historial.
+
+RESPUESTA:
 """
         answer = await self.llm.generate_response(prompt)
 
-        # --- Paso 7: Decidir si mostrar fuentes ---
-        # Mostrar fuentes solo si hay contexto y la respuesta no es de derivación
-        if tiene_contexto and "no tengo información" not in answer.lower() and "derivar" not in answer.lower():
-            return answer, context_docs
-        else:
-            return answer, []
+        # 11. GUARDAR HISTORIAL
+        if session_id:
+            if session_id not in self.history:
+                self.history[session_id] = []
+            self.history[session_id].append({"user": question, "assistant": answer})
+            if len(self.history[session_id]) > self.max_history:
+                self.history[session_id] = self.history[session_id][-self.max_history:]
+
+        # 12. DETERMINAR SI MOSTRAR FUENTES (usar fallback si no hay info)
+        if "no tengo esa información" in answer.lower() or "derivar" in answer.lower():
+            logger.info("ℹ️ El modelo indica que no tiene información, usando fallback elegante")
+            return self._fallback_response(question)
+
+        return answer, context_docs

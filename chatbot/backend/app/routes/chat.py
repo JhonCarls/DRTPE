@@ -10,7 +10,8 @@ rag = RAGChain()
 @router.post("/", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
     try:
-        answer, sources = await rag.ask(request.message)
+        # PASAR EL SESSION_ID AL MÉTODO ask
+        answer, sources = await rag.ask(request.message, request.session_id)
         needs_derivation = False
         if "no tengo información" in answer.lower() or "contactarnos" in answer.lower():
             needs_derivation = True

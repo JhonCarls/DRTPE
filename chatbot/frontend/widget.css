@@ -2,23 +2,104 @@
    VARIABLES (ajustables)
    ============================================ */
 :root {
+  --bg-primary: #f8fafc;
+  --bg-white: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-light: #e2e8f0;
+  --shadow-soft: 0 8px 30px rgba(15, 23, 42, 0.08);
+  --shadow-hover: 0 12px 40px rgba(15, 23, 42, 0.12);
+  --radius-panel: 24px;
+  --radius-bubble: 18px;
+  --radius-avatar: 50%;
+  --avatar-size: 32px;
+  --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+  --color-bot: #ffffff;
+  --color-user-start: #2563eb;
+  --color-user-end: #1d4ed8;
+  --gold: #d4a843;
+  --gold-light: #f4c542;
   --primary-dark: #0a2f5a;
   --primary-blue: #1a5276;
   --primary-light: #2980b9;
-  --gold: #d4a843;
-  --gold-light: #f4c542;
-  --white: #ffffff;
-  --gray-light: #f0f4f8;
-  --gray-medium: #cbd5e0;
-  --shadow-color: rgba(10, 47, 90, 0.3);
-  --border-radius: 1rem;
-  --transition-speed: 0.3s;
-  --chat-width: clamp(320px, 32vw, 460px);
-  --chat-max-height: clamp(400px, 75vh, 700px);
-  --button-size: clamp(60px, 6vw, 76px);
-  --font-base: clamp(0.9rem, 1.2vw, 1.1rem);
+  --link-color: #2563eb;
+  --link-hover: #1d4ed8;
+}
+/* Estilos para el contenido Markdown renderizado */
+.message.bot {
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
+.message.bot h1,
+.message.bot h2,
+.message.bot h3,
+.message.bot h4 {
+    margin: 0.8em 0 0.4em 0;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.message.bot h2 {
+    font-size: 1.05rem;
+}
+.message.bot h3 {
+    font-size: 0.95rem;
+    color: var(--primary-blue);
+}
+
+.message.bot ul,
+.message.bot ol {
+    margin: 0.5em 0;
+    padding-left: 1.8em;
+}
+
+.message.bot li {
+    margin-bottom: 0.3em;
+}
+
+.message.bot strong {
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+.message.bot em {
+    font-style: italic;
+}
+
+.message.bot a {
+    color: var(--primary-blue);
+    text-decoration: underline;
+}
+
+.message.bot a:hover {
+    color: var(--gold);
+}
+
+.message.bot p {
+    margin: 0.5em 0;
+}
+
+.message.bot blockquote {
+    border-left: 3px solid var(--gold);
+    padding-left: 1em;
+    margin: 0.5em 0;
+    color: #475569;
+}
+
+.message.bot code {
+    background: rgba(0,0,0,0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.message.bot hr {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    margin: 1em 0;
+}
 /* ============================================
    BOTÓN FLOTANTE
    ============================================ */
@@ -204,7 +285,103 @@
   background: var(--gray-medium);
   border-radius: 10px;
 }
+/* ============================================
+   ESTILOS MARKDOWN MEJORADOS (VIÑETAS, LINKS, NEGRITAS)
+   ============================================ */
+.message-content.bot * {
+  margin: 0.2em 0;
+}
 
+.message-content.bot h1,
+.message-content.bot h2,
+.message-content.bot h3,
+.message-content.bot h4 {
+  margin: 0.6em 0 0.3em;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.message-content.bot h1 { font-size: 1.4rem; }
+.message-content.bot h2 { font-size: 1.15rem; }
+.message-content.bot h3 { font-size: 1rem; color: var(--primary-blue); }
+
+.message-content.bot ul,
+.message-content.bot ol {
+  margin: 0.4em 0 0.4em 1.5em;
+  padding-left: 0.5em;
+}
+
+.message-content.bot ul {
+  list-style-type: disc;
+}
+
+.message-content.bot ol {
+  list-style-type: decimal;
+}
+
+.message-content.bot li {
+  margin-bottom: 0.2em;
+  line-height: 1.5;
+}
+
+.message-content.bot strong,
+.message-content.bot b {
+  font-weight: 700;
+  color: var(--primary-dark);
+  background: rgba(10, 47, 90, 0.05);
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+/* 🔥 ENLACES CLICABLES – Selector corregido */
+.message-content.bot a {
+  color: var(--link-color);
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  word-break: break-word;
+  transition: color 0.2s ease, background 0.2s ease;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+.message-content.bot a:hover {
+  color: var(--link-hover);
+  background: rgba(37, 99, 235, 0.08);
+  text-decoration: none;
+}
+
+.message-content.bot p {
+  margin: 0.4em 0;
+}
+
+.message-content.bot blockquote {
+  border-left: 4px solid var(--gold);
+  padding-left: 1em;
+  margin: 0.5em 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.message-content.bot code {
+  background: rgba(0,0,0,0.05);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: var(--primary-dark);
+}
+
+.message-content.bot hr {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 0.8em 0;
+}
+
+.message-content.bot img {
+  max-width: 100%;
+  border-radius: 8px;
+}
 /* Mensajes */
 .message {
   max-width: 88%;
