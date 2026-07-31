@@ -1,0 +1,18 @@
+import httpx
+from app.llm.base import LLMProvider
+from app.config import settings
+
+class OllamaProvider(LLMProvider):
+    def __init__(self, base_url: str = settings.OLLAMA_BASE_URL, model: str = settings.OLLAMA_MODEL):
+        self.base_url = base_url
+        self.model = model
+    
+    async def generate_response(self, prompt: str) -> str:
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(
+                f"{self.base_url}/api/generate",
+                json={"model": self.model, "prompt": prompt, "stream": False}
+            )
+            response.raise_for_status()
+            data = response.json()
+            return data.get("response", "").strip()

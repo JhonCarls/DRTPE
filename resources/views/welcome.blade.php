@@ -3,6 +3,8 @@
 <head>
     {{-- Meta, Tailwind, AlpineJS, Fuentes y Estilos CSS Globales --}}
     @include('partials.head')
+    {{-- Estilos del chatbot --}}
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
 </head>
 
 <body class="antialiased selection:bg-red-700 selection:text-white">
@@ -99,23 +101,45 @@
         </div>
 
         {{-- ── CAPTURA: TEXTO INSTITUCIONAL FIJO (Evita que el portal quede vacío) ── --}}
-        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-12 space-y-8">
+        <section class="relative isolate max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-12 space-y-8">
+
+            {{-- Adornos pastel decorativos (capa suave, detrás del contenido) --}}
+            <div class="orn-layer" style="z-index:-10" aria-hidden="true">
+                <span class="orn-blob rose orn-drift"   style="top:-2.5rem; left:-4rem;"></span>
+                <span class="orn-blob sky orn-drift"    style="top:5rem; right:-4.5rem; animation-delay:-5s;"></span>
+                <span class="orn-blob mint orn-drift"   style="bottom:3rem; left:6%; animation-delay:-9s;"></span>
+                <span class="orn-blob butter orn-drift" style="bottom:-2.5rem; right:14%; animation-delay:-3s;"></span>
+            </div>
 
             {{-- Banner institucional --}}
             <div data-reveal class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-red-600 via-red-700 to-red-800 p-8 sm:p-14 text-center shadow-xl">
                 <div class="pointer-events-none absolute -top-24 -right-16 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
                 <div class="pointer-events-none absolute -bottom-28 -left-16 w-80 h-80 bg-black/15 rounded-full blur-3xl"></div>
+                {{-- Chispas decorativas --}}
+                <i class="fa-solid fa-star orn-spark" style="top:20px; left:26px; font-size:9px; color:rgba(255,255,255,.5)"></i>
+                <i class="fa-solid fa-plus orn-spark" style="top:38px; right:34px; font-size:12px; color:rgba(255,255,255,.35)"></i>
+                <i class="fa-regular fa-star orn-spark" style="bottom:26px; left:40px; font-size:11px; color:rgba(255,255,255,.3)"></i>
                 <span class="relative inline-flex items-center gap-2 text-red-100 font-bold text-[11px] sm:text-xs uppercase tracking-[0.25em] mb-3">
                     <i class="fa-solid fa-landmark"></i> Dirección Regional de Trabajo y Promoción del Empleo · Puno
                 </span>
                 <h1 class="relative text-3xl sm:text-5xl font-black text-white tracking-tight uppercase leading-tight m-0">
                     Portal Informativo y de Transparencia
                 </h1>
-                <div class="relative mx-auto h-1.5 w-24 bg-white/70 rounded-full mt-5"></div>
+                <div class="relative mx-auto mt-5 flex items-center justify-center gap-2">
+                    <span class="h-1.5 w-10 rounded-full bg-white/50"></span>
+                    <span class="h-2 w-2 rounded-full" style="background:#f8d3e0"></span>
+                    <span class="h-2 w-2 rounded-full" style="background:#d3e8ff"></span>
+                    <span class="h-2 w-2 rounded-full" style="background:#c8ecdc"></span>
+                    <span class="h-1.5 w-10 rounded-full bg-white/50"></span>
+                </div>
             </div>
 
             {{-- Contenido de bienvenida --}}
             <div data-reveal class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 space-y-6 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl tile-pastel tile-rose text-base flex-shrink-0"><i class="fa-solid fa-hand-sparkles"></i></span>
+                    <h2 class="text-lg sm:text-2xl font-black text-slate-900 m-0 tracking-tight"><span class="sketch-underline su-mint">Le damos la bienvenida</span></h2>
+                </div>
                 <p class="text-slate-600 text-sm sm:text-base leading-relaxed m-0">
                     Bienvenido al Portal Oficial de Actividades de la Dirección Regional de Trabajo y Promoción del Empleo (DRTPE) de Puno. Este espacio ha sido diseñado para consolidar de manera transparente el acceso a la información institucional, cronogramas operativos y servicios al ciudadano de nuestra región.
                 </p>
@@ -124,16 +148,16 @@
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                    <div class="card-hover flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4">
-                        <div class="icon-tile flex h-11 w-11 items-center justify-center rounded-xl bg-red-100 text-red-600"><i class="fa-solid fa-sitemap"></i></div>
+                    <div class="card-hover flex items-center gap-3 bg-white/70 border border-white rounded-2xl px-4 py-4 shadow-sm">
+                        <div class="icon-tile tile-pastel tile-rose flex h-11 w-11 items-center justify-center rounded-xl"><i class="fa-solid fa-sitemap"></i></div>
                         <span class="text-slate-800 text-xs sm:text-sm font-bold">Direcciones operativas</span>
                     </div>
-                    <div class="card-hover flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4">
-                        <div class="icon-tile flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-blue-600"><i class="fa-solid fa-camera-retro"></i></div>
+                    <div class="card-hover flex items-center gap-3 bg-white/70 border border-white rounded-2xl px-4 py-4 shadow-sm">
+                        <div class="icon-tile tile-pastel tile-sky flex h-11 w-11 items-center justify-center rounded-xl"><i class="fa-solid fa-camera-retro"></i></div>
                         <span class="text-slate-800 text-xs sm:text-sm font-bold">Reportes fotográficos</span>
                     </div>
-                    <div class="card-hover flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-4">
-                        <div class="icon-tile flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-600"><i class="fa-solid fa-chalkboard-user"></i></div>
+                    <div class="card-hover flex items-center gap-3 bg-white/70 border border-white rounded-2xl px-4 py-4 shadow-sm">
+                        <div class="icon-tile tile-pastel tile-peach flex h-11 w-11 items-center justify-center rounded-xl"><i class="fa-solid fa-chalkboard-user"></i></div>
                         <span class="text-slate-800 text-xs sm:text-sm font-bold">Talleres y capacitaciones</span>
                     </div>
                 </div>
@@ -148,7 +172,7 @@
                     <div class="w-11 h-11 bg-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-600/25 flex-shrink-0"><i class="fa-solid fa-bolt text-white"></i></div>
                     <div>
                         <span class="eyebrow text-red-600">Actividad reciente</span>
-                        <h2 class="text-xl sm:text-2xl font-black text-slate-900 m-0">Últimos Registros</h2>
+                        <h2 class="text-xl sm:text-2xl font-black text-slate-900 m-0"><span class="sketch-underline su-amber">Últimos Registros</span></h2>
                         <p class="text-slate-500 text-xs font-medium m-0">Actividades recientes con evidencia fotográfica · clic para ir al registro</p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-red-300 to-transparent hidden sm:block"></div>
@@ -183,7 +207,7 @@
                 <div class="flex items-center gap-4 mb-8">
                     <div class="w-10 h-10 bg-emerald-700 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-newspaper text-white text-sm"></i></div>
                     <div>
-                        <h2 class="text-xl font-black text-slate-900 m-0">Noticias</h2>
+                        <h2 class="text-xl font-black text-slate-900 m-0"><span class="sketch-underline su-mint">Noticias</span></h2>
                         <p class="text-slate-500 text-xs font-medium m-0">Información institucional y comunicados recientes</p>
                     </div>
                     <div class="flex-1 h-px bg-gradient-to-r from-emerald-300 to-transparent hidden sm:block"></div>
@@ -382,6 +406,90 @@
             </div>
         </section>
 
+        {{-- ── FOOTER INSTITUCIONAL OSCURO (mapa de enlaces, sedes y contacto) ── --}}
+        <footer class="bg-slate-900 text-slate-300 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-6">
+
+                    {{-- COLUMNA 1: LOGO + REDES SOCIALES --}}
+                    <div class="flex flex-col items-center text-center col-span-1 sm:col-span-2 lg:col-span-1">
+                        <div class="mb-3">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo DRTPE Puno" class="h-14 w-auto">
+                        </div>
+                        <p class="text-xs text-center text-slate-400 leading-relaxed">
+                            Dirección Regional de Trabajo y Promoción del Empleo – Puno.
+                        </p>
+                        <div class="flex gap-3 mt-4">
+                            <a href="https://www.facebook.com/DRTPEPunoOFICIAL" target="_blank"
+                                class="text-slate-400 hover:text-blue-500 transition text-xl">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                            <a href="#" target="_blank"
+                                class="text-slate-400 hover:text-sky-500 transition text-xl">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </a>
+                            <a href="https://www.gob.pe/institucion/regionpuno-drtpe" target="_blank"
+                                class="text-slate-400 hover:text-red-500 transition text-xl">
+                                <i class="fa-solid fa-globe"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- COLUMNA 2: INSTITUCIONAL --}}
+                    <div>
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-red-600 rounded-full"></span> Institucional
+                        </h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="{{ route('portal.sobre-nosotros') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span> Misión y Visión</a></li>
+                            <li><a href="{{ route('portal.organigrama') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span> Estructura Orgánica</a></li>
+                            <li><a href="{{ route('portal.sobre-nosotros') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span> Reseña Histórica</a></li>
+                            <li><a href="{{ route('portal.directorio') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-red-500 opacity-0 group-hover:opacity-100 transition">›</span> Directorio Telefónico</a></li>
+                        </ul>
+                    </div>
+
+                    {{-- COLUMNA 3: TRÁMITES Y SERVICIOS --}}
+                    <div>
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-emerald-600 rounded-full"></span> Trámites y Servicios
+                        </h4>
+                        <ul class="space-y-2 text-xs">
+                            <li><a href="https://portal.trabajo.gob.pe/retcc-virtual/" target="_blank" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span> Registro REMYPE</a></li>
+                            <li><a href="{{ route('portal.servicio-multas') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span> Denuncias Virtuales</a></li>
+                            <li><a href="{{ route('portal.servicio-empleo') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span> Asesoría de Formalización</a></li>
+                            <li><a href="https://www.empleosperu.gob.pe/" target="_blank" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span> Portal Empleos Perú</a></li>
+                            <li><a href="{{ route('portal.talleres') }}" class="text-slate-400 hover:text-white transition flex items-center gap-2 group"><span class="text-emerald-500 opacity-0 group-hover:opacity-100 transition">›</span> Talleres de Capacitación</a></li>
+                        </ul>
+                    </div>
+
+                    {{-- COLUMNA 4: SEDES REGIONALES --}}
+                    <div>
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-amber-600 rounded-full"></span> Sedes Regionales
+                        </h4>
+                        <ul class="space-y-3 text-xs">
+                            <li><span class="text-slate-400 font-semibold block">Sede Principal Puno</span><span class="text-slate-500 text-xs">Jr. Ayacucho N° 858</span></li>
+                            <li><span class="text-slate-400 font-semibold block">Sede Juliaca</span><span class="text-slate-500 text-xs">Jr. Santiago Mamani N° 200</span></li>
+                            <li><span class="text-slate-400 font-semibold block">Sede Taraco</span><span class="text-slate-500 text-xs">Plaza de Armas N° 105</span></li>
+                        </ul>
+                    </div>
+
+                    {{-- COLUMNA 5: INFORMACIÓN DE CONTACTO --}}
+                    <div>
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-purple-600 rounded-full"></span> Contacto
+                        </h4>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex items-start gap-3"><i class="fa-solid fa-location-dot text-red-400 text-base mt-0.5"></i><span class="text-slate-400 leading-tight">Jr. Ayacucho N° 858, Puno</span></div>
+                            <div class="flex items-start gap-3"><i class="fa-solid fa-phone text-green-400 text-base mt-0.5"></i><span class="text-slate-400">+51 51 451273</span></div>
+                            <div class="flex items-start gap-3"><i class="fa-solid fa-envelope text-blue-400 text-base mt-0.5"></i><a href="mailto:informes@drtpepuno.gob.pe" class="text-slate-400 hover:text-white transition break-all">informes@drtpepuno.gob.pe</a></div>
+                            <div class="flex items-start gap-3"><i class="fa-regular fa-clock text-amber-400 text-base mt-0.5"></i><span class="text-slate-400">Lun a Vie: 8:00 AM – 4:00 PM</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
         {{-- ── FOOTER DERECHOS RESERVADOS ────────────────────────── --}}
         <footer class="bg-slate-950 text-slate-600 py-8 text-center border-t border-white/05">
             <div class="max-w-5xl mx-auto px-4">
@@ -550,5 +658,8 @@
         }));
     });
     </script>
+
+    {{-- Chatbot widget --}}
+    <script src="{{ asset('js/chatbot.js') }}"></script>
 </body>
 </html>

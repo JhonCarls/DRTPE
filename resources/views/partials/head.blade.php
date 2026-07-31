@@ -291,6 +291,71 @@
 
     /* ── TOP NAVBAR DROPDOWN ───────────────────────────────── */
     [x-cloak] { display: none !important; }
+
+    /* ═══════════════════════════════════════════════════════════
+       ORNAMENTOS PASTEL — capa decorativa suave (acabado artesanal)
+       Mantiene el look claro; aporta calidez sin restar formalidad.
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+        --pastel-rose:   #f8d3e0;
+        --pastel-mint:   #c8ecdc;
+        --pastel-lav:    #e1dbfb;
+        --pastel-peach:  #ffe0c9;
+        --pastel-sky:    #d3e8ff;
+        --pastel-butter: #fceec6;
+    }
+
+    /* Halo pastel ambiental detrás de todo el contenido (aparece en los
+       espacios entre secciones). No intercepta clics. */
+    body::before {
+        content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+        background:
+            radial-gradient(360px 360px at 7% 15%,  rgba(248, 211, 224, .5), transparent 70%),
+            radial-gradient(320px 320px at 93% 22%, rgba(211, 232, 255, .48), transparent 70%),
+            radial-gradient(380px 380px at 86% 68%, rgba(200, 236, 220, .44), transparent 72%),
+            radial-gradient(320px 320px at 10% 84%, rgba(252, 238, 198, .46), transparent 72%);
+    }
+
+    /* Orbe pastel difuminado para decorar secciones concretas */
+    .orn-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; border-radius: inherit; }
+    .orn-blob  { position: absolute; width: 15rem; height: 15rem; border-radius: 50%; filter: blur(54px); opacity: .55; }
+    .orn-blob.rose   { background: var(--pastel-rose); }
+    .orn-blob.mint   { background: var(--pastel-mint); }
+    .orn-blob.lav    { background: var(--pastel-lav); }
+    .orn-blob.peach  { background: var(--pastel-peach); }
+    .orn-blob.sky    { background: var(--pastel-sky); }
+    .orn-blob.butter { background: var(--pastel-butter); }
+    .orn-drift { animation: ornDrift 15s ease-in-out infinite; }
+    @keyframes ornDrift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(0,-18px); } }
+    @media (prefers-reduced-motion: reduce) { .orn-drift { animation: none; } }
+
+    /* Textura de puntos tenue (grano artesanal) */
+    .orn-dots { background-image: radial-gradient(#cdd7e8 1.3px, transparent 1.4px); background-size: 18px 18px; }
+
+    /* Subrayado dibujado a mano bajo títulos (SVG inline, sin recursos externos) */
+    .sketch-underline { position: relative; display: inline-block; }
+    .sketch-underline::after {
+        content: ''; position: absolute; left: -3px; right: -3px; bottom: -.4em; height: .5em; z-index: -1;
+        background: no-repeat center / 100% 100%;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M2,8 C22,2 42,10 62,6 C82,2 102,10 118,5' fill='none' stroke='%23f9a8d4' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+    .sketch-underline.su-mint::after  { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M2,8 C22,2 42,10 62,6 C82,2 102,10 118,5' fill='none' stroke='%2334d399' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"); }
+    .sketch-underline.su-sky::after   { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M2,8 C22,2 42,10 62,6 C82,2 102,10 118,5' fill='none' stroke='%2360a5fa' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"); }
+    .sketch-underline.su-amber::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M2,8 C22,2 42,10 62,6 C82,2 102,10 118,5' fill='none' stroke='%23fbbf24' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E"); }
+
+    /* Pastilla de ícono en tono pastel con anillo suave */
+    .tile-pastel {
+        border: 1px solid rgba(255, 255, 255, .8);
+        box-shadow: 0 8px 20px rgba(148, 163, 184, .22), inset 0 1px 0 rgba(255, 255, 255, .85);
+    }
+    .tile-rose  { background: linear-gradient(150deg, #fff0f5, var(--pastel-rose));  color: #d76494; }
+    .tile-mint  { background: linear-gradient(150deg, #eefbf5, var(--pastel-mint));  color: #2f9e78; }
+    .tile-lav   { background: linear-gradient(150deg, #f4f1ff, var(--pastel-lav));   color: #7c6bd4; }
+    .tile-peach { background: linear-gradient(150deg, #fff5ec, var(--pastel-peach)); color: #e0864a; }
+    .tile-sky   { background: linear-gradient(150deg, #eef7ff, var(--pastel-sky));   color: #4b8fd6; }
+
+    /* Chispa/asterisco decorativo posicionado */
+    .orn-spark { position: absolute; pointer-events: none; }
 </style>
 
 <script>
