@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\SubEvent;
+use App\Rules\SupportedVideoUrl;
+use App\Support\VideoEmbed;
 use Illuminate\Http\Request;
 
 class SubEventController extends Controller
@@ -11,12 +13,14 @@ class SubEventController extends Controller
     public function index()
     {
         $subEvents = SubEvent::with(['event.category'])->latest()->get();
+
         return view('subevents.index', compact('subEvents'));
     }
 
     public function create()
     {
         $events = Event::all();
+
         return view('subevents.create', compact('events'));
     }
 
@@ -28,8 +32,9 @@ class SubEventController extends Controller
             'event_date' => 'required|date',
             'attendees_count' => 'required|integer|min:1',
             'comment' => 'nullable|string',
-            'youtube_url' => 'nullable|url',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120'
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $photoPaths = [];
@@ -49,7 +54,9 @@ class SubEventController extends Controller
             'event_date' => $request->event_date,
             'attendees_count' => $request->attendees_count,
             'comment' => $request->comment,
-            'youtube_url' => $request->youtube_url,
+            // La difusión ahora es multiplataforma; 'youtube_url' queda como
+            // columna heredada de solo lectura y no se vuelve a escribir.
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
             'photos' => $photoPaths,
             'photo_priority' => $priorities,
         ]);
@@ -66,6 +73,7 @@ class SubEventController extends Controller
     public function edit(SubEvent $subevent)
     {
         $events = Event::all();
+
         return view('subevents.edit', compact('subevent', 'events'));
     }
 
@@ -77,7 +85,8 @@ class SubEventController extends Controller
             'event_date' => 'required|date',
             'attendees_count' => 'required|integer|min:1',
             'comment' => 'nullable|string',
-            'youtube_url' => 'nullable|url',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
             'photo_order' => 'nullable|array',
             'photo_priority' => 'nullable|array',
@@ -119,7 +128,7 @@ class SubEventController extends Controller
 
             // Agregar cualquier foto existente que no estuviera en el orden enviado (por seguridad)
             foreach ($currentPhotos as $photo) {
-                if (!in_array($photo, $sortedExistingPhotos)) {
+                if (! in_array($photo, $sortedExistingPhotos)) {
                     $sortedExistingPhotos[] = $photo;
                 }
             }
@@ -150,7 +159,11 @@ class SubEventController extends Controller
             'event_date' => $request->event_date,
             'attendees_count' => $request->attendees_count,
             'comment' => $request->comment,
-            'youtube_url' => $request->youtube_url,
+            // El arreglo 'videos' pasa a ser la única fuente de verdad: el
+            // formulario precarga el enlace heredado, así que al guardar se
+            // conserva dentro del arreglo y la columna antigua se libera.
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
+            'youtube_url' => null,
             'photos' => $allPhotos,
             'photo_priority' => $finalPriorities,
         ]);
@@ -163,6 +176,7 @@ class SubEventController extends Controller
     public function destroy(SubEvent $subevent)
     {
         $subevent->delete();
+
         return redirect()->route('subevents.index')
             ->with('success', 'Reporte movido a la papelera.');
     }
@@ -171,6 +185,7 @@ class SubEventController extends Controller
     public function trashed()
     {
         $subEvents = SubEvent::onlyTrashed()->with('event')->orderBy('deleted_at', 'desc')->get();
+
         return view('subevents.trashed', compact('subEvents'));
     }
 
@@ -179,6 +194,7 @@ class SubEventController extends Controller
     {
         $subEvent = SubEvent::onlyTrashed()->findOrFail($id);
         $subEvent->restore();
+
         return redirect()->route('subevents.trashed')
             ->with('success', 'Reporte restaurado exitosamente.');
     }
@@ -187,15 +203,16 @@ class SubEventController extends Controller
     public function forceDelete($id)
     {
         $subEvent = SubEvent::onlyTrashed()->findOrFail($id);
-        
+
         // Eliminar fotos del almacenamiento antes de borrar definitivamente
         if ($subEvent->photos) {
             foreach ($subEvent->photos as $photo) {
                 \Storage::disk('public')->delete($photo);
             }
         }
-        
+
         $subEvent->forceDelete();
+
         return redirect()->route('subevents.trashed')
             ->with('success', 'Reporte eliminado permanentemente.');
     }

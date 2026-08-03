@@ -94,22 +94,8 @@
                                             </div>
                                         @endif
 
-                                        {{-- Video de YouTube si existe --}}
-                                        @if($latestSub->youtube_url ?? null)
-                                            @php 
-                                                preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $latestSub->youtube_url, $mYt); 
-                                                $ytId = $mYt[1] ?? null; 
-                                            @endphp
-                                            @if($ytId)
-                                                <div class="mt-6 video-preview-container rounded-2xl shadow-lg border-4 border-slate-100 bg-slate-900 overflow-hidden" id="vc-{{ $latestSub->id }}">
-                                                    <img src="https://img.youtube.com/vi/{{ $ytId }}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/{{ $ytId }}/hqdefault.jpg'" class="video-thumbnail w-full h-56 sm:h-72 object-cover opacity-90" loading="lazy">
-                                                    <div class="play-button" onclick="playVideo(this,'{{ $ytId }}','vc-{{ $latestSub->id }}')">
-                                                        <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                                    </div>
-                                                    <iframe class="video-iframe w-full h-56 sm:h-72" style="display:none;" allow="autoplay;encrypted-media;picture-in-picture" allowfullscreen></iframe>
-                                                </div>
-                                            @endif
-                                        @endif
+                                        {{-- Difusión en redes: YouTube, Facebook y TikTok --}}
+                                        <x-video-gallery :videos="$latestSub->videoEmbeds()" />
                                     </div>
                                 </div>
                             </div>
@@ -160,6 +146,9 @@
                                                             @endif
                                                         </div>
                                                     @endif
+
+                                                    {{-- Difusión en redes del registro histórico --}}
+                                                    <x-video-gallery :videos="$reporte->videoEmbeds()" />
                                                 </div>
                                             </div>
                                         </div>

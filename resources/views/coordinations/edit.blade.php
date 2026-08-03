@@ -53,6 +53,11 @@
                         </div>
                     @endif
 
+                    {{-- Cobertura publicada en redes (se puede sumar tiempo después) --}}
+                    <x-video-input :videos="$coordination->videoLinks()"
+                                   label="Videos de la Coordinación"
+                                   help="Agrega o retira enlaces de TikTok, Facebook y YouTube cuando la difusión esté publicada." />
+
                     <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
                         <a href="{{ route('coordinations.index') }}" class="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-black text-xs uppercase tracking-wider transition decoration-none">Cancelar</a>
                         <button type="submit" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs uppercase tracking-wider shadow-md transition border-none cursor-pointer"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Cambios</button>

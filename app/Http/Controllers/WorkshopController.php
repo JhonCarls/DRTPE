@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Workshop;
+use App\Rules\SupportedVideoUrl;
+use App\Support\VideoEmbed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -44,6 +46,8 @@ class WorkshopController extends Controller
             'flyer' => 'required|file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
             'attachments' => 'nullable|array|max:6',
             'attachments.*' => 'file|mimes:pdf,jpeg,png,jpg,webp|max:10240',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
             'publish_as_announcement' => 'nullable|boolean',
         ]);
 
@@ -69,6 +73,9 @@ class WorkshopController extends Controller
             'flyer_path' => $flyer->store('workshops/flyers', 'public'),
             'flyer_type' => $flyerType,
             'attachments' => $attachments,
+            // Difusión promocional del evento aún no realizado (reel de TikTok,
+            // video de Facebook o spot de YouTube que anuncia la convocatoria).
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
             'publish_as_announcement' => $request->boolean('publish_as_announcement'),
         ]);
 
@@ -97,6 +104,8 @@ class WorkshopController extends Controller
             'attendees_count' => 'nullable|integer|min:0',
             'photos' => 'required|array|min:1',
             'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
         ]);
 
         $photos = [];
@@ -112,6 +121,7 @@ class WorkshopController extends Controller
             'executed_date' => $request->executed_date,
             'attendees_count' => $request->attendees_count,
             'photos' => $photos,
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
         ]);
 
         return redirect()->route('workshops.index')
@@ -145,6 +155,8 @@ class WorkshopController extends Controller
             'attendees_count' => 'nullable|integer|min:0',
             'photos' => 'nullable|array',
             'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
             'publish_as_announcement' => 'nullable|boolean',
         ]);
 
@@ -156,6 +168,9 @@ class WorkshopController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'location' => $request->location,
+            // Se reemplaza la lista completa: así el operador puede agregar la
+            // difusión después del evento o retirar un enlace dado de baja.
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
             'publish_as_announcement' => $request->boolean('publish_as_announcement'),
         ];
 

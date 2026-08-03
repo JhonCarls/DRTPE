@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasVideos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -14,21 +15,24 @@ use Illuminate\Support\Carbon;
  * @property Carbon $coordination_date
  * @property string $description
  * @property array|null $photos
+ * @property array|null $videos
  */
 class Coordination extends Model
 {
-    use HasFactory;
+    use HasFactory, HasVideos;
 
     protected $fillable = [
         'title',
         'coordination_date',
         'description',
         'photos',
+        'videos',
     ];
 
     protected $casts = [
         'coordination_date' => 'date',
         'photos' => 'array',
+        'videos' => 'array',
     ];
 
     /** Estructura plana para el portal público / Alpine.js. */
@@ -38,6 +42,8 @@ class Coordination extends Model
             ->map(fn ($p) => asset('storage/'.$p))
             ->values()->all();
 
+        $videos = $this->videoEmbeds();
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -46,6 +52,8 @@ class Coordination extends Model
             'photos' => $photos,
             'cover' => $photos[0] ?? null,
             'photos_count' => count($photos),
+            'videos' => $videos,
+            'videos_count' => count($videos),
         ];
     }
 }

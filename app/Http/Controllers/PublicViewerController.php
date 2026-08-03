@@ -161,6 +161,9 @@ class PublicViewerController extends Controller
                 'attendees_count' => (int) ($a->attendees_count ?? 0),
                 'intervention_type' => $a->type ?? 'asesoria', // La columna real es 'type'; el front consume la clave 'intervention_type'
                 'photos' => $a->photos ?? [],
+                // Difusión en redes ya normalizada (YouTube / Facebook / TikTok).
+                'videos' => $a->videoEmbeds(),
+                'videos_count' => count($a->videoEmbeds()),
             ];
         })->values();
     }

@@ -218,10 +218,16 @@
                                 </span>
                             </div>
 
-                            <div class="absolute top-4 left-4">
+                            <div class="absolute top-4 left-4 flex flex-col items-start gap-2">
                                 <span class="bg-slate-900/85 backdrop-blur-md text-white text-[10px] font-mono font-black px-3 py-1.5 rounded-xl uppercase tracking-widest shadow-sm">
                                     <i class="fa-solid fa-camera text-red-500"></i> <span x-text="act.photos.length"></span> Capturas Técnicas
                                 </span>
+                                {{-- Distintivo de difusión audiovisual --}}
+                                <template x-if="act.videos_count > 0">
+                                    <span class="bg-red-600/90 backdrop-blur-md text-white text-[10px] font-mono font-black px-3 py-1.5 rounded-xl uppercase tracking-widest shadow-sm">
+                                        <i class="fa-solid fa-clapperboard"></i> <span x-text="act.videos_count"></span> Video(s)
+                                    </span>
+                                </template>
                             </div>
                         </div>
 
@@ -319,6 +325,9 @@
                             <p class="m-0 text-slate-900 whitespace-pre-line font-medium" x-text="selectedActivity.description"></p>
                         </div>
                     </div>
+
+                    {{-- Difusión de la actividad en redes sociales --}}
+                    <x-video-gallery-live items="selectedActivity.videos" heading="Cobertura audiovisual" />
 
                     <div class="pt-6 border-t border-slate-400 flex justify-end">
                         <button type="button" @click="closeActivity()" class="bg-slate-950 hover:bg-black text-white font-black text-xs uppercase tracking-wider py-3.5 px-6 rounded shadow-md transition border-none cursor-pointer flex items-center gap-2 focus-ring">

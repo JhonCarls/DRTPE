@@ -134,6 +134,12 @@
                     </template>
                 </div>
 
+                {{-- Difusión en redes de la intervención --}}
+                <div class="pt-2">
+                    <x-video-input label="Videos de la Actividad"
+                                   help="Opcional: enlaces de TikTok, Facebook o YouTube. También puedes agregarlos después desde la edición." />
+                </div>
+
                 {{-- Botón de Envío --}}
                 <div class="pt-5 border-t border-slate-100 flex justify-end">
                     <button type="submit" :disabled="imageFiles.length === 0" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-wider py-3.5 px-8 rounded-xl shadow-md transition-all border-none cursor-pointer flex items-center justify-center gap-2">

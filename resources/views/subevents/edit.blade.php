@@ -36,8 +36,8 @@
                         <input type="hidden" name="event_date" :value="form.event_date">
                         <input type="hidden" name="report_title" :value="form.report_title">
                         <input type="hidden" name="attendees_count" :value="form.attendees_count">
-                        <input type="hidden" name="youtube_url" :value="form.youtube_url">
                         <input type="hidden" name="comment" :value="form.comment">
+                        {{-- Los inputs videos[] se clonan aquí desde el formulario visual en submitForm() --}}
                     </form>
 
                     {{-- Formulario visual --}}
@@ -107,25 +107,11 @@
                                 @enderror
                             </div>
 
-                            {{-- Enlace de YouTube --}}
-                            <div>
-                                <label for="youtube_url" class="block text-sm font-medium text-gray-700 mb-1">Enlace de Video (YouTube)</label>
-                                <div class="relative">
-                                    <input type="url" x-model="form.youtube_url" id="youtube_url"
-                                           @input="markDirty()"
-                                           placeholder="https://youtube.com/watch?v=..."
-                                           class="w-full px-4 py-2.5 pl-10 border border-gray-300 rounded-xl shadow-sm 
-                                                  focus:border-sky-400 focus:ring-4 focus:ring-sky-100 focus:outline-none
-                                                  transition-all duration-200">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                @error('youtube_url')
-                                    <p class="mt-1 text-sm text-red-500 flex items-center">{{ $message }}</p>
-                                @enderror
+                            {{-- Difusión en redes: se puede completar mucho después del registro --}}
+                            <div class="md:col-span-2" @input="markDirty()">
+                                <x-video-input :videos="$subevent->videoLinks()"
+                                               label="Enlaces de Video (YouTube, Facebook, TikTok)"
+                                               help="Agrega aquí la cobertura publicada en redes, aunque el reporte se haya registrado hace tiempo." />
                             </div>
 
                             {{-- Comentario --}}
@@ -293,9 +279,9 @@
                                                         <dt class="text-gray-500">Título:</dt>
                                                         <dd class="font-medium text-gray-900" x-text="form.report_title || '—'"></dd>
                                                     </div>
-                                                    <div class="flex justify-between" x-show="form.youtube_url">
-                                                        <dt class="text-gray-500">Video:</dt>
-                                                        <dd class="font-medium text-sky-600 truncate max-w-[200px]" x-text="form.youtube_url"></dd>
+                                                    <div class="flex justify-between" x-show="videoCount > 0">
+                                                        <dt class="text-gray-500">Difusión en redes:</dt>
+                                                        <dd class="font-medium text-sky-600" x-text="videoCount + ' enlace(s) de video'"></dd>
                                                     </div>
                                                 </dl>
                                             </div>
@@ -331,14 +317,25 @@
                     event_date: '{{ old('event_date', $subevent->event_date->format('Y-m-d')) }}',
                     report_title: '{{ old('report_title', $subevent->report_title) }}',
                     attendees_count: '{{ old('attendees_count', $subevent->attendees_count) }}',
-                    youtube_url: '{{ old('youtube_url', $subevent->youtube_url) }}',
                     comment: `{{ old('comment', addslashes($subevent->comment)) }}`,
                 },
                 events: @json($events->keyBy('id')),
-                
+                // Los enlaces los administra x-video-input (ámbito Alpine propio);
+                // aquí solo se lee el DOM para el resumen y el control de cambios.
+                videoCount: {{ count($subevent->videoLinks()) }},
+                // Se toma del servidor y no del DOM: cuando corre init() el
+                // componente hijo x-video-input todavía no montó sus filas.
+                originalVideos: {{ \Illuminate\Support\Js::from(implode('|', $subevent->videoLinks())) }},
+
                 init() {
                     this.originalForm = { ...this.form };
                     window.photoOrderChanged = false;
+                },
+
+                readVideos() {
+                    return Array.from(document.querySelectorAll('input[name="videos[]"]'))
+                        .map(i => i.value.trim())
+                        .filter(v => v !== '');
                 },
                 
                 markDirty() {
@@ -350,13 +347,16 @@
                         current.event_date != original.event_date ||
                         current.report_title != original.report_title ||
                         current.attendees_count != original.attendees_count ||
-                        current.youtube_url != original.youtube_url ||
                         current.comment != original.comment;
-                    
+
+                    const videos = this.readVideos();
+                    this.videoCount = videos.length;
+                    const videosChanged = videos.join('|') !== this.originalVideos;
+
                     const fileInput = document.getElementById('photos');
                     const hasNewFiles = fileInput && fileInput.files.length > 0;
-                    
-                    this.isDirty = fieldsChanged || hasNewFiles || window.photoOrderChanged;
+
+                    this.isDirty = fieldsChanged || videosChanged || hasNewFiles || window.photoOrderChanged;
                 },
                 
                 openConfirmationModal() {
@@ -369,7 +369,8 @@
                         alert('No hay cambios para guardar.');
                         return;
                     }
-                    
+
+                    this.videoCount = this.readVideos().length;
                     this.showModal = true;
                 },
                 
@@ -394,7 +395,6 @@
                     realForm.querySelector('input[name="event_date"]').value = this.form.event_date;
                     realForm.querySelector('input[name="report_title"]').value = this.form.report_title;
                     realForm.querySelector('input[name="attendees_count"]').value = this.form.attendees_count;
-                    realForm.querySelector('input[name="youtube_url"]').value = this.form.youtube_url;
                     realForm.querySelector('input[name="comment"]').value = this.form.comment;
                     
                     // Asegurar método PUT
@@ -415,7 +415,21 @@
                     // Eliminar inputs previos en el formulario real para evitar duplicados
                     realForm.querySelectorAll('input[name="photo_order[]"]').forEach(el => el.remove());
                     realForm.querySelectorAll('input[name="photo_priority[]"]').forEach(el => el.remove());
-                    
+                    realForm.querySelectorAll('input[name="videos[]"]').forEach(el => el.remove());
+
+                    // Enlaces de difusión: se copian como ocultos al formulario real.
+                    // Si el operador los borró todos no se envía ninguno y el
+                    // controlador vacía la lista, que es justo lo que se espera.
+                    visualForm.querySelectorAll('input[name="videos[]"]').forEach(input => {
+                        if (input.value.trim() === '') return;
+                        const hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = 'videos[]';
+                        hidden.value = input.value.trim();
+                        realForm.appendChild(hidden);
+                    });
+
+
                     // Clonar y añadir los nuevos
                     orderInputs.forEach(input => {
                         const clone = input.cloneNode(true);

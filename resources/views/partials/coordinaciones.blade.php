@@ -23,6 +23,10 @@
                         <img :src="c.cover" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" x-show="c.cover">
                         <div class="absolute inset-0 flex items-center justify-center text-slate-300" x-show="!c.cover"><i class="fa-solid fa-handshake text-3xl"></i></div>
                         <span class="absolute bottom-3 right-3 bg-slate-900/80 text-white text-[10px] font-black px-2 py-0.5 rounded"><i class="fa-solid fa-images mr-1"></i><span x-text="c.photos_count"></span></span>
+                        {{-- Distintivo de difusión audiovisual --}}
+                        <template x-if="c.videos_count > 0">
+                            <span class="absolute bottom-3 left-3 bg-red-600/90 text-white text-[10px] font-black px-2 py-0.5 rounded"><i class="fa-solid fa-clapperboard mr-1"></i><span x-text="c.videos_count"></span></span>
+                        </template>
                     </div>
                     <div class="p-6 flex-1 flex flex-col w-full">
                         <h3 class="text-base font-black text-slate-900 leading-snug m-0 line-clamp-2 group-hover:text-amber-600 transition-colors" x-text="c.title"></h3>
@@ -72,6 +76,9 @@
                             <h3 class="text-slate-900 font-black text-lg leading-snug m-0" x-text="cur.title"></h3>
                             <div class="mt-2 text-[11px] font-bold text-slate-500"><i class="fa-regular fa-calendar-check text-amber-500 mr-1"></i><span x-text="cur.date"></span></div>
                             <p class="text-slate-600 text-xs font-medium leading-relaxed mt-3 bg-slate-50 border border-slate-100 rounded-xl p-3" x-text="cur.description"></p>
+
+                            {{-- Difusión de la coordinación en redes sociales --}}
+                            <x-video-gallery-live items="cur.videos" heading="Video de la coordinación" />
                         </div>
                     </div>
                 </div>

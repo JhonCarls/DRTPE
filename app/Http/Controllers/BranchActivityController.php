@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BranchActivity;
 use App\Models\Announcement;
+use App\Models\BranchActivity;
+use App\Models\User;
+use App\Rules\SupportedVideoUrl;
+use App\Support\VideoEmbed;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BranchActivityController extends Controller
 {
     public function index()
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
         $sede = $user->sede;
 
@@ -24,18 +27,20 @@ class BranchActivityController extends Controller
         // Actividades normalizadas para Alpine.js (con tipo de intervención y galería).
         $mappedActivities = $activities->map(function ($a) {
             return [
-                'id'              => $a->id,
-                'title'           => $a->title,
-                'description'     => preg_replace('/\s+/', ' ', (string) $a->description),
-                'type'            => $a->type ?? 'asesoria',
-                'date_string'     => $a->created_at->format('d/m/Y h:i A'),
-                'created_at'      => $a->created_at->toIso8601String(),
+                'id' => $a->id,
+                'title' => $a->title,
+                'description' => preg_replace('/\s+/', ' ', (string) $a->description),
+                'type' => $a->type ?? 'asesoria',
+                'date_string' => $a->created_at->format('d/m/Y h:i A'),
+                'created_at' => $a->created_at->toIso8601String(),
                 'attendees_count' => (int) ($a->attendees_count ?? 0),
-                'photos_count'    => count($a->photos ?? []),
-                'photos'          => collect($a->photos ?? [])->map(fn ($p) => asset('storage/' . $p))->values()->all(),
-                'first_photo'     => isset($a->photos[0]) ? asset('storage/' . $a->photos[0]) : null,
-                'url_edit'        => route('branch-activities.edit', $a->id),
-                'url_destroy'     => route('branch-activities.destroy', $a->id),
+                'photos_count' => count($a->photos ?? []),
+                'photos' => collect($a->photos ?? [])->map(fn ($p) => asset('storage/'.$p))->values()->all(),
+                'first_photo' => isset($a->photos[0]) ? asset('storage/'.$a->photos[0]) : null,
+                'videos' => $a->videoEmbeds(),
+                'videos_count' => count($a->videoEmbeds()),
+                'url_edit' => route('branch-activities.edit', $a->id),
+                'url_destroy' => route('branch-activities.destroy', $a->id),
             ];
         })->values();
 
@@ -47,31 +52,31 @@ class BranchActivityController extends Controller
             ->get()
             ->map(function ($an) {
                 return [
-                    'id'                => $an->id,
-                    'title'             => $an->title,
-                    'content'           => preg_replace('/\s+/', ' ', (string) $an->description),
+                    'id' => $an->id,
+                    'title' => $an->title,
+                    'content' => preg_replace('/\s+/', ' ', (string) $an->description),
                     'fecha_publicacion' => optional($an->published_at)->format('d/m/Y') ?: $an->created_at->format('d/m/Y'),
                     'fecha_vencimiento' => optional($an->expired_at)->format('d/m/Y') ?: 'Sin Límite',
-                    'is_institucional'  => is_null($an->sede),
+                    'is_institucional' => is_null($an->sede),
                 ];
             })->values();
 
         // KPIs operativos
-        $totalActs      = $activities->count();
+        $totalActs = $activities->count();
         $totalAttendees = (int) $activities->sum('attendees_count');
-        $totalPhotos    = $activities->sum(fn ($a) => count($a->photos ?? []));
-        $metaAnual      = 24; // Meta POI referencial de intervenciones por año fiscal
-        $cumplimiento   = $metaAnual > 0 ? min(100, (int) round($totalActs / $metaAnual * 100)) : 0;
+        $totalPhotos = $activities->sum(fn ($a) => count($a->photos ?? []));
+        $metaAnual = 24; // Meta POI referencial de intervenciones por año fiscal
+        $cumplimiento = $metaAnual > 0 ? min(100, (int) round($totalActs / $metaAnual * 100)) : 0;
 
         $kpis = [
-            'totalActs'      => $totalActs,
+            'totalActs' => $totalActs,
             'totalAttendees' => $totalAttendees,
-            'totalPhotos'    => $totalPhotos,
-            'cumplimiento'   => $cumplimiento,
-            'metaAnual'      => $metaAnual,
+            'totalPhotos' => $totalPhotos,
+            'cumplimiento' => $cumplimiento,
+            'metaAnual' => $metaAnual,
         ];
 
-        $sedeName = $sede ? 'Sede ' . ucfirst($sede) : 'Sede Central';
+        $sedeName = $sede ? 'Sede '.ucfirst($sede) : 'Sede Central';
 
         return view('internal.branch-activities.index', compact(
             'mappedActivities', 'announcements', 'kpis', 'sedeName'
@@ -93,6 +98,8 @@ class BranchActivityController extends Controller
             'photos' => 'required|array|min:1',
             'photos.*' => 'image|mimes:jpeg,png,jpg|max:3072', // Máx 3MB por foto
             'attendees_count' => 'nullable|integer|min:0',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
         ]);
 
         $photoPaths = [];
@@ -103,7 +110,7 @@ class BranchActivityController extends Controller
             }
         }
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         BranchActivity::create([
@@ -113,6 +120,7 @@ class BranchActivityController extends Controller
             'type' => $request->intervention_type, // 👈 El form envía 'intervention_type' → columna real 'type'
             'description' => $request->description,
             'photos' => $photoPaths,
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
             'attendees_count' => $request->attendees_count,
         ]);
 
@@ -123,7 +131,7 @@ class BranchActivityController extends Controller
     {
         $activity = BranchActivity::findOrFail($id);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         // Seguridad intacta: Evitar accesos cruzados por URL entre sedes
@@ -138,7 +146,7 @@ class BranchActivityController extends Controller
     {
         $activity = BranchActivity::findOrFail($id);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user->role !== 'admin' && $activity->sede !== $user->sede) {
@@ -152,6 +160,8 @@ class BranchActivityController extends Controller
             'description' => 'required|string',
             'photos.*' => 'image|mimes:jpeg,png,jpg|max:3072',
             'attendees_count' => 'nullable|integer|min:0',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
         ]);
 
         $photoPaths = $activity->photos; // Conservar las fotos actuales por defecto
@@ -172,6 +182,9 @@ class BranchActivityController extends Controller
             'type' => $request->intervention_type, // 👈 Mapeado a la columna real 'type'
             'description' => $request->description,
             'photos' => $photoPaths,
+            // La difusión puede cargarse después del registro inicial: aquí se
+            // reemplaza la lista completa con lo que quedó en el formulario.
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
             'attendees_count' => $request->attendees_count,
         ]);
 
@@ -182,7 +195,7 @@ class BranchActivityController extends Controller
     {
         $activity = BranchActivity::findOrFail($id);
 
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user->role !== 'admin' && $activity->sede !== $user->sede) {

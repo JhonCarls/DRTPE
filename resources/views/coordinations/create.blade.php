@@ -61,6 +61,10 @@
                         </template>
                     </div>
 
+                    {{-- Cobertura de la mesa de trabajo publicada en redes --}}
+                    <x-video-input label="Video de la Coordinación"
+                                   help="Enlace de TikTok, Facebook o YouTube. Opcional: puedes agregarlo más adelante desde la edición." />
+
                     <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
                         <a href="{{ route('coordinations.index') }}" class="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-black text-xs uppercase tracking-wider transition decoration-none">Cancelar</a>
                         <button type="submit" :disabled="images.length === 0" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-wider shadow-md transition border-none cursor-pointer"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Coordinación</button>

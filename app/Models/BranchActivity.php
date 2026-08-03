@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\HasVideos;
 use Illuminate\Database\Eloquent\Attributes\Fillable; // 👈 Mismo estilo de atributos nativos
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'sede', 'title', 'type', 'description', 'photos', 'attendees_count'])]
+#[Fillable(['user_id', 'sede', 'title', 'type', 'description', 'photos', 'videos', 'attendees_count'])]
 class BranchActivity extends Model
 {
+    use HasVideos;
+
     /**
      * Nombre de la tabla explícita en la base de datos
      */
@@ -21,7 +24,8 @@ class BranchActivity extends Model
     {
         return [
             // Convierte automáticamente el JSON de la BD en un array de PHP y viceversa
-            'photos' => 'array', 
+            'photos' => 'array',
+            'videos' => 'array',
         ];
     }
 

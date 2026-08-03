@@ -76,6 +76,10 @@
                         </template>
                     </div>
 
+                    {{-- Cobertura del evento ya realizado publicada en redes --}}
+                    <x-video-input label="Video del Evento Ejecutado"
+                                   help="Enlace de TikTok, Facebook o YouTube con la cobertura del taller. Se reproducirá dentro del portal." />
+
                     <div class="pt-4 border-t border-slate-100 flex justify-end gap-2">
                         <a href="{{ route('workshops.index') }}" class="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-black text-xs uppercase tracking-wider transition decoration-none">Cancelar</a>
                         <button type="submit" :disabled="images.length === 0" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-black text-xs uppercase tracking-wider shadow-md transition border-none cursor-pointer"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar Ejecutado</button>

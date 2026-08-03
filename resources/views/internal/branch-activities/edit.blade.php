@@ -81,6 +81,13 @@
                     </div>
                 </div>
 
+                {{-- Difusión en redes: se puede sumar mucho después del registro --}}
+                <div class="pt-2">
+                    <x-video-input :videos="$activity->videoLinks()"
+                                   label="Videos de la Actividad"
+                                   help="Enlaces de TikTok, Facebook o YouTube con la cobertura de esta intervención." />
+                </div>
+
                 <div class="pt-4 border-t border-slate-100 flex justify-end">
                     <button type="submit" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider py-3 px-6 rounded-xl shadow-md transition-all border-none cursor-pointer">
                         <i class="fa-solid fa-floppy-disk mr-1.5"></i> Actualizar Cambios

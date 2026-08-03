@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasVideos;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -28,12 +29,13 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $executed_date
  * @property int|null $attendees_count
  * @property array|null $photos
+ * @property array|null $videos
  * @property bool $publish_as_announcement
  * @property int|null $announcement_id
  */
 class Workshop extends Model
 {
-    use HasFactory;
+    use HasFactory, HasVideos;
 
     protected $fillable = [
         'title',
@@ -50,6 +52,7 @@ class Workshop extends Model
         'executed_date',
         'attendees_count',
         'photos',
+        'videos',
         'publish_as_announcement',
         'announcement_id',
     ];
@@ -59,6 +62,7 @@ class Workshop extends Model
         'executed_date' => 'date',
         'attachments' => 'array',
         'photos' => 'array',
+        'videos' => 'array',
         'publish_as_announcement' => 'boolean',
     ];
 
@@ -121,6 +125,8 @@ class Workshop extends Model
             'photos' => collect($this->photos ?? [])->map(fn ($p) => asset('storage/'.$p))->values()->all(),
             'cover' => isset($this->photos[0]) ? asset('storage/'.$this->photos[0]) : null,
             'photos_count' => count($this->photos ?? []),
+            'videos' => $this->videoEmbeds(),
+            'videos_count' => count($this->videoEmbeds()),
         ];
     }
 

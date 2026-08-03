@@ -138,11 +138,44 @@
                             <input type="date" x-model="general.date" name="date" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 focus:outline-none transition-all shadow-inner text-sm">
                         </div>
 
+                        {{-- 🎯 Contenido del libro: una hoja por módulo del sistema --}}
+                        <div class="space-y-3">
+                            <label class="block text-slate-700 text-xs font-black uppercase tracking-wider">Módulos a Incluir en el Libro</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                @php
+                                    // Las clases van completas y literales: el compilador de Tailwind
+                                    // escanea texto y no resolvería nombres armados dinámicamente.
+                                    $modulos = [
+                                        'metas' => ['Metas y Avances', 'Actividades operativas y reportes de avance', 'fa-bullseye', 'text-indigo-600', 'border-indigo-500 bg-indigo-50/30'],
+                                        'talleres' => ['Talleres y Capacitaciones', 'Programados y ejecutados', 'fa-chalkboard-user', 'text-emerald-600', 'border-emerald-500 bg-emerald-50/30'],
+                                        'coordinaciones' => ['Coordinaciones', 'Mesas de trabajo institucionales', 'fa-handshake-angle', 'text-amber-600', 'border-amber-500 bg-amber-50/30'],
+                                        'sedes' => ['Actividades por Sede', 'Juliaca, Taraco y Sede Central', 'fa-building-columns', 'text-red-600', 'border-red-500 bg-red-50/30'],
+                                    ];
+                                @endphp
+                                @foreach($modulos as $key => [$titulo, $detalle, $icono, $iconColor, $activeClasses])
+                                    <label class="border-2 rounded-xl p-3.5 flex items-start gap-3 cursor-pointer transition-all"
+                                           :class="general.modules.includes('{{ $key }}') ? '{{ $activeClasses }}' : 'border-slate-200 bg-slate-50/50 hover:bg-slate-50'">
+                                        <input type="checkbox" name="modules[]" value="{{ $key }}" x-model="general.modules" class="mt-1 w-4 h-4 accent-indigo-600 flex-shrink-0">
+                                        <span class="min-w-0">
+                                            <span class="block text-xs font-black text-slate-800"><i class="fa-solid {{ $icono }} {{ $iconColor }} mr-1.5"></i>{{ $titulo }}</span>
+                                            <span class="block text-[11px] font-medium text-slate-400 mt-0.5">{{ $detalle }}</span>
+                                            @isset($moduleStats[$key])
+                                                <span class="block text-[10px] font-black text-slate-500 mt-1 uppercase tracking-wider">{{ $moduleStats[$key] }} registro(s) en total</span>
+                                            @endisset
+                                        </span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <p class="text-[11px] text-slate-400 font-medium m-0" x-show="general.modules.length === 0">
+                                <i class="fa-solid fa-circle-info mr-1"></i>Si no marcas ninguno se incluirán todos los módulos.
+                            </p>
+                        </div>
+
                         <div class="p-4 bg-emerald-50 border border-emerald-100 rounded-xl text-xs sm:text-sm text-emerald-800 font-bold flex items-center gap-2 shadow-inner" x-text="getRangeDescription(general.period, general.date)"></div>
 
                         <div class="flex justify-end pt-5 border-t border-slate-100">
                             <button type="submit" class="w-full sm:w-auto bg-slate-900 hover:bg-indigo-600 text-white font-black text-xs uppercase tracking-wider py-3.5 px-8 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-file-excel text-sm"></i> Generar Excel Consolidado
+                                <i class="fa-solid fa-file-excel text-sm"></i> Generar Libro Institucional
                             </button>
                         </div>
                     </form>
@@ -334,6 +367,8 @@
                     period: 'month',
                     funding_source: 'all',
                     department: 'all', // 🎯 NUEVO: Variable de control añadida al objeto del reporte general
+                    // Módulos del libro consolidado; por defecto se incluyen todos.
+                    modules: ['metas', 'talleres', 'coordinaciones', 'sedes'],
                     date: new Date().toISOString().split('T')[0]
                 },
                 specific: {

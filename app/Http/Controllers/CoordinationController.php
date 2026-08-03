@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coordination;
+use App\Rules\SupportedVideoUrl;
+use App\Support\VideoEmbed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,6 +34,8 @@ class CoordinationController extends Controller
             'description' => 'required|string',
             'photos' => 'required|array|min:1',
             'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
         ]);
 
         $photos = [];
@@ -44,6 +48,7 @@ class CoordinationController extends Controller
             'coordination_date' => $request->coordination_date,
             'description' => $request->description,
             'photos' => $photos,
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
         ]);
 
         return redirect()->route('coordinations.index')
@@ -63,12 +68,17 @@ class CoordinationController extends Controller
             'description' => 'required|string',
             'photos' => 'nullable|array',
             'photos.*' => 'image|mimes:jpeg,png,jpg,webp|max:5120',
+            'videos' => 'nullable|array|max:'.VideoEmbed::MAX_PER_RECORD,
+            'videos.*' => ['nullable', 'string', 'max:500', new SupportedVideoUrl],
         ]);
 
         $data = [
             'title' => $request->title,
             'coordination_date' => $request->coordination_date,
             'description' => $request->description,
+            // A diferencia de las fotos (que se acumulan), la lista de videos se
+            // reemplaza para poder retirar un enlace sin tocar la galería.
+            'videos' => VideoEmbed::sanitize($request->input('videos')),
         ];
 
         // Nuevas fotos se acumulan a las existentes

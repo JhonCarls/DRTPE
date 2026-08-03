@@ -80,6 +80,10 @@
                         <p class="text-[11px] text-slate-500 font-bold m-0" x-show="attachments > 0" x-text="attachments + ' archivo(s) adjunto(s)'"></p>
                     </div>
 
+                    {{-- Spot promocional de la convocatoria en redes sociales --}}
+                    <x-video-input label="Video Promocional de la Convocatoria"
+                                   help="Reel de TikTok, video de Facebook o spot de YouTube que anuncia el evento. Puedes agregarlo después." />
+
                     {{-- Sincronización automática con comunicados --}}
                     <label class="flex items-start gap-3 p-4 bg-red-50/50 border border-red-100 rounded-xl cursor-pointer">
                         <input type="checkbox" name="publish_as_announcement" value="1" {{ old('publish_as_announcement') ? 'checked' : '' }} class="mt-0.5 w-4 h-4 accent-red-600">

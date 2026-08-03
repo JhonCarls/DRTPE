@@ -254,16 +254,10 @@
     .noticia-img-wrap.portrait  { height: 280px; }
     .noticia-img-wrap.landscape { height: 180px; }
 
-    /* ── VIDEO YOUTUBE ─────────────────────────────────────── */
-    .video-preview-container { position: relative; overflow: hidden; cursor: pointer; transition: all .3s ease; }
-    .video-preview-container:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .2); }
-    .play-button {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        background: rgba(220, 38, 38, .9); width: 64px; height: 64px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center; transition: all .4s ease;
-        animation: pulseRed 2s infinite; z-index: 10;
-    }
-    @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, .7); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+    /* ── VIDEO ─────────────────────────────────────────────── */
+    /* Los estilos del reproductor viven en x-video-player-assets, que se
+       invoca al final de este mismo archivo (fuera de este bloque <style>)
+       y se comparte con la intranet: YouTube, Facebook y TikTok. */
 
     /* ── COMUNICADOS ───────────────────────────────────────── */
     .comunicado-pdf-icon {
@@ -378,3 +372,14 @@
         els.forEach(function (el) { io.observe(el); });
     });
 </script>
+
+{{--
+    Estilos y reproductor de las galerías de video.
+
+    Se emiten aquí, en el <head>, y no donde se usa la galería: varias de esas
+    posiciones quedan dentro de un <template> de Alpine, cuyo contenido el
+    navegador trata como inerte (ni aplica el CSS ni ejecuta el JS). Como el
+    componente está envuelto en @once, esta llamada es la que gana y las que
+    hacen x-video-gallery / x-video-gallery-live quedan en no-op.
+--}}
+<x-video-player-assets />

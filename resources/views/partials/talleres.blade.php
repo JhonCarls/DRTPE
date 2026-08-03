@@ -45,6 +45,9 @@
                                     <a href="{{ $a['url'] }}" target="_blank" class="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-black uppercase tracking-wider px-3 py-2 rounded-lg transition decoration-none"><i class="fa-solid {{ $a['is_pdf'] ? 'fa-file-pdf text-red-500' : 'fa-image text-blue-500' }}"></i> {{ $a['label'] }}</a>
                                 @endforeach
                             </div>
+
+                            {{-- Spot promocional de la convocatoria (TikTok / Facebook / YouTube) --}}
+                            <x-video-gallery :videos="$t['videos']" heading="Video promocional" />
                         </div>
                     </div>
                 @endforeach
@@ -79,6 +82,10 @@
                             <div class="absolute inset-0 flex items-center justify-center text-slate-300" x-show="!ev.cover"><i class="fa-solid fa-image text-3xl"></i></div>
                             <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded text-white" :class="ev.type === 'taller' ? 'bg-indigo-600' : 'bg-slate-900'" x-text="ev.type_label"></span>
                             <span class="absolute bottom-3 right-3 bg-slate-900/80 text-white text-[10px] font-black px-2 py-0.5 rounded"><i class="fa-solid fa-images mr-1"></i><span x-text="ev.photos_count"></span></span>
+                            {{-- Distintivo de difusión audiovisual --}}
+                            <template x-if="ev.videos_count > 0">
+                                <span class="absolute bottom-3 left-3 bg-red-600/90 text-white text-[10px] font-black px-2 py-0.5 rounded"><i class="fa-solid fa-clapperboard mr-1"></i><span x-text="ev.videos_count"></span></span>
+                            </template>
                         </div>
                         <div class="p-6 flex-1 flex flex-col w-full">
                             <h3 class="text-base font-black text-slate-900 leading-snug m-0 line-clamp-2 group-hover:text-emerald-600 transition-colors" x-text="ev.title"></h3>
@@ -143,6 +150,9 @@
                                 <span><i class="fa-solid fa-users text-emerald-500 mr-1"></i><span x-text="ev.attendees_count"></span> asistentes</span>
                             </div>
                             <p class="text-slate-600 text-xs font-medium leading-relaxed mt-3 bg-slate-50 border border-slate-100 rounded-xl p-3" x-text="ev.description"></p>
+
+                            {{-- Difusión del evento en redes sociales --}}
+                            <x-video-gallery-live items="ev.videos" heading="Video del evento" />
 
                             {{-- Insumos de convocatoria (minimizados / colapsables) --}}
                             <template x-if="ev.flyer_url || ev.attachments.length">

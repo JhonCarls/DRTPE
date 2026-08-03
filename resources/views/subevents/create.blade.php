@@ -94,19 +94,10 @@
                                        class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-black text-slate-800 focus:ring-2 focus:ring-sky-400/20 focus:border-sky-500 focus:outline-none transition-all shadow-inner text-sm">
                             </div>
 
-                            {{-- 🎯 MODIFICADO: Campo de video con soporte e iconos multiredes (YouTube, TikTok, Facebook) --}}
-                            <div>
-                                <label for="youtube_url" class="block text-sm font-black text-slate-700 tracking-tight mb-2 flex items-center justify-between">
-                                    <span>Enlace de Video Evidencia <span class="text-slate-400 font-medium">(Opcional)</span></span>
-                                    <div class="flex items-center gap-1.5 text-[11px] text-slate-400">
-                                        <i class="fa-brands fa-youtube hover:text-red-500 transition-colors"></i>
-                                        <i class="fa-brands fa-tiktok hover:text-black transition-colors"></i>
-                                        <i class="fa-brands fa-facebook hover:text-blue-600 transition-colors"></i>
-                                    </div>
-                                </label>
-                                <input type="url" name="youtube_url" id="youtube_url" x-model="form.youtube_url"
-                                       placeholder="Ej: https://vm.tiktok.com/... o https://fb.watch/..."
-                                       class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 focus:ring-2 focus:ring-sky-400/20 focus:border-sky-500 focus:outline-none transition-all shadow-inner text-sm">
+                            {{-- Difusión multiplataforma: se reproduce incrustada en el portal --}}
+                            <div class="md:col-span-2">
+                                <x-video-input label="Enlaces de Video Evidencia (Opcional)"
+                                               help="YouTube, Facebook o TikTok. Puedes dejarlo vacío y agregar la cobertura más adelante desde la edición." />
                             </div>
 
                             {{-- Observaciones Cortas --}}
@@ -209,8 +200,8 @@
                             <dt class="text-slate-400 uppercase tracking-wider">Título Reporte:</dt>
                             <dd class="text-slate-800 font-bold truncate col-span-2" x-text="form.report_title || '—'"></dd>
 
-                            <dt class="text-slate-400 uppercase tracking-wider">Video Adjunto:</dt>
-                            <dd class="text-slate-800 font-bold truncate col-span-2" x-text="form.youtube_url ? 'Sí (Enlace Externo)' : 'No'"></dd>
+                            <dt class="text-slate-400 uppercase tracking-wider">Difusión en Redes:</dt>
+                            <dd class="text-slate-800 font-bold truncate col-span-2" x-text="videoCount > 0 ? videoCount + ' enlace(s) de video' : 'Sin videos'"></dd>
 
                             <dt class="text-slate-400 uppercase tracking-wider font-black">Total Fotos:</dt>
                             <dd class="text-emerald-600 font-black col-span-2 uppercase" x-text="attachedPhotos.length + ' evidencias fotográficas'"></dd>
@@ -246,11 +237,13 @@
                     event_date: '{{ old('event_date', '') }}',
                     report_title: '{{ old('report_title', '') }}',
                     attendees_count: '{{ old('attendees_count', '') }}', // 🎯 CORREGIDO: Mapeado correctamente para sincronización estricta
-                    youtube_url: '{{ old('youtube_url', '') }}',       // 🎯 CORREGIDO: Conserva enlaces multiplataforma
                     comment: '{{ old('comment', '') }}'
                 },
-                attachedPhotos: [], 
+                attachedPhotos: [],
                 selectedEventName: '',
+                // Los enlaces de video los administra el componente x-video-input
+                // (ámbito Alpine propio): aquí solo se resume su cantidad.
+                videoCount: 0,
                 init() {
                     this.updateSelectedEventName();
                     this.$watch('form.event_id', () => this.updateSelectedEventName());
@@ -300,6 +293,8 @@
                         return;
                     }
                     this.updateSelectedEventName();
+                    this.videoCount = Array.from(document.querySelectorAll('input[name="videos[]"]'))
+                        .filter(i => i.value.trim() !== '').length;
                     this.showModal = true;
                 },
                 submitForm() {

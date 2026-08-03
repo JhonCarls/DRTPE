@@ -90,6 +90,12 @@
                         </label>
                     </div>
 
+                    {{-- Difusión en redes: sirve tanto para promocionar el evento
+                         pendiente como para publicar la cobertura del ya realizado. --}}
+                    <x-video-input :videos="$workshop->videoLinks()"
+                                   label="Videos del Evento (Promoción o Cobertura)"
+                                   help="Agrega o retira enlaces de TikTok, Facebook y YouTube en cualquier momento del ciclo del taller." />
+
                     {{-- CIERRE / EJECUCIÓN --}}
                     <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4 space-y-4">
                         <label class="flex items-center gap-2 text-sm font-black text-emerald-800 cursor-pointer">

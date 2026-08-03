@@ -31,14 +31,8 @@
     function scrollToSection(id) {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    function playVideo(playButton, youtubeId, containerId) {
-        const c = document.getElementById(containerId);
-        c.querySelector('.video-thumbnail').style.display = 'none';
-        playButton.style.display = 'none';
-        const iframe = c.querySelector('.video-iframe');
-        iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
-        iframe.style.display = 'block';
-    }
+    // El reproductor de video vive ahora en el componente x-video-gallery,
+    // que soporta YouTube, Facebook y TikTok en todo el portal.
     document.addEventListener('alpine:init', () => {
         Alpine.data('autoSlider', (items, totalMs) => ({
             items, active: 0, progress: 0, tick: 50,

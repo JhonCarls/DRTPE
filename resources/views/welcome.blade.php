@@ -572,15 +572,8 @@
         setTimeout(() => el.classList.remove('highlight-target'), 2800);
     }
 
-    // ── REPRODUCTOR DE YOUTUBE CON RENDIMIENTO OPTIMIZADO ───────────
-    function playVideo(playButton, youtubeId, containerId) {
-        const c = document.getElementById(containerId);
-        c.querySelector('.video-thumbnail').style.display = 'none';
-        playButton.style.display = 'none';
-        const iframe = c.querySelector('.video-iframe');
-        iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
-        iframe.style.display = 'block';
-    }
+    // El reproductor de video vive ahora en el componente x-video-gallery,
+    // que soporta YouTube, Facebook y TikTok en todo el portal.
 
     // ── GALERÍAS FOTOGRÁFICAS DINÁMICAS (Botón "Ver más") ────────────
     document.querySelectorAll('.btn-mostrar-mas').forEach(btn => {
