@@ -1,0 +1,2707 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de Uso · Portal, Intranet y Asistente Virtual · DRTPE Puno</title>
+<style>
+/* ══════════════════════════════════════════════════════════════════════
+   MANUAL DE USO — DRTPE PUNO
+   Documento autónomo: no requiere conexión ni recursos externos.
+   Para exportar a PDF: Ctrl+P → Guardar como PDF.
+   ══════════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img,svg{max-width:100%}
+
+:root{
+  --papel:#fcfaf9; --papel-2:#f4efee; --tinta:#1a1418; --tinta-2:#6d6268;
+  --tinta-3:#938a90; --carmin:#a81f2d; --linea:#e6dedd; --linea-2:#d3c8c7;
+  --verde:#1e6b4f; --azul:#1b4f9c; --ambar:#8f5c0d; --alarma:#a3282f;
+  --display:Georgia,'Iowan Old Style','Palatino Linotype','Book Antiqua',serif;
+  --texto:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --dato:'Cascadia Mono',Consolas,'SF Mono',ui-monospace,'Liberation Mono',monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --papel:#151116; --papel-2:#1f1a21; --tinta:#f1ebec; --tinta-2:#a9a0a6;
+  --tinta-3:#7d7278; --carmin:#e8737e; --linea:#2f2730; --linea-2:#443a44;
+  --verde:#6cc39c; --azul:#7aa6ee; --ambar:#d9a44e; --alarma:#e88a90;}}
+
+body{background:var(--papel);color:var(--tinta);font-family:var(--texto);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;padding:0 20px 90px}
+.wrap{max-width:1180px;margin:0 auto}
+:focus-visible{outline:2px solid var(--carmin);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* ── CARÁTULA ─────────────────────────────────────────────────────── */
+.cover{min-height:94vh;display:flex;flex-direction:column;justify-content:center;
+  padding:60px 0 50px;border-bottom:3px double var(--tinta)}
+.crest{display:flex;align-items:center;gap:14px;margin-bottom:46px}
+.crest-mark{width:44px;height:44px;border-radius:50%;background:var(--carmin);color:#fff;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:17px;font-weight:700}
+.crest-txt{font-family:var(--dato);font-size:10.5px;line-height:1.6;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tinta-2)}
+.crest-txt b{display:block;color:var(--tinta);font-weight:700}
+.kicker{font-family:var(--dato);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--carmin);margin:0 0 22px}
+.cover h1{font-family:var(--display);font-weight:400;font-size:clamp(2.9rem,8vw,5.6rem);
+  line-height:.98;letter-spacing:-.028em;margin:0 0 26px}
+.cover h1 em{font-style:italic;color:var(--carmin)}
+.cover .sub{font-size:clamp(1.05rem,2.2vw,1.3rem);line-height:1.5;color:var(--tinta-2);
+  max-width:58ch;margin:0 0 52px}
+.coverfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--linea);border:1px solid var(--linea)}
+.cf{background:var(--papel);padding:16px 18px}
+.cf dt{font-family:var(--dato);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tinta-3);margin-bottom:5px}
+.cf dd{margin:0;font-size:.92rem;font-weight:650;line-height:1.4}
+
+/* ── ESTRUCTURA ───────────────────────────────────────────────────── */
+.body{display:block;padding-top:46px}
+@media (min-width:1100px){
+  .body{display:grid;grid-template-columns:224px minmax(0,1fr);gap:60px;align-items:start}
+  .toc{position:sticky;top:26px;max-height:calc(100vh - 52px);overflow-y:auto}}
+.toc-head{font-family:var(--dato);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--tinta-3);margin:0 0 12px;padding-bottom:9px;border-bottom:1px solid var(--linea)}
+.toc ul{list-style:none;margin:0 0 16px;padding:0}
+.toc-part{font-family:var(--dato);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--carmin);margin:15px 0 5px;font-weight:700}
+.toc a{display:block;padding:4px 0;font-size:.83rem;color:var(--tinta-2);
+  text-decoration:none;transition:color .15s}
+.toc a:hover{color:var(--carmin)}
+
+.part{margin:84px 0 46px;padding:34px 0 30px;border-top:3px double var(--tinta);
+  border-bottom:1px solid var(--linea)}
+.part:first-of-type{margin-top:0}
+.part-n{font-family:var(--dato);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--carmin);margin:0 0 10px}
+.part h2{font-family:var(--display);font-weight:400;font-size:clamp(2rem,5vw,3rem);
+  line-height:1.05;letter-spacing:-.022em;margin:0 0 14px}
+.part p{margin:0;color:var(--tinta-2);max-width:64ch;font-size:1.02rem}
+
+.sec{margin-bottom:56px;scroll-margin-top:22px}
+h3.h3{font-family:var(--display);font-weight:400;font-size:clamp(1.45rem,3vw,1.9rem);
+  line-height:1.16;letter-spacing:-.015em;margin:0 0 6px;padding-top:15px;
+  border-top:1.5px solid var(--tinta)}
+.num{display:block;font-family:var(--dato);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--carmin);margin-bottom:11px}
+h4{font-size:.98rem;font-weight:700;margin:30px 0 10px}
+h5{font-size:.84rem;font-weight:700;margin:22px 0 8px;color:var(--tinta-2);
+  font-family:var(--dato);text-transform:uppercase;letter-spacing:.1em}
+.sec p{max-width:68ch;margin:0 0 15px}
+.lead{font-size:1.06rem;color:var(--tinta-2)}
+code{font-family:var(--dato);font-size:.82em;background:var(--papel-2);
+  border:1px solid var(--linea);border-radius:4px;padding:.1em .38em;word-break:break-word}
+ul.ul{margin:0 0 15px;padding-left:20px;max-width:68ch}
+ul.ul li{margin-bottom:7px}
+ul.ul li::marker{color:var(--carmin)}
+
+/* ── FIGURAS ──────────────────────────────────────────────────────── */
+.fig{margin:30px 0}
+.fig-body{background:var(--papel-2);border:1px solid var(--linea);border-radius:5px;
+  padding:24px 20px;overflow-x:auto}
+.cap{font-family:var(--dato);font-size:10.5px;line-height:1.55;color:var(--tinta-3);
+  margin-top:9px;padding-left:12px;border-left:2px solid var(--linea-2);max-width:68ch}
+.cap b{color:var(--tinta-2);font-weight:700}
+
+/* ══ REPRODUCCIONES DE PANTALLA (colores literales de la aplicación) ══ */
+.r{font-family:'Segoe UI',system-ui,sans-serif;border-radius:9px;overflow:hidden;
+  box-shadow:0 6px 20px rgba(15,23,42,.16);min-width:520px}
+.r-scroll{overflow-x:auto;padding-bottom:4px}
+.r-head{background:#dc2626;padding:9px 14px;display:flex;align-items:center;
+  justify-content:space-between;gap:12px}
+.r-brand{display:flex;align-items:center;gap:9px}
+.r-logo{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:11px;flex-shrink:0}
+.r-brand-t{color:#fff;font-weight:800;font-size:12.5px;line-height:1.2}
+.r-brand-s{color:#fecaca;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.14em}
+.r-acceso{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:9.5px;font-weight:700;padding:5px 11px;border-radius:7px;white-space:nowrap}
+.r-shell{display:flex;background:#eef2f7;min-height:250px}
+.r-side{width:172px;flex-shrink:0;background:#020617;padding:10px;border-right:1px solid rgba(51,65,85,.5)}
+.r-side-brand{display:flex;align-items:center;gap:8px;padding-bottom:9px;
+  border-bottom:1px solid rgba(30,41,59,.8);margin-bottom:10px}
+.r-side-brand b{color:#fff;font-size:10.5px;display:block;line-height:1.2}
+.r-side-brand span{color:#94a3b8;font-size:7px;text-transform:uppercase;letter-spacing:.18em;font-weight:700}
+.r-sedes{background:linear-gradient(145deg,rgba(153,27,27,.7),rgba(69,10,10,.5),rgba(15,23,42,.6));
+  border:1.5px solid rgba(185,28,28,.6);border-radius:11px;padding:9px;margin-bottom:10px}
+.r-sedes-h{display:flex;align-items:center;gap:6px;padding-bottom:6px;
+  border-bottom:1px solid rgba(153,27,27,.4);margin-bottom:8px}
+.r-sedes-h i{width:17px;height:17px;border-radius:5px;background:rgba(185,28,28,.8);
+  display:flex;align-items:center;justify-content:center;font-style:normal;font-size:8px;color:#fff}
+.r-sedes-h p{color:#fecaca;font-size:7.5px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.13em;margin:0}
+.r-sede{display:flex;align-items:center;gap:7px;padding:6px;background:rgba(2,6,23,.8);
+  border:1px solid rgba(51,65,85,.6);border-radius:8px;margin-bottom:5px}
+.r-sede-i{width:20px;height:20px;border-radius:5px;background:linear-gradient(145deg,#dc2626,#991b1b);flex-shrink:0}
+.r-sede b{color:#f1f5f9;font-size:9px;display:block;line-height:1.2}
+.r-sede span{color:#94a3b8;font-size:7px;font-weight:600}
+.r-sgroup{color:#94a3b8;font-size:7.5px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.11em;margin:11px 0 5px;padding-left:3px}
+.r-slink{display:flex;align-items:center;gap:7px;padding:4px 3px;margin-bottom:3px}
+.r-slink-i{width:17px;height:17px;border-radius:5px;flex-shrink:0}
+.r-slink b{color:#e2e8f0;font-size:8.5px;display:block;line-height:1.2}
+.r-slink span{color:#64748b;font-size:7px}
+.r-main{flex:1;min-width:0;padding:13px;background:#eef2f7}
+.r-actv{background:linear-gradient(100deg,#1e3a8a,#1d4ed8);border-radius:11px;padding:11px 13px;
+  display:flex;align-items:center;gap:10px;border-left:4px solid #fbbf24;margin-bottom:11px}
+.r-actv-i{width:22px;height:22px;border-radius:6px;background:rgba(251,191,36,.2);
+  border:1px solid rgba(251,191,36,.3);flex-shrink:0}
+.r-actv p{color:#fff;font-size:10.5px;font-weight:800;margin:0;line-height:1.3;flex:1}
+.r-badge{background:rgba(251,191,36,.18);border:1px solid rgba(251,191,36,.3);color:#fcd34d;
+  font-size:7px;font-weight:800;padding:3px 7px;border-radius:5px;text-transform:uppercase;
+  letter-spacing:.1em;white-space:nowrap}
+.r-badge--n{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#bfdbfe}
+.r-card{background:#fff;border-radius:11px;overflow:hidden;box-shadow:0 2px 10px rgba(15,23,42,.08)}
+.r-strip{background:linear-gradient(90deg,#dc2626,#b91c1c);padding:5px 12px;display:flex;align-items:center;gap:6px}
+.r-strip span{color:#fff;font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.13em}
+.r-strip .r-date{margin-left:auto;color:rgba(255,255,255,.65);font-weight:600}
+.r-cbody{padding:13px}
+.r-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.r-pill{font-size:8px;font-weight:700;padding:4px 8px;border-radius:6px;
+  background:#f1f5f9;border:1px solid #e2e8f0;color:#475569}
+.r-pill--g{background:#ecfdf5;border-color:#a7f3d0;color:#047857}
+.r-ctitle{font-size:14px;font-weight:800;color:#0f172a;margin:0 0 9px;line-height:1.25}
+.r-quote{background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:0 7px 7px 0;
+  padding:8px 10px;color:#475569;font-size:9.5px;margin-bottom:10px;line-height:1.5}
+.r-photos{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px;
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:11px}
+.r-photo{height:52px;border-radius:7px;border:2px solid #fff;box-shadow:0 1px 3px rgba(15,23,42,.1)}
+.r-dif-h{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.r-dif-h span{font-size:7.5px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#64748b}
+.r-frames{display:flex;gap:11px;align-items:flex-start;flex-wrap:wrap}
+.r-frame{position:relative;border-radius:11px;overflow:hidden;background:#17131c;flex-shrink:0}
+.r-frame--v{width:82px;aspect-ratio:9/16}
+.r-frame--h{width:158px;aspect-ratio:16/9}
+.r-frame--tt{background:linear-gradient(150deg,#010101,#17414a 55%,#7d1a30)}
+.r-frame--yt{background:linear-gradient(150deg,#43121a,#17131c)}
+.r-ftag{position:absolute;top:5px;left:5px;background:rgba(10,8,12,.72);color:#fff;
+  font-size:6px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  padding:2px 5px;border-radius:4px;z-index:2}
+.r-fcover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:5px;color:#fff;text-align:center;padding:8px}
+.r-fcover span{font-size:6px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.r-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;
+  border-radius:50%;background:rgba(254,44,85,.95);display:flex;align-items:center;
+  justify-content:center;color:#fff;z-index:3}
+.r-frame--yt .r-play{background:rgba(220,38,38,.93)}
+.r-dash{display:flex;background:#f1f5f9;min-height:280px}
+.r-dside{width:158px;flex-shrink:0;background:#0f172a;padding:10px}
+.r-dbrand{background:#1e293b;border-radius:9px;padding:8px;margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.r-dbrand b{color:#fff;font-size:9px;display:block;line-height:1.2}
+.r-dbrand span{color:#94a3b8;font-size:6.5px;text-transform:uppercase;letter-spacing:.14em}
+.r-dgroup{color:#64748b;font-size:6.5px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.15em;margin:10px 0 4px;padding-left:4px}
+.r-dlink{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:7px;
+  color:#cbd5e1;font-size:8.5px;font-weight:600;margin-bottom:2px}
+.r-dlink--on{background:linear-gradient(90deg,#4f46e5,#4338ca);color:#fff;font-weight:800}
+.r-dlink-i{width:13px;height:13px;border-radius:3px;background:currentColor;opacity:.5;flex-shrink:0}
+.r-dmain{flex:1;min-width:0;padding:12px}
+.r-dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#fff;border-radius:9px;padding:9px 11px;margin-bottom:11px}
+.r-dhead b{font-size:12px;color:#0f172a;display:block;line-height:1.2}
+.r-dhead span{font-size:7.5px;color:#64748b;text-transform:uppercase;letter-spacing:.11em;font-weight:600}
+.r-dbtn{background:#4f46e5;color:#fff;font-size:7.5px;font-weight:800;padding:5px 9px;
+  border-radius:6px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.r-dbtn--g{background:#fff;color:#475569;border:1px solid #e2e8f0}
+.r-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 11px}
+.r-kpi{background:#fff;border-radius:9px;padding:9px;border-left:3px solid #cbd5e1}
+.r-kpi--b{border-left-color:#2563eb}
+.r-kpi--d{background:#0f172a;border-left-color:#fbbf24}
+.r-kpi--g{border-left-color:#10b981}
+.r-kpi dt{font-size:6.5px;font-weight:800;text-transform:uppercase;letter-spacing:.11em;
+  color:#64748b;margin-bottom:5px;line-height:1.3}
+.r-kpi--d dt{color:#fbbf24}
+.r-kpi dd{margin:0;font-size:17px;font-weight:800;color:#0f172a;font-variant-numeric:tabular-nums;line-height:1}
+.r-kpi--d dd{color:#fff}.r-kpi--b dd{color:#1d4ed8}.r-kpi--g dd{color:#059669}
+.r-kpi small{display:block;font-size:6px;color:#94a3b8;margin-top:4px;line-height:1.35}
+.r-charts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.r-chart{background:#fff;border-radius:9px;padding:10px}
+.r-chart b{font-size:9px;color:#0f172a;display:block;margin-bottom:2px}
+.r-chart span{font-size:6.5px;color:#64748b;display:block;margin-bottom:8px}
+.r-form{background:#fff;border:1px solid #e2e8f0;border-radius:11px;padding:14px;
+  box-shadow:0 1px 4px rgba(15,23,42,.06)}
+.r-flabel{font-weight:800;font-size:10.5px;color:#334155;margin-bottom:7px;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.r-freq{color:#dc2626;font-weight:800}
+.r-frow{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.r-ftile{width:29px;height:29px;border-radius:8px;border:1px solid #e2e8f0;background:#f8fafc;
+  color:#cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.r-ftile--tt{background:#0f172a;border-color:#0f172a;color:#fff}
+.r-ftile--yt{background:#fef2f2;border-color:#fecaca;color:#dc2626}
+.r-finput{flex:1;min-width:0;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+  padding:7px 10px;font-family:var(--dato);font-size:9px;color:#334155;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r-finput--e{color:#94a3b8}
+.r-finput--f{border-color:#4f46e5;box-shadow:0 0 0 3px rgba(79,70,229,.12)}
+.r-fx{width:29px;height:29px;border-radius:8px;border:1px solid #e2e8f0;background:#f8fafc;
+  color:#94a3b8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.r-ffoot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:9px;flex-wrap:wrap}
+.r-fhelp{font-size:8.5px;color:#94a3b8;margin:0;max-width:44ch;line-height:1.45}
+.r-fbtn{background:#0f172a;color:#fff;font-size:8px;font-weight:800;padding:6px 10px;
+  border-radius:7px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.r-fwarn{display:flex;gap:6px;font-size:9px;font-weight:700;color:#b45309;margin:5px 0 0}
+.r-fgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
+.r-fsel{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:7px 10px;
+  font-size:9.5px;color:#334155;display:flex;justify-content:space-between;align-items:center}
+.r-fdrop{border:2px dashed #cbd5e1;border-radius:9px;padding:14px;text-align:center;
+  color:#94a3b8;font-size:9px;background:#f8fafc}
+.r-wcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.r-wcard{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:11px}
+.r-wtag{display:inline-block;font-size:7px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.11em;padding:3px 7px;border-radius:5px;margin-bottom:7px}
+.r-wtag--p{background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe}
+.r-wtag--e{background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+.r-wcard b{display:block;font-size:10px;color:#0f172a;margin-bottom:5px;line-height:1.3}
+.r-wmeta{font-size:8px;color:#64748b;line-height:1.6}
+.r-com{background:#fff;border:1px solid #e2e8f0;border-radius:11px;overflow:hidden;display:flex}
+.r-com-doc{width:38%;flex-shrink:0;background:#f1f5f9;border-right:1px solid #e2e8f0;
+  min-height:130px;display:flex;align-items:center;justify-content:center;padding:12px}
+.r-com-page{background:#fff;border:1px solid #cbd5e1;border-radius:3px;width:100%;height:100%;
+  min-height:100px;padding:8px;display:flex;flex-direction:column;gap:4px}
+.r-com-line{height:3px;background:#e2e8f0;border-radius:2px}
+.r-com-body{flex:1;padding:12px}
+.r-com-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
+.r-com-tag{font-size:6.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  padding:3px 6px;border-radius:5px}
+.r-com-tag--a{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.r-com-tag--r{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.r-com-tag--s{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}
+.r-com-body b{display:block;font-size:12px;color:#0f172a;margin-bottom:5px;line-height:1.25}
+.r-com-body p{font-size:9px;color:#64748b;margin:0 0 9px;line-height:1.5;max-width:none}
+.r-com-btn{background:#dc2626;color:#fff;font-size:7.5px;font-weight:800;padding:6px 11px;
+  border-radius:7px;text-transform:uppercase;letter-spacing:.07em;display:inline-block}
+.r-login{background:#f1f5f9;padding:22px;display:flex;align-items:center;justify-content:center}
+.r-lbox{background:#fff;border-radius:13px;padding:20px;width:100%;max-width:280px;
+  box-shadow:0 8px 26px rgba(15,23,42,.12)}
+.r-lbox-h{text-align:center;margin-bottom:15px}
+.r-lbox-h .r-logo{margin:0 auto 8px;background:#dc2626;border-color:#dc2626;width:34px;height:34px}
+.r-lbox-h b{display:block;font-size:12px;color:#0f172a}
+.r-lbox-h span{font-size:7.5px;color:#64748b;text-transform:uppercase;letter-spacing:.13em;font-weight:700}
+.r-lfield{margin-bottom:10px}
+.r-lfield label{display:block;font-size:8.5px;font-weight:800;color:#334155;margin-bottom:4px}
+.r-lin{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;font-size:9.5px;color:#334155}
+.r-lin--f{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.1)}
+.r-lin--e{color:#cbd5e1}
+.r-lbtn{background:#dc2626;color:#fff;text-align:center;font-size:9px;font-weight:800;
+  padding:9px;border-radius:8px;text-transform:uppercase;letter-spacing:.09em;margin-top:4px}
+.r-chat{background:#eef2f7;padding:16px;display:flex;justify-content:flex-end;align-items:flex-end;gap:11px}
+.r-cwin{width:230px;background:#fff;border-radius:13px;overflow:hidden;box-shadow:0 10px 30px rgba(15,23,42,.2)}
+.r-cwin-h{background:linear-gradient(135deg,#1a5276,#0a2f5a);padding:9px 11px;display:flex;align-items:center;gap:8px}
+.r-cav{width:23px;height:23px;border-radius:50%;background:#d4a843;flex-shrink:0}
+.r-cwin-h b{color:#fff;font-size:9.5px;display:block;line-height:1.2}
+.r-cwin-h span{color:#93c5fd;font-size:7px;display:flex;align-items:center;gap:4px}
+.r-cdot{width:5px;height:5px;border-radius:50%;background:#4ade80;display:inline-block}
+.r-cbody{padding:10px;background:#f8fafc;display:flex;flex-direction:column;gap:7px}
+.r-cmsg{font-size:8.5px;line-height:1.5;padding:7px 9px;border-radius:10px;max-width:82%}
+.r-cmsg--b{background:#fff;border:1px solid #e2e8f0;color:#0f172a;align-self:flex-start;border-bottom-left-radius:3px}
+.r-cmsg--u{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.r-cin{background:#fff;border-top:1px solid #e2e8f0;padding:7px 9px;display:flex;align-items:center;gap:7px}
+.r-cin span{flex:1;font-size:8px;color:#94a3b8}
+.r-cin i{width:20px;height:20px;border-radius:50%;background:#1a5276;flex-shrink:0}
+.r-cfab{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1a5276,#0a2f5a);
+  box-shadow:0 5px 16px rgba(10,47,90,.35);flex-shrink:0;display:flex;align-items:center;
+  justify-content:center;color:#d4a843;font-size:19px}
+.r-branch{background:#f1f5f9;padding:13px}
+.r-btable{background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0}
+.r-btr{display:grid;grid-template-columns:2.2fr 1fr 1fr .8fr;gap:8px;padding:8px 11px;
+  border-bottom:1px solid #f1f5f9;font-size:9px;color:#475569;align-items:center}
+.r-btr--h{background:#f8fafc;font-size:7px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.11em;color:#94a3b8}
+.r-btr b{color:#0f172a;font-weight:700}
+.r-btag{font-size:6.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+  padding:2.5px 6px;border-radius:4px;background:#eef2ff;color:#4338ca;
+  border:1px solid #c7d2fe;display:inline-block}
+.r-btag--f{background:#fffbeb;color:#b45309;border-color:#fde68a}
+.r-btag--a{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+
+/* ── REPRODUCCIONES ADICIONALES ───────────────────────────────────── */
+/* Barra de navegación con menú desplegado */
+.r-nav{background:#0f172a;padding:0 12px;display:flex;gap:2px;position:relative}
+.r-navitem{color:#cbd5e1;font-size:8.5px;font-weight:700;padding:9px 10px;white-space:nowrap}
+.r-navitem--on{background:#1e293b;color:#fff;box-shadow:inset 0 -2px 0 #dc2626}
+.r-drop{background:#fff;border:1px solid #e2e8f0;border-radius:0 0 9px 9px;
+  box-shadow:0 10px 24px rgba(15,23,42,.18);padding:11px;display:grid;
+  grid-template-columns:repeat(3,1fr);gap:11px}
+.r-dcol b{display:block;font-size:8px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.1em;color:#dc2626;padding-bottom:5px;margin-bottom:5px;
+  border-bottom:1px solid #f1f5f9}
+.r-dcol a{display:block;font-size:8.5px;color:#475569;padding:3px 0;text-decoration:none}
+/* Carrusel hero */
+.r-hero{position:relative;height:112px;overflow:hidden;display:flex;align-items:flex-end}
+.r-hero--b{background:linear-gradient(160deg,#1e3a8a,#0f172a)}
+.r-hero--r{background:linear-gradient(160deg,#7f1d1d,#450a0a)}
+.r-hbadge{position:absolute;top:9px;left:9px;font-size:6.5px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.13em;padding:3px 8px;border-radius:20px;color:#fff}
+.r-hbadge--b{background:rgba(37,99,235,.85);border:1px solid rgba(96,165,250,.3)}
+.r-hbadge--r{background:rgba(220,38,38,.85);border:1px solid rgba(248,113,113,.3)}
+.r-hbox{margin:0 0 14px 14px;background:rgba(15,23,42,.45);border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;padding:8px 11px;max-width:66%;backdrop-filter:blur(4px)}
+.r-hbox b{color:#fff;font-size:11px;font-weight:800;display:block;line-height:1.25}
+.r-hbox span{color:rgba(191,219,254,.8);font-size:7px;font-weight:600}
+.r-hdots{position:absolute;top:11px;left:118px;display:flex;gap:4px}
+.r-hdot{width:11px;height:3px;border-radius:2px;background:rgba(255,255,255,.3)}
+.r-hdot--on{background:#fff;width:16px}
+.r-hbar{position:absolute;bottom:0;left:0;height:2px;width:44%;background:#60a5fa}
+/* Tarjetas de últimos registros y noticias */
+.r-cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.r-rc{background:#fff;border-radius:9px;overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,.09)}
+.r-rc-img{height:44px;position:relative}
+.r-rc-tag{position:absolute;top:5px;left:5px;background:#dc2626;color:#fff;font-size:6px;
+  font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:2px 5px;border-radius:3px}
+.r-rc-body{padding:7px 8px}
+.r-rc-body b{display:block;font-size:8.5px;color:#0f172a;line-height:1.3;margin-bottom:5px}
+.r-rc-meta{display:flex;justify-content:space-between;font-size:6.5px;color:#64748b;font-weight:600}
+.r-rc-meta em{color:#dc2626;font-style:normal;font-weight:800}
+/* Visor a pantalla completa */
+.r-lb{background:rgba(2,6,23,.94);padding:16px;display:flex;flex-direction:column;
+  align-items:center;gap:9px;position:relative}
+.r-lb-img{width:62%;height:96px;border-radius:6px;
+  background:linear-gradient(135deg,#93c5fd,#3b82f6)}
+.r-lb-ctr{color:#cbd5e1;font-size:7px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.r-lb-x{position:absolute;top:9px;right:11px;width:20px;height:20px;border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fff;display:flex;align-items:center;
+  justify-content:center;font-size:11px}
+.r-lb-a{position:absolute;top:50%;transform:translateY(-50%);width:22px;height:22px;
+  border-radius:50%;background:rgba(255,255,255,.12);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-size:11px}
+/* Pestañas y casillas (reportes) */
+.r-tabs{display:flex;gap:5px;margin-bottom:10px}
+.r-tab{font-size:8px;font-weight:800;padding:6px 11px;border-radius:7px;
+  background:#fff;border:1px solid #e2e8f0;color:#64748b}
+.r-tab--on{background:#4f46e5;border-color:#4f46e5;color:#fff}
+.r-chk{display:flex;align-items:center;gap:6px;font-size:8.5px;color:#475569;padding:3px 0}
+.r-chk i{width:11px;height:11px;border-radius:3px;border:1.5px solid #cbd5e1;
+  flex-shrink:0;display:inline-block}
+.r-chk--on i{background:#4f46e5;border-color:#4f46e5}
+.r-chk--on{color:#0f172a;font-weight:700}
+.r-seg{display:inline-flex;background:#f1f5f9;border-radius:7px;padding:2px;gap:2px}
+.r-seg span{font-size:7.5px;font-weight:700;padding:4px 9px;border-radius:5px;color:#64748b}
+.r-seg span.on{background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(15,23,42,.1)}
+/* Pie institucional del portal */
+.r-pie{background:#0f172a;padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.r-pie b{display:block;color:#fff;font-size:7.5px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.1em;padding-bottom:5px;margin-bottom:5px;border-bottom:1px solid rgba(255,255,255,.1)}
+.r-pie a{display:block;color:#94a3b8;font-size:7.5px;padding:2px 0;text-decoration:none}
+/* Vista previa de boletín */
+.r-bol{background:#fff;border:1px solid #e2e8f0;border-radius:9px;overflow:hidden}
+.r-bol-h{background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:5px 8px;
+  display:flex;justify-content:space-between;align-items:center}
+.r-bol-h span{font-size:7.5px;font-weight:800;color:#0f172a}
+.r-bol-h i{background:#dc2626;color:#fff;font-size:6px;padding:2px 5px;border-radius:3px;font-style:normal}
+.r-bol-b{height:74px;background:#f1f5f9;padding:8px;display:flex;flex-direction:column;gap:3px}
+
+/* ── TABLAS ───────────────────────────────────────────────────────── */
+.scroll{overflow-x:auto;margin:22px 0}
+table.t{width:100%;min-width:560px;border-collapse:collapse;font-size:.87rem}
+table.t th{text-align:left;font-family:var(--dato);font-size:9.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--tinta-3);font-weight:700;padding:0 14px 8px 0;
+  border-bottom:1.5px solid var(--tinta);vertical-align:bottom}
+table.t td{padding:12px 14px 12px 0;border-bottom:1px solid var(--linea);
+  vertical-align:top;color:var(--tinta-2)}
+table.t td:first-child{color:var(--tinta);font-weight:650}
+table.t th:last-child,table.t td:last-child{padding-right:0}
+table.t code{font-size:.82em;background:none;border:0;padding:0}
+.pill{display:inline-block;font-family:var(--dato);font-size:9.5px;letter-spacing:.07em;
+  text-transform:uppercase;font-weight:700;padding:2.5px 7px;border-radius:3px;white-space:nowrap}
+.pill--v{background:rgba(30,107,79,.15);color:var(--verde)}
+.pill--a{background:rgba(143,92,13,.17);color:var(--ambar)}
+.pill--r{background:rgba(163,40,47,.15);color:var(--alarma)}
+.pill--n{background:rgba(147,138,144,.16);color:var(--tinta-3)}
+.net{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--tinta)}
+
+/* ── AVISOS ───────────────────────────────────────────────────────── */
+.note{border-left:3px solid var(--carmin);background:var(--papel-2);padding:15px 17px;
+  margin:24px 0;border-radius:0 4px 4px 0}
+.note p{margin:0;font-size:.89rem;max-width:64ch}
+.note p+p{margin-top:8px}
+.note-t{font-family:var(--dato);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--carmin);font-weight:700;display:block;margin-bottom:6px}
+.note--n{border-left-color:var(--tinta-3)}
+.note--n .note-t{color:var(--tinta-3)}
+dl.defs{margin:20px 0 0}
+.def{display:grid;grid-template-columns:196px minmax(0,1fr);gap:18px;padding:13px 0;
+  border-bottom:1px solid var(--linea)}
+.def:first-child{border-top:1px solid var(--linea)}
+.def dt{font-weight:700;font-size:.9rem}
+.def dd{margin:0;font-size:.89rem;color:var(--tinta-2)}
+@media (max-width:620px){.def{grid-template-columns:1fr;gap:4px}}
+ol.steps{list-style:none;margin:24px 0 0;padding:0;counter-reset:paso}
+.step{counter-increment:paso;display:grid;grid-template-columns:38px minmax(0,1fr);
+  gap:16px;padding:17px 0;border-top:1px solid var(--linea)}
+.step:last-child{border-bottom:1px solid var(--linea)}
+.step::before{content:counter(paso);font-family:var(--display);font-size:1.5rem;
+  line-height:1;color:var(--carmin);padding-top:2px}
+.step h6{font-size:.95rem;font-weight:700;margin:0 0 4px}
+.step p{margin:0;font-size:.9rem;color:var(--tinta-2);max-width:62ch}
+footer.foot{margin-top:70px;padding-top:20px;border-top:3px double var(--tinta);
+  font-family:var(--dato);font-size:10.5px;line-height:1.7;color:var(--tinta-3);letter-spacing:.04em}
+
+/* ── IMPRESIÓN / PDF ──────────────────────────────────────────────── */
+@media print{
+  :root{--papel:#fff;--papel-2:#f6f3f2;--tinta:#14100f;--tinta-2:#4d4549;
+    --tinta-3:#7d7278;--carmin:#961c28;--linea:#ddd5d4;--linea-2:#c4b9b8}
+  body{padding:0;font-size:10.5pt;line-height:1.5;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap{max-width:none}
+  .body{display:block;padding-top:0}
+  .toc{position:static;max-height:none;page-break-after:always}
+  .cover{min-height:auto;padding:0 0 30pt;page-break-after:always}
+  .part{page-break-before:always;margin-top:0}
+  .sec{margin-bottom:24pt}
+  h3.h3,h4,h5{page-break-after:avoid}
+  .fig,.note,.scroll{page-break-inside:avoid}
+  table.t{min-width:0;font-size:8.5pt}
+  .scroll,.r-scroll,.fig-body{overflow-x:visible}
+  .r{min-width:0;box-shadow:none;border:1px solid #ccc}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══════════════ CARÁTULA ═══════════════ -->
+<header class="cover">
+  <div class="crest">
+    <div class="crest-mark" aria-hidden="true">D</div>
+    <div class="crest-txt">
+      <b>Dirección Regional de Trabajo y Promoción del Empleo</b>
+      Gobierno Regional de Puno · Perú
+    </div>
+  </div>
+  <p class="kicker">Manual de uso · Documento de referencia</p>
+  <h1>El portal, la intranet y el <em>asistente virtual</em></h1>
+  <p class="sub">
+    Qué hace cada parte del sistema, quién la opera, con qué reglas y qué ve el ciudadano
+    como resultado. Escrito para quien llega de fuera: no hace falta conocimiento técnico
+    para seguirlo de principio a fin, y sirve de referencia para operar el sistema a diario.
+  </p>
+  <dl class="coverfacts">
+    <div class="cf"><dt>Código</dt><dd>DRTPE-TI-DOC-002 · v1.0</dd></div>
+    <div class="cf"><dt>Componentes</dt><dd>Portal público, intranet y asistente virtual</dd></div>
+    <div class="cf"><dt>Sedes</dt><dd>Puno (central), Juliaca y Taraco</dd></div>
+    <div class="cf"><dt>Clasificación</dt><dd>Uso interno institucional</dd></div>
+  </dl>
+
+  <div class="note" style="margin-top:34px">
+    <span class="note-t">Documento complementario</span>
+    <p>
+      Acompaña a la <strong>Documentación Técnica del Sistema</strong> (DRTPE-TI-DOC-001).
+      Aquélla describe la arquitectura, el modelo de datos y los procedimientos de despliegue,
+      dirigida a perfiles técnicos; ésta describe el trabajo diario y no exige conocimiento
+      técnico alguno.
+    </p>
+  </div>
+</header>
+
+<div class="body">
+
+<!-- ═══════════════ ÍNDICE ═══════════════ -->
+<nav class="toc" aria-label="Índice del manual">
+  <p class="toc-head">Índice</p>
+  <p class="toc-part">I · Panorama</p>
+  <ul>
+    <li><a href="#c1">1 · Qué es este sistema</a></li>
+    <li><a href="#c2">2 · Las tres piezas</a></li>
+    <li><a href="#c3">3 · Quién hace qué</a></li>
+  </ul>
+  <p class="toc-part">II · Portal público</p>
+  <ul>
+    <li><a href="#c4">4 · Anatomía de la portada</a></li>
+    <li><a href="#c5">5 · La cronología operativa</a></li>
+    <li><a href="#c6">6 · Páginas institucionales</a></li>
+    <li><a href="#c7">7 · Sedes desconcentradas</a></li>
+  </ul>
+  <p class="toc-part">III · Intranet</p>
+  <ul>
+    <li><a href="#c8">8 · Cómo se entra</a></li>
+    <li><a href="#c9">9 · Panel de control</a></li>
+    <li><a href="#c10">10 · Actividades y avances</a></li>
+    <li><a href="#c11">11 · Registrar una ejecución</a></li>
+    <li><a href="#c12">12 · Talleres</a></li>
+    <li><a href="#c13">13 · Coordinaciones</a></li>
+    <li><a href="#c14">14 · Actividades de sede</a></li>
+    <li><a href="#c15">15 · Comunicados y boletines</a></li>
+    <li><a href="#c16">16 · Reportes en Excel</a></li>
+    <li><a href="#c17">17 · Papelera</a></li>
+    <li><a href="#c18">18 · Usuarios de sede</a></li>
+  </ul>
+  <p class="toc-part">IV · Difusión</p>
+  <ul>
+    <li><a href="#c19">19 · Fotografías</a></li>
+    <li><a href="#c20">20 · Videos: cómo se cargan</a></li>
+    <li><a href="#c21">21 · Videos: qué acepta</a></li>
+    <li><a href="#c22">22 · Videos: qué se publica</a></li>
+    <li><a href="#c23">23 · Videos: problemas</a></li>
+  </ul>
+  <p class="toc-part">V · Procedimientos</p>
+  <ul>
+    <li><a href="#c24">24 · Publicar una capacitación</a></li>
+    <li><a href="#c25">25 · Convocar y ejecutar un taller</a></li>
+    <li><a href="#c26">26 · Publicar un comunicado</a></li>
+    <li><a href="#c27">27 · Dar de alta un operador</a></li>
+  </ul>
+  <p class="toc-part">VI · Asistente</p>
+  <ul>
+    <li><a href="#c28">28 · Qué es el asistente</a></li>
+    <li><a href="#c29">29 · Qué sabe responder</a></li>
+  </ul>
+  <p class="toc-part">Anexos</p>
+  <ul>
+    <li><a href="#a1">A · Límites y formatos</a></li>
+    <li><a href="#a2">B · Qué hacer si…</a></li>
+    <li><a href="#a3">C · Glosario</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ══════════════ PARTE I ══════════════ -->
+<section class="part">
+  <p class="part-n">Parte I</p>
+  <h2>Panorama general</h2>
+  <p>Qué problema resuelve el sistema, cómo se reparte el trabajo entre sus partes y qué puede hacer cada perfil de usuario.</p>
+</section>
+
+<section class="sec" id="c1">
+  <h3 class="h3"><span class="num">Capítulo 1</span>Qué es este sistema</h3>
+  <p class="lead">
+    Es la herramienta con la que la DRTPE Puno registra su trabajo diario y lo publica de
+    cara al ciudadano, sin que nadie tenga que editar una página web a mano.
+  </p>
+  <p>
+    El principio de fondo es sencillo: <strong>lo que se registra por dentro se publica por
+    fuera</strong>. Cuando un operador anota que se realizó una capacitación —con su fecha,
+    su número de asistentes, sus fotografías y el enlace del video que se subió a redes— esa
+    información aparece automáticamente en el portal público. No hay un segundo paso de
+    «publicación», ni una persona que copie los datos de un sitio a otro.
+  </p>
+  <p>
+    Esto tiene tres consecuencias que conviene tener presentes desde el inicio:
+  </p>
+  <ul class="ul">
+    <li><strong>El portal está siempre al día</strong>, porque refleja el registro operativo real, no una versión resumida que alguien mantiene aparte.</li>
+    <li><strong>Un error de captura se ve publicado.</strong> Si alguien escribe mal el título de una actividad, ese título mal escrito es el que lee el ciudadano, en cuanto se guarda el formulario.</li>
+    <li><strong>Las mismas cifras alimentan los indicadores y la página pública.</strong> No hay dos verdades: el número de asistentes que se ve en la cronología es el que suma en el porcentaje de cumplimiento.</li>
+  </ul>
+  <div class="note">
+    <span class="note-t">La idea en una frase</span>
+    <p>
+      Un sistema de gestión interna que, además, hace de portal de transparencia. El
+      registro operativo y la comunicación pública son la misma base de datos vista desde
+      dos lados.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c2">
+  <h3 class="h3"><span class="num">Capítulo 2</span>Las tres piezas</h3>
+  <p>
+    El sistema se compone de tres partes que funcionan juntas pero son independientes.
+    Distinguirlas ahorra tiempo cuando algo falla, porque indica a quién hay que dirigirse.
+  </p>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:20%">Pieza</th><th style="width:17%">Acceso</th>
+        <th style="width:35%">Para qué sirve</th><th style="width:28%">Si deja de funcionar</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Portal público</td><td>Abierto, sin contraseña</td>
+          <td>Publica la actividad institucional, las páginas de servicios y los comunicados.</td>
+          <td>El sitio deja de estar disponible para el ciudadano.</td></tr>
+        <tr><td>Intranet</td><td>Usuario y contraseña</td>
+          <td>Registra el trabajo, calcula indicadores y genera los reportes oficiales.</td>
+          <td>El portal sigue mostrando lo ya registrado, pero no se puede añadir ni corregir nada.</td></tr>
+        <tr><td>Asistente virtual</td><td>Abierto, servicio aparte</td>
+          <td>Responde consultas de ciudadanos sobre trámites y servicios.</td>
+          <td>Solo desaparece la ventana de chat; el resto del portal funciona igual.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    El portal y la intranet comparten la misma base de datos: son dos caras de lo mismo. El
+    asistente virtual es un programa distinto, con su propia información, que se enciende y
+    se apaga por separado y <strong>no tiene acceso al registro operativo</strong> — no
+    puede informar sobre actividades, asistentes ni indicadores.
+  </p>
+  <div class="note note--n">
+    <span class="note-t">Consecuencia práctica</span>
+    <p>
+      Si un ciudadano reporta que «el chat no responde», eso no significa que el portal esté
+      caído. Y a la inversa: si el portal no carga, el chat tampoco se verá, porque vive
+      dentro de esa página.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c3">
+  <h3 class="h3"><span class="num">Capítulo 3</span>Quién puede hacer qué</h3>
+  <p>
+    Existen tres perfiles. El perfil, combinado con la sede asignada, determina a qué
+    pantalla llega cada persona al entrar y sobre qué registros puede actuar.
+  </p>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:19%">Perfil</th><th style="width:23%">Al entrar llega a</th>
+        <th style="width:30%">Puede</th><th style="width:28%">No puede</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Administrador</td><td>Panel de Control Operativo</td>
+          <td>Todo: todos los módulos, todas las sedes, alta y baja de operadores, papelera.</td>
+          <td>—</td></tr>
+        <tr><td>Director</td><td>Panel de Control Operativo</td>
+          <td>Los módulos operativos y los indicadores de la Sede Central.</td>
+          <td>Administrar usuarios.</td></tr>
+        <tr><td>Operador de sede</td><td>Actividades de su sede</td>
+          <td>Registrar y editar las actividades de <strong>su</strong> sede.</td>
+          <td>Ver indicadores globales ni tocar registros de otra sede.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>La separación entre sedes es real, no cosmética</h4>
+  <p>
+    Un operador de Juliaca no puede ver ni modificar un registro de Taraco, aunque conozca
+    su dirección exacta: el sistema comprueba la propiedad en cada acción —abrir, editar,
+    eliminar— y devuelve un aviso de acceso denegado. La sede no se elige en el formulario,
+    <strong>se toma automáticamente de la cuenta</strong> con la que se inició sesión, de
+    modo que no puede asignarse por error ni manipularse desde el navegador.
+  </p>
+
+  <div class="note">
+    <span class="note-t">Sede Central y sedes desconcentradas</span>
+    <p>
+      Puno funciona como <strong>Sede Central</strong>: lo que publica se ve en todo el
+      portal. Juliaca y Taraco son <strong>sedes desconcentradas</strong>: tienen su propia
+      página pública y su propio panel de trabajo. Cada sede ve sus comunicados más los
+      institucionales, nunca los de la otra sede.
+    </p>
+    <p>
+      Un director asignado a una sede desconcentrada se comporta como operador de esa sede:
+      también queda fuera de los indicadores globales. El perfil no basta por sí solo —
+      cuenta la combinación de perfil y sede.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ PARTE II ══════════════ -->
+<section class="part">
+  <p class="part-n">Parte II</p>
+  <h2>El portal público</h2>
+  <p>Lo que ve cualquier ciudadano al entrar, sin contraseña. Es la cara visible del trabajo registrado en la intranet.</p>
+</section>
+
+<section class="sec" id="c4">
+  <h3 class="h3"><span class="num">Capítulo 4</span>Anatomía de la portada</h3>
+  <p class="lead">
+    La página de inicio reúne, en un solo recorrido vertical, la actividad reciente de la
+    institución y los accesos a todo lo demás.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r">
+        <div class="r-head">
+          <div class="r-brand">
+            <div class="r-logo">D</div>
+            <div><div class="r-brand-t">Portal Oficial de Actividades</div>
+              <div class="r-brand-s">DRTPE Puno · Perú</div></div>
+          </div>
+          <div class="r-acceso">🔒 Acceso Interno</div>
+        </div>
+        <div class="r-shell">
+          <div class="r-side">
+            <div class="r-side-brand">
+              <div class="r-logo" style="width:22px;height:22px;background:#0f172a;border-color:#334155;font-size:8px">D</div>
+              <div><b>DRTPE Puno</b><span>Dirección Regional</span></div>
+            </div>
+            <div class="r-sedes">
+              <div class="r-sedes-h"><i>📍</i><p>Sedes Desconcentradas</p></div>
+              <div class="r-sede"><div class="r-sede-i"></div><div><b>Sede Juliaca</b><span>Actividades Operativas Norte</span></div></div>
+              <div class="r-sede"><div class="r-sede-i"></div><div><b>Sede Taraco</b><span>Intervenciones Itinerantes</span></div></div>
+            </div>
+            <div class="r-sgroup">⚖ Tramitación y Formaliza</div>
+            <div class="r-slink"><div class="r-slink-i" style="background:linear-gradient(145deg,#2563eb,#4f46e5)"></div><div><b>Registro REMYPE</b><span>Micro y Pequeña Empresa</span></div></div>
+            <div class="r-slink"><div class="r-slink-i" style="background:linear-gradient(145deg,#e11d48,#dc2626)"></div><div><b>Denuncias Virtuales</b><span>Inspección del Trabajo</span></div></div>
+            <div class="r-sgroup">💼 Oportunidades Laborales</div>
+            <div class="r-slink"><div class="r-slink-i" style="background:linear-gradient(145deg,#059669,#0d9488)"></div><div><b>Portal Empleos Perú</b><span>Bolsa nacional oficial</span></div></div>
+            <div class="r-slink"><div class="r-slink-i" style="background:linear-gradient(145deg,#0891b2,#2563eb)"></div><div><b>Certificado Único Laboral</b><span>Emisión gratuita</span></div></div>
+          </div>
+          <div class="r-main">
+            <div class="r-actv">
+              <div class="r-actv-i"></div>
+              <p>Capacitación dirigida a gremios empresariales y sindicales en materia de normativa laboral general</p>
+              <div class="r-badge">PP: 443</div>
+              <div class="r-badge r-badge--n">4 registros</div>
+            </div>
+            <div class="r-card">
+              <div class="r-strip"><span>★ Registro más reciente</span><span class="r-date">02 Ago. 2026</span></div>
+              <div class="r-cbody">
+                <div class="r-pills">
+                  <span class="r-pill">📅 02 Ago. 2026</span>
+                  <span class="r-pill r-pill--g">👥 48 Asistentes</span>
+                </div>
+                <p class="r-ctitle">Jornada de orientación laboral en el mercado central</p>
+                <div class="r-quote">Se atendieron consultas sobre derechos laborales y formalización dirigidas a comerciantes de la zona.</div>
+                <div class="r-photos">
+                  <div class="r-photo" style="background:linear-gradient(135deg,#93c5fd,#3b82f6)"></div>
+                  <div class="r-photo" style="background:linear-gradient(135deg,#fcd34d,#f59e0b)"></div>
+                  <div class="r-photo" style="background:linear-gradient(135deg,#a7f3d0,#10b981)"></div>
+                  <div class="r-photo" style="background:linear-gradient(135deg,#fca5a5,#ef4444)"></div>
+                </div>
+                <div class="r-dif-h"><span style="color:#dc2626">🎬</span><span>Difusión en redes sociales (2)</span></div>
+                <div class="r-frames">
+                  <div class="r-frame r-frame--v r-frame--tt">
+                    <span class="r-ftag">TikTok</span>
+                    <div class="r-fcover"><span>Ver en TikTok</span></div>
+                    <div class="r-play">▶</div>
+                  </div>
+                  <div class="r-frame r-frame--h r-frame--yt">
+                    <span class="r-ftag">YouTube</span><div class="r-play">▶</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 1.</b> La portada con su encabezado rojo, la barra lateral de accesos y un
+      registro de la cronología. Reproducción construida a partir del código de las
+      plantillas, con los colores y textos reales de la aplicación.
+    </figcaption>
+  </figure>
+
+  <h4>Qué contiene, en orden de aparición</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:24%">Sección</th><th style="width:44%">Qué muestra</th>
+        <th style="width:18%">De dónde sale</th><th style="width:14%">Si no hay datos</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Carrusel de difusión</td><td>Actividades de difusión con fotografía a pantalla completa, rotando cada cinco segundos. Al pulsarlas se abre el detalle en una ventana.</td><td>Registros operativos</td><td>No aparece</td></tr>
+        <tr><td>Carrusel institucional</td><td>Eventos institucionales, en el mismo formato y con distintivo rojo.</td><td>Registros operativos</td><td>No aparece</td></tr>
+        <tr><td>Bienvenida</td><td>Texto institucional fijo que evita que el portal se vea vacío cuando no hay actividad reciente.</td><td>Contenido fijo</td><td>Siempre visible</td></tr>
+        <tr><td>Últimos registros</td><td>Tres tarjetas con lo más reciente. Al pulsarlas, la página baja sola hasta el registro completo en la cronología y lo resalta.</td><td>Registros operativos</td><td>No aparece</td></tr>
+        <tr><td>Noticias</td><td>Comunicados institucionales presentados como noticias, con imagen y fecha.</td><td>Comunicados</td><td>No aparece</td></tr>
+        <tr><td>Talleres y capacitaciones</td><td>Los programados y los ya ejecutados, en bloques separados.</td><td>Módulo de talleres</td><td>Mensaje «no hay talleres publicados»</td></tr>
+        <tr><td>Coordinaciones</td><td>Reuniones de coordinación con su galería y sus videos.</td><td>Módulo de coordinaciones</td><td>No aparece</td></tr>
+        <tr><td>Cronología operativa</td><td>El historial completo, agrupado por actividad. Es la sección más extensa.</td><td>Registros operativos</td><td>Queda vacía</td></tr>
+        <tr><td>Tablón de comunicados</td><td>Comunicados vigentes con su documento y anexos descargables, rotando solos.</td><td>Comunicados</td><td>No aparece</td></tr>
+        <tr><td>Medios e información</td><td>Muro de Facebook incrustado, enlace a TikTok y boletines en PDF con vista previa.</td><td>Boletines y redes</td><td>Muestra dos boletines de ejemplo</td></tr>
+        <tr><td>Pie institucional</td><td>Mapa de enlaces, direcciones de las tres sedes y datos de contacto.</td><td>Contenido fijo</td><td>Siempre visible</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>La barra de navegación superior</h4>
+  <p>
+    Da acceso a las páginas informativas. Al pasar el cursor por «Estructura Orgánica» se
+    despliega el árbol completo de la organización.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:540px">
+        <div class="r-nav">
+          <span class="r-navitem">Inicio</span>
+          <span class="r-navitem">Institucional</span>
+          <span class="r-navitem r-navitem--on">Estructura Orgánica</span>
+          <span class="r-navitem">Servicios</span>
+          <span class="r-navitem">Talleres</span>
+          <span class="r-navitem">Coordinaciones</span>
+        </div>
+        <div class="r-drop">
+          <div class="r-dcol">
+            <b>Gerencia Regional</b>
+            <a>Dirección y conducción</a>
+            <b style="margin-top:9px">Oficina de Administración</b>
+            <a>Personal</a><a>Contabilidad</a><a>Abastecimiento</a><a>Presupuesto</a>
+          </div>
+          <div class="r-dcol">
+            <b>Prevención de Conflictos</b>
+            <a>Dirección Principal</a><a>Negociaciones Colectivas</a>
+            <a>Inspección Laboral</a><a>Defensa Legal Gratuita</a>
+          </div>
+          <div class="r-dcol">
+            <b>Dirección del Empleo</b>
+            <a>Información General</a><a>Subdirección de Empleo</a><a>Registros Administrativos</a>
+            <b style="margin-top:9px">Órganos Desconcentrados</b>
+            <a>Zona de Juliaca</a><a>Centro de Taraco</a>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 2.</b> El menú de Estructura Orgánica desplegado, con sus cinco áreas y las
+      páginas de cada una.
+    </figcaption>
+  </figure>
+
+  <h4>Los carruseles de cabecera</h4>
+  <p>
+    Lo primero que ve el ciudadano. Son dos franjas superpuestas en diagonal: la superior, en
+    azul, muestra <strong>actividades de difusión</strong>; la inferior, en rojo,
+    <strong>eventos institucionales</strong>. Cada una rota sola cada cinco segundos, con una
+    barra de progreso que indica cuánto falta para el siguiente, y puntos para saltar
+    directamente a uno.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:460px">
+        <div class="r-hero r-hero--b">
+          <span class="r-hbadge r-hbadge--b">📻 Actividades de Difusión</span>
+          <div class="r-hdots"><span class="r-hdot r-hdot--on"></span><span class="r-hdot"></span><span class="r-hdot"></span></div>
+          <div class="r-hbox">
+            <b>Jornada de orientación laboral en el mercado central</b>
+            <span>👆 Presione para ver descripción y galería</span>
+          </div>
+          <div class="r-hbar"></div>
+        </div>
+        <div class="r-hero r-hero--r" style="align-items:flex-end">
+          <span class="r-hbadge r-hbadge--r" style="left:auto;right:9px">📅 Eventos Institucionales</span>
+          <div class="r-hbox">
+            <b>Firma de convenio interinstitucional con la Municipalidad Provincial</b>
+            <span>👆 Presione para ver descripción y galería</span>
+          </div>
+          <div class="r-hbar" style="background:#f87171;width:71%"></div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 3.</b> Los dos carruseles de cabecera. La imagen de fondo es la
+      <b>primera fotografía</b> del registro, por eso conviene elegirla horizontal y bien
+      encuadrada.
+    </figcaption>
+  </figure>
+
+  <h4>Últimos registros y noticias</h4>
+  <p>
+    Bajo el texto de bienvenida aparecen tres tarjetas con la actividad más reciente. Al
+    pulsar cualquiera, la página baja sola hasta ese registro en la cronología y lo resalta
+    unos segundos. Más abajo, las <strong>noticias</strong> presentan los comunicados
+    institucionales en formato periodístico.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:480px;box-shadow:none;background:#fff;padding:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+          <span style="width:16px;height:16px;border-radius:5px;background:#dc2626;display:inline-block"></span>
+          <div><b style="font-size:10px;color:#0f172a">Últimos Registros</b>
+            <div style="font-size:7px;color:#64748b">Actividades recientes con evidencia fotográfica · clic para ir al registro</div></div>
+        </div>
+        <div class="r-cards3">
+          <div class="r-rc">
+            <div class="r-rc-img" style="background:linear-gradient(135deg,#93c5fd,#1e40af)"><span class="r-rc-tag">Prevención</span></div>
+            <div class="r-rc-body"><b>Jornada de orientación laboral</b>
+              <div class="r-rc-meta"><span>👥 48 asistentes</span><em>Ver &rarr;</em></div></div>
+          </div>
+          <div class="r-rc">
+            <div class="r-rc-img" style="background:linear-gradient(135deg,#fcd34d,#b45309)"><span class="r-rc-tag">Formaliza</span></div>
+            <div class="r-rc-body"><b>Capacitación a comerciantes</b>
+              <div class="r-rc-meta"><span>👥 52 asistentes</span><em>Ver &rarr;</em></div></div>
+          </div>
+          <div class="r-rc">
+            <div class="r-rc-img" style="background:linear-gradient(135deg,#a7f3d0,#047857)"><span class="r-rc-tag">Empleo</span></div>
+            <div class="r-rc-body"><b>Feria de empleo juvenil</b>
+              <div class="r-rc-meta"><span>👥 135 asistentes</span><em>Ver &rarr;</em></div></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 4.</b> Las tarjetas de últimos registros. La etiqueta roja es la categoría de
+      la actividad; la cifra, los asistentes registrados.
+    </figcaption>
+  </figure>
+
+  <h4>La barra lateral</h4>
+  <p>
+    Acompaña toda la navegación y agrupa tres cosas: el acceso destacado a las
+    <strong>sedes desconcentradas</strong>, las direcciones de las tres sedes con sus redes
+    sociales, y dos bloques de enlaces a servicios externos del Estado —
+    <strong>Tramitación y Formaliza</strong> (REMYPE, denuncias ante SUNAFIL, asesoría de
+    formalización del MTPE) y <strong>Oportunidades Laborales</strong> (Empleos Perú,
+    Certificado Único Laboral, convocatorias CAS de SERVIR).
+  </p>
+  <div class="note note--n">
+    <span class="note-t">Esos enlaces salen del sitio</span>
+    <p>
+      Llevan a portales del Gobierno Nacional. No forman parte del sistema, su contenido no
+      se administra desde la intranet, y si alguno deja de funcionar hay que corregir la
+      dirección en el código, no desde ningún formulario.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c5">
+  <h3 class="h3"><span class="num">Capítulo 5</span>La cronología operativa</h3>
+  <p class="lead">
+    Es el corazón del portal: el historial completo de lo ejecutado, agrupado por actividad
+    planificada y ordenado de lo más reciente a lo más antiguo.
+  </p>
+
+  <h4>Cómo se agrupa</h4>
+  <p>
+    Cada bloque corresponde a una <strong>actividad planificada</strong>. Su cabecera azul
+    muestra la descripción, el código presupuestal (etiqueta ámbar «PP») y cuántos registros
+    de ejecución acumula. Debajo, sobre una línea de tiempo vertical, se listan esos
+    registros.
+  </p>
+  <p>
+    El más reciente aparece siempre desplegado, identificado con una franja roja y una
+    estrella. Los anteriores quedan detrás de un botón que los despliega. Así una actividad
+    con veinte ejecuciones no inunda la página, pero nada queda oculto.
+  </p>
+  <p>
+    La página muestra <strong>diez actividades</strong> de entrada, con un botón al final
+    para cargar diez más. Esto mantiene la carga inicial ligera aunque el historial sea
+    extenso.
+  </p>
+
+  <h4>Qué lleva cada registro</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Elemento</th><th style="width:74%">Detalle</th></tr></thead>
+      <tbody>
+        <tr><td>Fecha</td><td>Etiqueta gris con el día de la ejecución. Determina también el orden dentro del bloque.</td></tr>
+        <tr><td>Asistentes</td><td>Etiqueta verde. Esta cifra es la que suma en el avance de la actividad.</td></tr>
+        <tr><td>Título del reporte</td><td>El titular del registro, tal como lo escribió el operador.</td></tr>
+        <tr><td>Comentario</td><td>Bloque de texto con borde izquierdo, bajo el título. Opcional.</td></tr>
+        <tr><td>Galería fotográfica</td><td>Cuadrícula de dos columnas. A partir de la quinta imagen, el resto queda tras un botón «ver N fotografías adicionales».</td></tr>
+        <tr><td>Difusión en redes</td><td>Los videos incrustados, con el número entre paréntesis. Solo aparece si hay alguno.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>El visor de fotografías</h4>
+  <p>
+    Al pulsar cualquier imagen de una galería, se abre a pantalla completa sobre un fondo
+    oscuro. Se navega entre las fotografías del mismo registro con las flechas laterales o con
+    el teclado, y se cierra con la ✕ o con la tecla <code>Esc</code>. Un contador indica la
+    posición dentro de la galería.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:400px;max-width:520px;margin:0 auto">
+        <div class="r-lb">
+          <div class="r-lb-x">✕</div>
+          <div class="r-lb-a" style="left:11px">‹</div>
+          <div class="r-lb-a" style="right:11px">›</div>
+          <div class="r-lb-img"></div>
+          <div class="r-lb-ctr">Imagen 2 de 6</div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 5.</b> El visor a pantalla completa. Funciona sobre cualquier galería del
+      portal: cronología, talleres, coordinaciones y páginas de sede.
+    </figcaption>
+  </figure>
+
+  <div class="note note--n">
+    <span class="note-t">Un detalle de navegación</span>
+    <p>
+      Las tarjetas de «Últimos registros» de la parte alta de la portada están enlazadas con
+      la cronología: al pulsarlas, la página despliega el bloque correspondiente si estaba
+      plegado, baja hasta el registro y lo resalta unos segundos. Es la forma más rápida de
+      comprobar que algo se publicó bien.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c6">
+  <h3 class="h3"><span class="num">Capítulo 6</span>Páginas institucionales y de servicios</h3>
+  <p>
+    Un conjunto de páginas informativas accesibles desde el menú superior. Su contenido es
+    <strong>fijo</strong>: no cambia con el trabajo diario.
+  </p>
+
+  <h5>Estructura orgánica</h5>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:32%">Área</th><th style="width:68%">Páginas</th></tr></thead>
+      <tbody>
+        <tr><td>Gerencia Regional</td><td>Dirección y conducción institucional</td></tr>
+        <tr><td>Oficina de Administración</td><td>Personal · Contabilidad · Abastecimiento · Presupuesto</td></tr>
+        <tr><td>Prevención de Conflictos</td><td>Dirección principal · Negociaciones colectivas · Inspección laboral · Defensa legal gratuita</td></tr>
+        <tr><td>Dirección del Empleo</td><td>Información general · Subdirección de empleo · Registros administrativos</td></tr>
+        <tr><td>Órganos Desconcentrados</td><td>Zona de Juliaca · Centro de Taraco</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h5>Institucional</h5>
+  <p>Sobre nosotros · Organigrama · Directorio telefónico · Marco legal.</p>
+
+  <h5>Servicios al ciudadano</h5>
+  <ul class="ul">
+    <li><strong>Centro de Empleo</strong> — intermediación laboral y acceso a la bolsa de trabajo.</li>
+    <li><strong>Fraccionamiento de multas</strong> — cómo acogerse al fraccionamiento y presentar denuncias.</li>
+    <li><strong>Capacitación</strong> — la oferta formativa de la Dirección.</li>
+    <li><strong>Defensa legal gratuita</strong> — asesoría para trabajadores.</li>
+  </ul>
+
+  <h4>El pie de página y los boletines</h4>
+  <p>
+    Cierra todas las páginas del portal. Reúne el mapa de enlaces institucionales, las
+    direcciones de las tres sedes y el contacto. Justo encima, la sección
+    <strong>Medios e Información</strong> incrusta el muro de Facebook de la Dirección y
+    muestra los <strong>boletines en PDF</strong> con vista previa dentro de la propia página,
+    sin necesidad de descargarlos.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:500px">
+        <div style="background:#f8fafc;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="r-bol">
+            <div class="r-bol-h"><span>📕 Boletín Informativo N.° 001</span><i>⤢</i></div>
+            <div class="r-bol-b">
+              <div style="height:4px;width:70%;background:#cbd5e1;border-radius:2px"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;width:85%;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;width:50%;background:#e2e8f0;border-radius:2px"></div>
+            </div>
+          </div>
+          <div class="r-bol">
+            <div class="r-bol-h"><span>📕 Boletín Informativo N.° 002</span><i>⤢</i></div>
+            <div class="r-bol-b">
+              <div style="height:4px;width:60%;background:#cbd5e1;border-radius:2px"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;width:75%;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px"></div>
+              <div style="height:3px;width:40%;background:#e2e8f0;border-radius:2px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="r-pie">
+          <div><b>Institucional</b><a>› Misión y Visión</a><a>› Estructura Orgánica</a><a>› Reseña Histórica</a><a>› Directorio Telefónico</a></div>
+          <div><b>Trámites y Servicios</b><a>› Registro REMYPE</a><a>› Denuncias Virtuales</a><a>› Asesoría de Formalización</a><a>› Portal Empleos Perú</a></div>
+          <div><b>Sedes Regionales</b><a>Sede Principal Puno</a><a>Sede Juliaca</a><a>Sede Taraco</a></div>
+          <div><b>Contacto</b><a>📍 Jr. Ayacucho N° 858</a><a>📞 +51 51 451273</a><a>✉ informes@drtpepuno.gob.pe</a><a>🕘 Lun a Vie 8:00–16:00</a></div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 6.</b> Los boletines con vista previa incorporada y el pie institucional con
+      su mapa de enlaces. El botón ⤢ de cada boletín lo abre a tamaño completo.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">Distinción importante</span>
+    <p>
+      Estas páginas son <strong>estáticas</strong>. Un operador no puede cambiarlas desde la
+      intranet: modificarlas requiere editar el sitio. Todo lo demás del portal —cronología,
+      talleres, coordinaciones, comunicados, sedes— sí es dinámico y se alimenta del
+      registro diario.
+    </p>
+    <p>
+      Si a un comunicador le piden «actualizar el organigrama», eso es una tarea de
+      desarrollo, no de captura de datos. Conviene aclararlo antes de comprometer plazos.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c7">
+  <h3 class="h3"><span class="num">Capítulo 7</span>Sedes desconcentradas</h3>
+  <p class="lead">
+    Juliaca y Taraco tienen cada una su propia página pública, alimentada exclusivamente por
+    lo que registran sus operadores.
+  </p>
+  <p>
+    Estas páginas muestran las intervenciones de la sede con sus fotografías y videos, y sus
+    comunicados propios más los institucionales. <strong>Nunca aparece contenido de la otra
+    sede.</strong> Si alguien pide una sede que no existe, el portal responde con «página no
+    encontrada» en lugar de mostrar una página vacía.
+  </p>
+  <p>
+    Se llega a ellas desde el bloque rojo destacado de la barra lateral, presente en todo el
+    portal, o desde el menú «Órganos Desconcentrados».
+  </p>
+  <div class="note note--n">
+    <span class="note-t">Dos páginas por sede</span>
+    <p>
+      No confundir la página <strong>dinámica</strong> de la sede —la que muestra sus
+      actividades registradas— con la página <strong>informativa</strong> del menú
+      Estructura Orgánica, que describe la sede y no cambia. Son dos direcciones distintas.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ PARTE III ══════════════ -->
+<section class="part">
+  <p class="part-n">Parte III</p>
+  <h2>La intranet</h2>
+  <p>El área de trabajo: donde se registra la actividad que el portal publica, se consultan indicadores y se generan los reportes oficiales.</p>
+</section>
+
+<section class="sec" id="c8">
+  <h3 class="h3"><span class="num">Capítulo 8</span>Cómo se entra</h3>
+  <p>El acceso está en el botón <strong>«Acceso Interno»</strong>, arriba a la derecha de la portada.</p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:320px;max-width:420px;margin:0 auto">
+        <div class="r-login">
+          <div class="r-lbox">
+            <div class="r-lbox-h">
+              <div class="r-logo">D</div>
+              <b>Acceso al Sistema Intranet</b>
+              <span>DRTPE Puno</span>
+            </div>
+            <div class="r-lfield"><label>Usuario</label><div class="r-lin r-lin--f">joperador</div></div>
+            <div class="r-lfield"><label>Contraseña</label><div class="r-lin r-lin--e">••••••••••</div></div>
+            <div class="r-lbtn">Iniciar Sesión</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 7.</b> La pantalla de acceso. El primer campo pide <b>usuario</b>, no correo
+      electrónico.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">Se entra con usuario, no con correo</span>
+    <p>
+      El sistema pide <strong>nombre de usuario</strong> y contraseña. No se inicia sesión
+      con la dirección de correo, aunque la cuenta tenga una registrada. Es el error más
+      frecuente en el primer acceso.
+    </p>
+    <p>
+      Las cuentas desactivadas no pueden entrar: aunque la contraseña sea correcta, el
+      sistema rechaza el acceso y cierra la sesión inmediatamente. Solo el administrador
+      puede reactivarlas.
+    </p>
+  </div>
+
+  <h4>A dónde llega cada perfil</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:38%">Quién entra</th><th style="width:62%">Pantalla de destino</th></tr></thead>
+      <tbody>
+        <tr><td>Administrador</td><td>Panel de Control Operativo, con todos los menús</td></tr>
+        <tr><td>Director de Sede Central</td><td>Panel de Control Operativo, sin gestión de usuarios</td></tr>
+        <tr><td>Operador o director de Juliaca</td><td>Panel de actividades de Juliaca</td></tr>
+        <tr><td>Operador o director de Taraco</td><td>Panel de actividades de Taraco</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    El desvío es automático: aunque un usuario de sede escriba directamente la dirección del
+    panel de control, el sistema lo devuelve a su panel de sede.
+  </p>
+</section>
+
+<section class="sec" id="c9">
+  <h3 class="h3"><span class="num">Capítulo 9</span>El panel de control</h3>
+  <p class="lead">
+    La pantalla de entrada de la Sede Central. Resume, en indicadores y gráficos, cuánto de
+    lo planificado se ha cumplido.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r">
+        <div class="r-dash">
+          <div class="r-dside">
+            <div class="r-dbrand">
+              <div class="r-logo" style="width:22px;height:22px;background:#0f172a;border-color:#334155;font-size:8px">D</div>
+              <div><b>DRTPE</b><span>Puno Perú</span></div>
+            </div>
+            <div class="r-dgroup">Principal</div>
+            <div class="r-dlink r-dlink--on"><div class="r-dlink-i"></div>Página Principal</div>
+            <div class="r-dgroup">Operaciones</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Actividades (PP)</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Act. Operativas (A01)</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Reportes</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Talleres y Capacitaciones</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Coordinaciones</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Análisis Gráfico</div>
+            <div class="r-dgroup">Alertas y Avisos</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Comunicados Oficiales</div>
+            <div class="r-dgroup">Galería e Impacto</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Ver Galería General</div>
+            <div class="r-dlink"><div class="r-dlink-i"></div>Registrar Evento</div>
+          </div>
+          <div class="r-dmain">
+            <div class="r-dhead">
+              <div><b>Panel de Control Operativo</b><span>Evaluación de Metas Institucionales</span></div>
+              <div style="display:flex;gap:6px">
+                <div class="r-dbtn">Registrar usuarios</div>
+                <div class="r-dbtn r-dbtn--g">Papelera</div>
+              </div>
+            </div>
+            <dl class="r-kpis">
+              <div class="r-kpi"><dt>Meta programada</dt><dd>32,164</dd><small>Beneficiarios planificados en el POI</small></div>
+              <div class="r-kpi r-kpi--b"><dt>Avance capped</dt><dd>28,910</dd><small>Suma regulada sin distorsión externa</small></div>
+              <div class="r-kpi r-kpi--d"><dt>Eficacia global POI</dt><dd>89.9%</dd><small>Excedentes excluidos del progreso</small></div>
+              <div class="r-kpi r-kpi--g"><dt>Sobrecumplimiento</dt><dd>+1,204</dd><small>Usuarios extra fuera de la meta base</small></div>
+            </dl>
+            <div class="r-charts">
+              <div class="r-chart">
+                <b>Carga Operativa vs Cumplimiento Real</b>
+                <span>Comparativo directo por código operativo</span>
+                <svg viewBox="0 0 200 62" style="width:100%;height:62px" aria-hidden="true">
+                  <line x1="0" y1="61" x2="200" y2="61" stroke="#e2e8f0"/>
+                  <line x1="0" y1="31" x2="200" y2="31" stroke="#f1f5f9"/>
+                  <polyline points="8,50 28,20 48,44 68,12 88,38 108,26 128,48 148,18 168,34 188,42"
+                    fill="none" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3 2"/>
+                  <g fill="#6366f1">
+                    <rect x="5" y="42" width="7" height="19" rx="1"/><rect x="25" y="30" width="7" height="31" rx="1"/>
+                    <rect x="45" y="38" width="7" height="23" rx="1"/><rect x="65" y="22" width="7" height="39" rx="1"/>
+                    <rect x="85" y="34" width="7" height="27" rx="1"/><rect x="105" y="28" width="7" height="33" rx="1"/>
+                    <rect x="125" y="44" width="7" height="17" rx="1"/><rect x="145" y="24" width="7" height="37" rx="1"/>
+                    <rect x="165" y="36" width="7" height="25" rx="1"/><rect x="185" y="40" width="7" height="21" rx="1"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="r-chart">
+                <b>Distribución de Impacto por Eje</b>
+                <span>Volumen total de asistentes segmentados</span>
+                <svg viewBox="0 0 200 62" style="width:100%;height:62px" aria-hidden="true">
+                  <g transform="translate(34,31)">
+                    <circle r="22" fill="none" stroke="#6366f1" stroke-width="12" stroke-dasharray="80 58" transform="rotate(-90)"/>
+                    <circle r="22" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="38 100" transform="rotate(115)"/>
+                    <circle r="22" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="20 118" transform="rotate(213)"/>
+                  </g>
+                  <g font-size="6" fill="#64748b" font-family="sans-serif">
+                    <rect x="72" y="12" width="5" height="5" rx="1" fill="#6366f1"/><text x="81" y="17">Prevención</text>
+                    <rect x="72" y="26" width="5" height="5" rx="1" fill="#10b981"/><text x="81" y="31">Formaliza</text>
+                    <rect x="72" y="40" width="5" height="5" rx="1" fill="#f59e0b"/><text x="81" y="45">Empleo</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 8.</b> El Panel de Control Operativo con su menú lateral, los cuatro
+      indicadores y los gráficos comparativos. Las cifras son ilustrativas.
+    </figcaption>
+  </figure>
+
+  <h4>Los cuatro indicadores</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Indicador</th><th style="width:46%">Qué significa</th><th style="width:28%">Cómo se calcula</th></tr></thead>
+      <tbody>
+        <tr><td>Meta Programada</td><td>Total de beneficiarios planificados en el POI.</td><td>Suma de las metas de todas las actividades registradas.</td></tr>
+        <tr><td>Avance Capped (Oficial)</td><td>Lo efectivamente atendido, pero <em>topado</em> a la meta de cada actividad.</td><td>Por cada actividad, el menor entre lo atendido y su meta. Después se suman.</td></tr>
+        <tr><td>Eficacia Global POI</td><td>Porcentaje neto de metas cubiertas.</td><td>Avance capped ÷ meta programada.</td></tr>
+        <tr><td>Sobrecumplimiento</td><td>Beneficiarios atendidos por encima de la meta.</td><td>Suma de los excedentes de cada actividad, contabilizados aparte.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--n">
+    <span class="note-t">Por qué se separa el excedente</span>
+    <p>
+      Si una actividad atiende al triple de lo previsto y otra no llega a la mitad, sumar
+      sin topar daría una eficacia engañosamente alta. Al topar cada actividad a su meta y
+      reportar el excedente por separado, el porcentaje refleja cuántas metas se cubrieron
+      <strong>de verdad</strong>, y el excedente queda visible sin contaminar el cálculo.
+    </p>
+  </div>
+
+  <h4>Los gráficos y la tabla</h4>
+  <ul class="ul">
+    <li><strong>Carga Operativa vs Cumplimiento Real</strong> — compara lo programado con lo ejecutado, actividad por actividad, con la línea de meta superpuesta.</li>
+    <li><strong>Distribución de Impacto por Eje / Categoría</strong> — reparto de asistentes entre las líneas de trabajo, en anillo.</li>
+    <li><strong>Evolución Cronológica de Cobertura</strong> — cómo avanza la atención mes a mes.</li>
+    <li><strong>Medidor de Eficacia Global</strong> — el porcentaje de cumplimiento en forma de medidor.</li>
+    <li><strong>Detalle Desglosado del Cumplimiento Operativo</strong> — tabla con código, descripción de actividad, eje estratégico, métrica analítica y rendimiento.</li>
+  </ul>
+  <p>
+    Sobre todo ello actúan dos filtros: <strong>Origen de Fondos</strong> (todos, regional o
+    SUNAFIL) y <strong>Departamento</strong> (todos, Prevención, Formaliza, Empleo). Los
+    filtros afectan a los cuatro indicadores y a todos los gráficos a la vez.
+  </p>
+</section>
+
+<section class="sec" id="c10">
+  <h3 class="h3"><span class="num">Capítulo 10</span>Actividades y avances</h3>
+  <p class="lead">
+    Es el núcleo del sistema y conviene entenderlo bien: de aquí sale tanto la cronología
+    pública como los indicadores del panel.
+  </p>
+
+  <h4>Dos niveles: lo planificado y lo ejecutado</h4>
+  <p>
+    Una <strong>Actividad (PP)</strong> es algo que se planificó: tiene un código, una
+    categoría y una meta de personas por atender. No representa un hecho ocurrido, sino un
+    compromiso del Plan Operativo Institucional.
+  </p>
+  <p>
+    Una <strong>Actividad Operativa (A01)</strong> es un hecho concreto: se hizo tal
+    capacitación, tal día, asistieron tantas personas, y estas son las fotografías. Una
+    misma actividad planificada acumula tantos registros de ejecución como veces se haya
+    realizado.
+  </p>
+
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:22%">&nbsp;</th><th style="width:39%">Actividad (PP)</th><th style="width:39%">Actividad Operativa (A01)</th></tr></thead>
+      <tbody>
+        <tr><td>Qué representa</td><td>Un compromiso planificado</td><td>Un hecho ocurrido</td></tr>
+        <tr><td>Cuándo se crea</td><td>Al inicio del período, según el POI</td><td>Cada vez que se realiza la actividad</td></tr>
+        <tr><td>Cuántas hay</td><td>Una por línea del POI</td><td>Muchas por cada actividad planificada</td></tr>
+        <tr><td>Lleva meta</td><td>Sí, en número de personas</td><td>No; aporta asistentes reales</td></tr>
+        <tr><td>Se publica</td><td>Como cabecera azul del bloque</td><td>Como tarjeta dentro del bloque</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    El avance se calcula sumando los asistentes de todos los registros de ejecución y
+    comparándolos con la meta de la actividad planificada. De ahí salen los porcentajes del
+    panel y el orden de la cronología pública.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:520px">
+        <div style="background:#f1f5f9;padding:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+            <div><b style="font-size:11px;color:#0f172a">Actividades (PP)</b>
+              <div style="font-size:7px;color:#64748b">Actividades planificadas del Plan Operativo Institucional</div></div>
+            <div class="r-dbtn">＋ Nueva actividad</div>
+          </div>
+          <div class="r-btable">
+            <div class="r-btr r-btr--h" style="grid-template-columns:.7fr 2.6fr 1fr 1.1fr .9fr">
+              <span>Código</span><span>Actividad General (Denominación)</span><span>Eje</span><span>Meta / Avance</span><span>Acciones</span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:.7fr 2.6fr 1fr 1.1fr .9fr">
+              <b>443</b>
+              <span>Capacitación a gremios empresariales y sindicales en normativa laboral</span>
+              <span><span class="r-btag">Prevención</span></span>
+              <span style="font-variant-numeric:tabular-nums">1 200 / <b style="color:#047857">1 043</b></span>
+              <span style="color:#94a3b8">✎ 🗑</span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:.7fr 2.6fr 1fr 1.1fr .9fr">
+              <b>451</b>
+              <span>Asesoría en formalización dirigida a micro y pequeña empresa</span>
+              <span><span class="r-btag r-btag--f">Formaliza</span></span>
+              <span style="font-variant-numeric:tabular-nums">800 / <b style="color:#b45309">612</b></span>
+              <span style="color:#94a3b8">✎ 🗑</span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:.7fr 2.6fr 1fr 1.1fr .9fr;border-bottom:0">
+              <b>460</b>
+              <span>Intermediación laboral y acercamiento empresarial</span>
+              <span><span class="r-btag r-btag--a">Empleo</span></span>
+              <span style="font-variant-numeric:tabular-nums">2 000 / <b style="color:#047857">2 184</b></span>
+              <span style="color:#94a3b8">✎ 🗑</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 9.</b> El listado de Actividades (PP). Cada línea es un compromiso del POI con
+      su meta; el avance se calcula sumando las ejecuciones asociadas. La tercera superó su
+      meta: ese excedente se reporta aparte en el panel.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">La confusión más común</span>
+    <p>
+      Registrar la ejecución como si fuera una actividad nueva. Si cada capacitación se da
+      de alta como Actividad (PP), las metas se multiplican y el porcentaje de cumplimiento
+      se desploma. La ejecución <strong>siempre</strong> se registra como Actividad
+      Operativa asociada a una actividad ya existente.
+    </p>
+    <p>
+      Señal de que esto ocurrió: aparecen muchos bloques en la cronología con un solo
+      registro cada uno, y la eficacia global cae sin motivo aparente.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c11">
+  <h3 class="h3"><span class="num">Capítulo 11</span>Registrar una ejecución, campo por campo</h3>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:460px;box-shadow:none;background:transparent">
+        <div class="r-form">
+          <div class="r-flabel">Actividad asociada <span class="r-freq">*</span></div>
+          <div class="r-fsel" style="margin-bottom:9px">PP 443 — Capacitación a gremios empresariales y sindicales <span style="color:#94a3b8">▾</span></div>
+          <div class="r-flabel">Título del reporte <span class="r-freq">*</span></div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff">Jornada de orientación laboral en el mercado central</div>
+          <div class="r-fgrid">
+            <div>
+              <div class="r-flabel">Fecha <span class="r-freq">*</span></div>
+              <div class="r-fsel">02/08/2026 <span style="color:#94a3b8">📅</span></div>
+            </div>
+            <div>
+              <div class="r-flabel">Asistentes <span class="r-freq">*</span></div>
+              <div class="r-fsel">48</div>
+            </div>
+          </div>
+          <div class="r-flabel">Comentario</div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff;white-space:normal;font-family:inherit;font-size:9.5px">Se atendieron consultas sobre derechos laborales y formalización dirigidas a comerciantes de la zona.</div>
+          <div class="r-flabel">Fotografías</div>
+          <div class="r-fdrop" style="margin-bottom:9px">📷 Arrastre las imágenes o pulse para seleccionar</div>
+          <div class="r-flabel">Enlaces de Video Evidencia (Opcional)</div>
+          <div class="r-frow">
+            <div class="r-ftile r-ftile--tt">♪</div>
+            <div class="r-finput">https://www.tiktok.com/@drtpepuno/video/7641491198854630663</div>
+            <div class="r-fx">✕</div>
+          </div>
+          <div class="r-ffoot">
+            <p class="r-fhelp">YouTube, Facebook o TikTok. Puedes dejarlo vacío y agregar la cobertura más adelante desde la edición.</p>
+            <div class="r-fbtn">＋ Agregar video</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 10.</b> El formulario de registro de una ejecución. El asterisco rojo marca
+      los campos obligatorios.
+    </figcaption>
+  </figure>
+
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:22%">Campo</th><th style="width:14%">Obligatorio</th>
+        <th style="width:28%">Reglas</th><th style="width:36%">Dónde se ve publicado</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Actividad asociada</td><td><span class="pill pill--r">Sí</span></td><td>Debe existir en el listado de Actividades (PP).</td><td>Determina el bloque de la cronología donde aparece.</td></tr>
+        <tr><td>Título del reporte</td><td><span class="pill pill--r">Sí</span></td><td>Hasta 255 caracteres.</td><td>Titular del registro y de las tarjetas de «Últimos registros».</td></tr>
+        <tr><td>Fecha</td><td><span class="pill pill--r">Sí</span></td><td>Fecha válida.</td><td>Etiqueta de fecha y orden dentro del bloque.</td></tr>
+        <tr><td>Asistentes</td><td><span class="pill pill--r">Sí</span></td><td>Número entero, <strong>mínimo 1</strong>.</td><td>Etiqueta verde y cálculo del avance en el panel.</td></tr>
+        <tr><td>Comentario</td><td><span class="pill pill--n">No</span></td><td>Texto libre, sin límite práctico.</td><td>Bloque citado bajo el título.</td></tr>
+        <tr><td>Fotografías</td><td><span class="pill pill--n">No</span></td><td>Varias imágenes; se puede fijar el orden y la prioridad.</td><td>Galería del registro y carruseles de la portada.</td></tr>
+        <tr><td>Enlaces de video</td><td><span class="pill pill--n">No</span></td><td>Hasta 6, de YouTube, Facebook o TikTok.</td><td>Bloque «Difusión en redes sociales».</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:520px">
+        <div style="background:#f1f5f9;padding:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+            <div><b style="font-size:11px;color:#0f172a">Act. Operativas (A01)</b>
+              <div style="font-size:7px;color:#64748b">Reportes de avance con evidencia</div></div>
+            <div style="display:flex;gap:6px">
+              <div class="r-dbtn r-dbtn--g">Papelera</div>
+              <div class="r-dbtn">＋ Registrar</div>
+            </div>
+          </div>
+          <div class="r-btable">
+            <div class="r-btr r-btr--h" style="grid-template-columns:2.4fr 1.1fr .8fr .8fr .9fr">
+              <span>Título del reporte</span><span>Actividad (PP)</span><span>Fecha</span><span>Asist.</span><span>Evidencia</span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:2.4fr 1.1fr .8fr .8fr .9fr">
+              <b>Jornada de orientación laboral en el mercado central</b>
+              <span>PP 443</span><span>02/08/2026</span>
+              <span style="font-variant-numeric:tabular-nums">48</span>
+              <span>🖼 4 · 🎬 2</span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:2.4fr 1.1fr .8fr .8fr .9fr">
+              <b>Capacitación a dirigentes sindicales</b>
+              <span>PP 443</span><span>27/07/2026</span>
+              <span style="font-variant-numeric:tabular-nums">31</span>
+              <span>🖼 6</span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:2.4fr 1.1fr .8fr .8fr .9fr;border-bottom:0">
+              <b>Asesoría en formalización a comerciantes</b>
+              <span>PP 451</span><span>24/07/2026</span>
+              <span style="font-variant-numeric:tabular-nums">52</span>
+              <span>🖼 3 · 🎬 1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 11.</b> El listado de ejecuciones. La columna «Evidencia» resume cuántas
+      fotografías y videos lleva cada registro: sirve para detectar de un vistazo los que aún
+      no tienen cobertura publicada.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">El mínimo de asistentes es 1</span>
+    <p>
+      El sistema no acepta cero asistentes en una ejecución. Si una actividad se convocó
+      pero no asistió nadie, no debe registrarse como ejecución: no hubo atención que
+      contabilizar, y registrarla con un asistente ficticio distorsiona el indicador.
+    </p>
+  </div>
+
+  <h4>El orden de las fotografías</h4>
+  <p>
+    Este módulo permite <strong>ordenar y priorizar</strong> las imágenes. La primera es la
+    que se usa como portada en los carruseles de la página de inicio, así que conviene
+    elegir la más representativa y con mejor encuadre horizontal.
+  </p>
+</section>
+
+<section class="sec" id="c12">
+  <h3 class="h3"><span class="num">Capítulo 12</span>Talleres y capacitaciones</h3>
+  <p class="lead">
+    Un taller tiene dos estados, y el portal lo presenta de forma distinta según en cuál se
+    encuentre.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:480px;padding:14px;background:#f1f5f9;box-shadow:none">
+        <div class="r-wcards">
+          <div class="r-wcard">
+            <span class="r-wtag r-wtag--p">📅 Programado</span>
+            <b>Taller de formalización laboral para micro y pequeña empresa</b>
+            <div class="r-wmeta">
+              📅 14 Ago. 2026 · 🕘 09:00 – 13:00<br>
+              📍 Auditorio DRTPE, Jr. Ayacucho 658<br>
+              📎 Convocatoria en PDF · 🎬 1 video promocional
+            </div>
+          </div>
+          <div class="r-wcard">
+            <span class="r-wtag r-wtag--e">✔ Ejecutado</span>
+            <b>Capacitación en derechos fundamentales en el trabajo</b>
+            <div class="r-wmeta">
+              📅 28 Jul. 2026 · 👥 62 asistentes<br>
+              🖼 8 fotografías · 🎬 1 video de cobertura<br>
+              📎 Registro de asistencia
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 12.</b> Los dos estados de un taller. El programado anuncia; el ejecutado
+      documenta lo ocurrido con asistentes y cobertura.
+    </figcaption>
+  </figure>
+
+  <h4>El ciclo de vida</h4>
+  <p>
+    Un taller nace <strong>programado</strong> —una convocatoria con fecha, lugar, horario y
+    un flyer— y más tarde pasa a <strong>ejecutado</strong>, cuando se añade lo que realmente
+    ocurrió: el número de asistentes y la cobertura fotográfica y audiovisual.
+  </p>
+  <p>
+    Si un taller ya se realizó y nunca se convocó por el sistema, existe un formulario para
+    registrarlo <strong>directamente como ejecutado</strong>, sin pasar por el estado
+    programado. Es la vía adecuada para documentar actividades pasadas.
+  </p>
+
+  <h4>Campos del taller programado</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Campo</th><th style="width:16%">Obligatorio</th><th style="width:58%">Reglas</th></tr></thead>
+      <tbody>
+        <tr><td>Título</td><td><span class="pill pill--r">Sí</span></td><td>Hasta 255 caracteres.</td></tr>
+        <tr><td>Tipo</td><td><span class="pill pill--r">Sí</span></td><td>Taller o capacitación.</td></tr>
+        <tr><td>Descripción</td><td><span class="pill pill--r">Sí</span></td><td>Texto libre.</td></tr>
+        <tr><td>Fecha programada</td><td><span class="pill pill--r">Sí</span></td><td>Fecha válida.</td></tr>
+        <tr><td>Hora de inicio y fin</td><td><span class="pill pill--n">No</span></td><td>La hora de fin debe ser posterior a la de inicio.</td></tr>
+        <tr><td>Lugar</td><td><span class="pill pill--n">No</span></td><td>Hasta 255 caracteres.</td></tr>
+        <tr><td>Flyer / convocatoria</td><td><span class="pill pill--r">Sí</span></td><td>PDF o imagen (JPG, PNG, WEBP). <strong>Máximo 10 MB.</strong></td></tr>
+        <tr><td>Anexos</td><td><span class="pill pill--n">No</span></td><td>Hasta 6 archivos, mismos formatos y tamaño.</td></tr>
+        <tr><td>Videos</td><td><span class="pill pill--n">No</span></td><td>Hasta 6 enlaces.</td></tr>
+        <tr><td>Publicar como comunicado</td><td><span class="pill pill--n">No</span></td><td>Casilla; ver el aviso siguiente.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:440px;box-shadow:none;background:transparent">
+        <div class="r-form">
+          <div class="r-fgrid">
+            <div><div class="r-flabel">Título <span class="r-freq">*</span></div>
+              <div class="r-finput" style="background:#fff;font-family:inherit;font-size:9.5px">Taller de formalización laboral</div></div>
+            <div><div class="r-flabel">Tipo <span class="r-freq">*</span></div>
+              <div class="r-fsel">Taller <span style="color:#94a3b8">▾</span></div></div>
+          </div>
+          <div class="r-flabel">Descripción <span class="r-freq">*</span></div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff;white-space:normal;font-family:inherit;font-size:9.5px">Dirigido a micro y pequeños empresarios de la región que deseen iniciar su proceso de formalización.</div>
+          <div class="r-fgrid" style="grid-template-columns:1.2fr 1fr 1fr">
+            <div><div class="r-flabel">Fecha programada <span class="r-freq">*</span></div><div class="r-fsel">14/08/2026 📅</div></div>
+            <div><div class="r-flabel">Hora inicio</div><div class="r-fsel">09:00</div></div>
+            <div><div class="r-flabel">Hora fin</div><div class="r-fsel">13:00</div></div>
+          </div>
+          <div class="r-flabel">Lugar</div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff;font-family:inherit;font-size:9.5px">Auditorio DRTPE — Jr. Ayacucho N° 658, Puno</div>
+          <div class="r-flabel">Flyer / convocatoria <span class="r-freq">*</span></div>
+          <div class="r-fdrop" style="margin-bottom:5px">📄 PDF o imagen · máximo 10 MB</div>
+          <p class="r-fhelp" style="margin-bottom:9px">Obligatorio: sin flyer no se puede crear la convocatoria.</p>
+          <div class="r-flabel">Anexos <span style="color:#94a3b8;font-weight:600">(hasta 6)</span></div>
+          <div class="r-fdrop" style="margin-bottom:9px">📎 Documentos complementarios</div>
+          <div class="r-chk r-chk--on" style="margin-bottom:4px"><i></i> Publicar esta convocatoria como comunicado institucional</div>
+          <p class="r-fhelp">El comunicado se crea, actualiza y retira solo según esta casilla.</p>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 13.</b> El formulario de convocatoria. El flyer es el único archivo
+      obligatorio; la casilla inferior enlaza el taller con el tablón de comunicados.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">Publicar el taller como comunicado</span>
+    <p>
+      Al marcar la casilla, el sistema <strong>crea el comunicado institucional solo</strong>;
+      si después se edita el taller, el comunicado se actualiza; y si se desmarca, el
+      comunicado se retira. No hay que crearlo ni borrarlo a mano.
+    </p>
+    <p>
+      <strong>No lo duplique.</strong> Crear además un comunicado manual para el mismo
+      taller hace que la convocatoria aparezca dos veces en el tablón.
+    </p>
+  </div>
+
+  <div class="note note--n">
+    <span class="note-t">Las fotografías se acumulan</span>
+    <p>
+      Al editar un taller, las imágenes nuevas <strong>se añaden</strong> a las que ya
+      había; no las reemplazan. Si quiere sustituirlas, elimine primero las anteriores.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c13">
+  <h3 class="h3"><span class="num">Capítulo 13</span>Coordinaciones institucionales</h3>
+  <p>
+    Un módulo más simple: reuniones de coordinación con otras instituciones, con su fecha,
+    su descripción, su galería de fotografías y sus videos. Se publican en su propia sección
+    de la portada y en una página dedicada.
+  </p>
+  <p>No tienen estados ni metas asociadas: son un registro documental de la articulación interinstitucional.</p>
+
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Campo</th><th style="width:16%">Obligatorio</th><th style="width:58%">Reglas</th></tr></thead>
+      <tbody>
+        <tr><td>Título</td><td><span class="pill pill--r">Sí</span></td><td>Hasta 255 caracteres.</td></tr>
+        <tr><td>Fecha de coordinación</td><td><span class="pill pill--r">Sí</span></td><td>Fecha válida.</td></tr>
+        <tr><td>Descripción</td><td><span class="pill pill--r">Sí</span></td><td>Texto libre.</td></tr>
+        <tr><td>Fotografías</td><td><span class="pill pill--r">Sí al crear</span></td><td><strong>Al menos una</strong> para crear. Al editar son opcionales y se acumulan.</td></tr>
+        <tr><td>Videos</td><td><span class="pill pill--n">No</span></td><td>Hasta 6 enlaces.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="note-t">Necesita al menos una fotografía</span>
+    <p>
+      A diferencia de las ejecuciones, una coordinación <strong>no se puede crear sin
+      imágenes</strong>. Si aún no las tiene, espere a tenerlas antes de registrarla.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c14">
+  <h3 class="h3"><span class="num">Capítulo 14</span>Actividades de sede desconcentrada</h3>
+  <p class="lead">
+    El módulo con el que trabajan Juliaca y Taraco. Tiene su propio panel, aislado del resto.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:480px;box-shadow:none">
+        <div class="r-branch">
+          <div class="r-btable">
+            <div class="r-btr r-btr--h"><span>Actividad</span><span>Tipo</span><span>Fecha</span><span>Atendidos</span></div>
+            <div class="r-btr"><b>Feria informativa en la Plaza de Armas</b><span><span class="r-btag r-btag--f">Feria</span></span><span>29 Jul. 2026</span><span>135</span></div>
+            <div class="r-btr"><b>Capacitación a comerciantes del mercado Túpac Amaru</b><span><span class="r-btag">Capacitación</span></span><span>24 Jul. 2026</span><span>52</span></div>
+            <div class="r-btr" style="border-bottom:0"><b>Asesoría legal itinerante en centro poblado</b><span><span class="r-btag r-btag--a">Asesoría</span></span><span>19 Jul. 2026</span><span>18</span></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 14.</b> El panel de una sede desconcentrada. Solo aparecen las actividades de
+      esa sede; los tres tipos de intervención se distinguen por color.
+    </figcaption>
+  </figure>
+
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Campo</th><th style="width:16%">Obligatorio</th><th style="width:58%">Reglas</th></tr></thead>
+      <tbody>
+        <tr><td>Título</td><td><span class="pill pill--r">Sí</span></td><td>Hasta 255 caracteres.</td></tr>
+        <tr><td>Tipo de intervención</td><td><span class="pill pill--r">Sí</span></td><td>Feria, capacitación o asesoría. No hay otras opciones.</td></tr>
+        <tr><td>Descripción</td><td><span class="pill pill--r">Sí</span></td><td>Texto libre.</td></tr>
+        <tr><td>Fotografías</td><td><span class="pill pill--r">Sí al crear</span></td><td><strong>Al menos una.</strong> Al editar, las nuevas <strong>reemplazan</strong> a las anteriores.</td></tr>
+        <tr><td>Atendidos</td><td><span class="pill pill--n">No</span></td><td>Número entero, admite cero.</td></tr>
+        <tr><td>Videos</td><td><span class="pill pill--n">No</span></td><td>Hasta 6 enlaces.</td></tr>
+        <tr><td>Sede</td><td><span class="pill pill--v">Automático</span></td><td>Se toma de la cuenta. No aparece en el formulario.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="note-t">Aquí las fotografías se REEMPLAZAN</span>
+    <p>
+      Es la diferencia más peligrosa entre módulos. En talleres y coordinaciones las
+      imágenes nuevas se suman; <strong>aquí sustituyen a todas las anteriores</strong>. Si
+      edita una actividad para corregir el título y aprovecha para subir una foto más,
+      perderá las que ya estaban.
+    </p>
+    <p>
+      Para añadir imágenes conservando las previas, vuelva a subir también las antiguas
+      junto con las nuevas.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c15">
+  <h3 class="h3"><span class="num">Capítulo 15</span>Comunicados y boletines</h3>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:460px;box-shadow:none">
+        <div class="r-com">
+          <div class="r-com-doc">
+            <div class="r-com-page">
+              <div class="r-com-line" style="width:60%;height:5px;background:#cbd5e1"></div>
+              <div class="r-com-line"></div><div class="r-com-line"></div>
+              <div class="r-com-line" style="width:80%"></div>
+              <div class="r-com-line"></div><div class="r-com-line" style="width:45%"></div>
+            </div>
+          </div>
+          <div class="r-com-body">
+            <div class="r-com-tags">
+              <span class="r-com-tag r-com-tag--a">Comunicado activo</span>
+              <span class="r-com-tag r-com-tag--r">📍 Sede Central</span>
+              <span class="r-com-tag r-com-tag--s">📎 1 matriz + 2 anexos</span>
+            </div>
+            <b>Convocatoria al taller de formalización laboral</b>
+            <p>Se convoca a micro y pequeños empresarios de la región a participar en el taller gratuito de formalización.</p>
+            <span class="r-com-btn">Descargar principal</span>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 15.</b> Un comunicado en el tablón de la portada: documento a la izquierda,
+      texto y descargas a la derecha. La etiqueta roja indica el alcance.
+    </figcaption>
+  </figure>
+
+  <h4>Campos del comunicado</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Campo</th><th style="width:16%">Obligatorio</th><th style="width:58%">Reglas</th></tr></thead>
+      <tbody>
+        <tr><td>Título</td><td><span class="pill pill--r">Sí</span></td><td>Hasta 255 caracteres.</td></tr>
+        <tr><td>Descripción</td><td><span class="pill pill--n">No</span></td><td>Texto libre. Si falta, el portal muestra un texto genérico.</td></tr>
+        <tr><td>Documento principal</td><td><span class="pill pill--r">Sí al crear</span></td><td>PDF o imagen (JPG, PNG, WEBP). <strong>Máximo 10 MB.</strong> Al editar es opcional: si no se sube otro, se conserva el actual.</td></tr>
+        <tr><td>Fecha de publicación</td><td><span class="pill pill--r">Sí</span></td><td>Desde cuándo se muestra.</td></tr>
+        <tr><td>Fecha de expiración</td><td><span class="pill pill--r">Sí</span></td><td>Debe ser <strong>igual o posterior</strong> a la de publicación. Al pasarla, deja de mostrarse.</td></tr>
+        <tr><td>Anexos</td><td><span class="pill pill--n">No</span></td><td>Hasta 6 archivos. Al editar se pueden retirar individualmente.</td></tr>
+        <tr><td>Sede destinataria</td><td><span class="pill pill--n">No</span></td><td>Si se deja vacía, es institucional y lo ve todo el portal.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:440px;box-shadow:none;background:transparent">
+        <div class="r-form">
+          <div class="r-flabel">Título <span class="r-freq">*</span></div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff;font-family:inherit;font-size:9.5px">Convocatoria al taller de formalización laboral</div>
+          <div class="r-flabel">Descripción</div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff;white-space:normal;font-family:inherit;font-size:9.5px">Se convoca a micro y pequeños empresarios de la región a participar en el taller gratuito.</div>
+          <div class="r-flabel">Documento principal <span class="r-freq">*</span></div>
+          <div class="r-fdrop" style="margin-bottom:9px">📄 PDF o imagen · máximo 10 MB</div>
+          <div class="r-fgrid">
+            <div><div class="r-flabel">Publicación <span class="r-freq">*</span></div><div class="r-fsel">04/08/2026 📅</div></div>
+            <div><div class="r-flabel">Expiración <span class="r-freq">*</span></div><div class="r-fsel">20/08/2026 📅</div></div>
+          </div>
+          <p class="r-fhelp" style="margin:-4px 0 9px">La expiración debe ser igual o posterior a la publicación. Al pasarla, el comunicado se retira solo del tablón.</p>
+          <div class="r-flabel">Sede destinataria</div>
+          <div class="r-fsel" style="margin-bottom:9px">Institucional — Sede Central (todo el portal) <span style="color:#94a3b8">▾</span></div>
+          <div class="r-flabel">Anexos <span style="color:#94a3b8;font-weight:600">(hasta 6)</span></div>
+          <div class="r-fdrop">📎 Documentos complementarios</div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 16.</b> El formulario de comunicado. Dejar la sede destinataria en
+      «Institucional» hace que lo vea todo el portal; elegir una sede lo restringe a ella.
+    </figcaption>
+  </figure>
+
+  <h4>A quién se dirige cada comunicado</h4>
+  <p>
+    Si es <strong>institucional</strong>, lo ve todo el portal y aparece rotulado como «Sede
+    Central» en rojo. Si se dirige a una sede concreta, solo aparece en esa sede y se rotula
+    en índigo con su nombre. Los institucionales se listan <strong>siempre primero</strong>.
+  </p>
+
+  <div class="note note--n">
+    <span class="note-t">Los comunicados caducan solos</span>
+    <p>
+      Pasada la fecha de expiración, el comunicado desaparece del tablón sin que nadie tenga
+      que retirarlo. Sigue existiendo en la intranet y puede reactivarse cambiando la fecha.
+    </p>
+  </div>
+
+  <h4>Boletines</h4>
+  <p>
+    Publicaciones periódicas en PDF que se muestran en el pie de la portada, con vista previa
+    incorporada y botón de descarga. No tienen alcance por sede ni fecha de caducidad: son
+    siempre institucionales y permanentes.
+  </p>
+</section>
+
+<section class="sec" id="c16">
+  <h3 class="h3"><span class="num">Capítulo 16</span>Reportes en Excel</h3>
+  <p class="lead">
+    El módulo de reportes convierte el registro operativo en archivos de Excel listos para
+    presentar, con sus tablas y gráficos ya armados.
+  </p>
+  <p>
+    Se generan por día, por período o por actividad concreta. El archivo se descarga
+    directamente al equipo; <strong>no se guarda en el sistema</strong>, de modo que siempre
+    refleja el estado de los datos en el momento de generarlo.
+  </p>
+  <p>
+    El reporte institucional incluye además el conteo de <strong>difusión audiovisual</strong>:
+    cuántos videos de cada red se publicaron en el período, desglosados por módulo
+    —ejecuciones, talleres, coordinaciones y actividades de sede—. La cobertura en redes
+    queda así documentada junto a las cifras de atención.
+  </p>
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:500px">
+        <div style="background:#f1f5f9;padding:12px">
+          <div style="margin-bottom:10px">
+            <b style="font-size:11px;color:#0f172a">Exportación Documental de Metas y Coberturas POI</b>
+          </div>
+          <div class="r-tabs">
+            <span class="r-tab r-tab--on">Reporte General</span>
+            <span class="r-tab">Reporte por Actividad Específica</span>
+          </div>
+          <div style="background:#fff;border-radius:9px;padding:11px">
+            <div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#64748b;margin-bottom:8px">Parámetros del Informe General</div>
+            <div class="r-fgrid" style="margin-bottom:9px">
+              <div><div class="r-flabel" style="font-size:9px">Selecciona el Rango de Tiempo</div>
+                <div class="r-fsel">Por periodo <span style="color:#94a3b8">▾</span></div></div>
+              <div><div class="r-flabel" style="font-size:9px">Fecha de Referencia Cronológica</div>
+                <div class="r-fsel">01/07/2026 – 02/08/2026 📅</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:9px">
+              <div>
+                <div class="r-flabel" style="font-size:9px">Filtrar Fuente de Financiamiento</div>
+                <div class="r-seg"><span class="on">General</span><span>Gobierno Regional</span><span>SUNAFIL</span></div>
+              </div>
+              <div>
+                <div class="r-flabel" style="font-size:9px">Filtrar por Departamento / Área</div>
+                <div class="r-seg"><span class="on">Todos</span><span>Prevención</span><span>Formaliza</span><span>Empleo</span></div>
+              </div>
+            </div>
+            <div class="r-flabel" style="font-size:9px">Módulos a Incluir en el Libro</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 14px;margin-bottom:10px">
+              <div class="r-chk r-chk--on"><i></i> Dashboard de Monitoreo Global</div>
+              <div class="r-chk r-chk--on"><i></i> Eficiencia por Actividad</div>
+              <div class="r-chk r-chk--on"><i></i> Distribución del Esfuerzo</div>
+              <div class="r-chk"><i></i> Progreso de la Meta Anual</div>
+            </div>
+            <div class="r-dbtn" style="display:inline-block">⬇ Generar y descargar XLSX</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 17.</b> La pantalla de reportes. Las casillas inferiores deciden qué hojas
+      lleva el libro de Excel; los filtros de financiamiento y área acotan qué actividades
+      entran en el cálculo.
+    </figcaption>
+  </figure>
+
+  <h4>Las hojas que puede incluir el libro</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:34%">Hoja</th><th style="width:66%">Qué contiene</th></tr></thead>
+      <tbody>
+        <tr><td>Dashboard de Monitoreo Global</td><td>Resumen de metas y coberturas del período, con los indicadores principales.</td></tr>
+        <tr><td>Distribución del Esfuerzo</td><td>Reparto de la atención entre las áreas responsables.</td></tr>
+        <tr><td>Eficiencia por Actividad</td><td>Comparación actividad por actividad entre lo programado y lo ejecutado.</td></tr>
+        <tr><td>Progreso de la Meta Anual</td><td>Evolución acumulada frente a la meta del año.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--n">
+    <span class="note-t">Los reportes son una foto del momento</span>
+    <p>
+      Si se genera un reporte, luego se corrige un registro y se vuelve a generar, los dos
+      archivos serán distintos. Conviene anotar la fecha y hora de generación en los
+      documentos que se presenten, para poder explicar cualquier diferencia.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c17">
+  <h3 class="h3"><span class="num">Capítulo 17</span>La papelera</h3>
+  <p>
+    Nada se borra de forma definitiva al primer intento. Los registros eliminados pasan a la
+    <strong>Papelera de Reciclaje</strong>, donde se pueden restaurar. Mientras están ahí no
+    aparecen en el portal ni cuentan para los indicadores.
+  </p>
+  <p>
+    El borrado definitivo es una acción aparte y sí es irreversible: elimina también las
+    fotografías asociadas del servidor.
+  </p>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Acción</th><th style="width:30%">Efecto inmediato</th><th style="width:44%">Reversible</th></tr></thead>
+      <tbody>
+        <tr><td>Eliminar</td><td>Sale del portal y de los indicadores</td><td><span class="pill pill--v">Sí</span> — se restaura desde la papelera</td></tr>
+        <tr><td>Restaurar</td><td>Vuelve a publicarse y a contar</td><td><span class="pill pill--v">Sí</span> — se puede volver a eliminar</td></tr>
+        <tr><td>Borrado definitivo</td><td>Desaparece con sus archivos</td><td><span class="pill pill--r">No</span> — sin vuelta atrás</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:500px">
+        <div style="background:#f1f5f9;padding:12px">
+          <div style="margin-bottom:9px"><b style="font-size:11px;color:#0f172a">Papelera de Reciclaje</b>
+            <div style="font-size:7px;color:#64748b">Registros con borrado lógico · pueden restaurarse</div></div>
+          <div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#64748b;margin-bottom:5px">Actividades Operativas Eliminadas</div>
+          <div class="r-btable" style="margin-bottom:10px">
+            <div class="r-btr r-btr--h" style="grid-template-columns:2.6fr 1fr .9fr"><span>Título / Fecha</span><span>Eliminado el</span><span>Acción</span></div>
+            <div class="r-btr" style="grid-template-columns:2.6fr 1fr .9fr;border-bottom:0">
+              <b>Feria informativa en la Plaza de Armas · 12/07/2026</b>
+              <span>29/07/2026</span>
+              <span><span class="r-btag r-btag--a">↺ Restaurar</span></span>
+            </div>
+          </div>
+          <div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#64748b;margin-bottom:5px">Reportes de Avance (Sub-Eventos) Eliminados</div>
+          <div class="r-btable">
+            <div class="r-btr r-btr--h" style="grid-template-columns:2.2fr .8fr .8fr .9fr"><span>Título / Fecha</span><span>Asistentes</span><span>Eliminado el</span><span>Acción</span></div>
+            <div class="r-btr" style="grid-template-columns:2.2fr .8fr .8fr .9fr">
+              <b>Capacitación a transportistas · 08/07/2026</b>
+              <span style="font-variant-numeric:tabular-nums">24</span><span>25/07/2026</span>
+              <span><span class="r-btag r-btag--a">↺ Restaurar</span></span>
+            </div>
+            <div class="r-btr" style="grid-template-columns:2.2fr .8fr .8fr .9fr;border-bottom:0">
+              <b>Registro duplicado por error · 05/07/2026</b>
+              <span style="font-variant-numeric:tabular-nums">12</span><span>06/07/2026</span>
+              <span><span class="r-btag r-btag--a">↺ Restaurar</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 18.</b> La papelera, separada por tipo de registro. Mientras algo está aquí no
+      aparece en el portal ni suma en los indicadores, pero nada se ha perdido.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">Antes de vaciar</span>
+    <p>
+      Ante la duda, deje el registro en la papelera: no molesta, no se publica y no altera
+      ninguna cifra. El borrado definitivo solo tiene sentido para liberar espacio o retirar
+      material cargado por error.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c18">
+  <h3 class="h3"><span class="num">Capítulo 18</span>Usuarios de sede</h3>
+  <p>
+    Reservado al administrador. Desde <strong>«Registrar Usuarios de Sedes»</strong> se dan
+    de alta los operadores, se les asigna una sede y se activan o desactivan.
+  </p>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:26%">Dato de la cuenta</th><th style="width:74%">Para qué sirve</th></tr></thead>
+      <tbody>
+        <tr><td>Nombre de usuario</td><td>Con esto inicia sesión. No es el correo.</td></tr>
+        <tr><td>DNI</td><td>Identificación de la persona.</td></tr>
+        <tr><td>Perfil</td><td>Administrador, director u operador.</td></tr>
+        <tr><td>Sede</td><td>Determina qué verá y qué podrá editar. Condiciona todo lo demás.</td></tr>
+        <tr><td>Estado</td><td>Activo o desactivado. Un desactivado no puede entrar.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:440px;box-shadow:none;background:transparent">
+        <div class="r-form">
+          <div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:.11em;color:#dc2626;margin-bottom:9px">Control de Accesos y Jurisdicciones Regionales</div>
+          <div class="r-fgrid">
+            <div><div class="r-flabel">Nombre Completo <span class="r-freq">*</span></div>
+              <div class="r-finput" style="background:#fff;font-family:inherit;font-size:9.5px">Quispe Mamani Rosa Elena</div></div>
+            <div><div class="r-flabel">DNI <span class="r-freq">*</span></div>
+              <div class="r-finput" style="background:#fff;font-family:inherit;font-size:9.5px">01234567</div></div>
+          </div>
+          <div class="r-fgrid">
+            <div><div class="r-flabel">Usuario (login) <span class="r-freq">*</span></div>
+              <div class="r-finput r-finput--f" style="background:#fff;font-size:9.5px">rquispe</div></div>
+            <div><div class="r-flabel">Contraseña <span class="r-freq">*</span></div>
+              <div class="r-finput r-finput--e" style="background:#fff">••••••••••</div></div>
+          </div>
+          <div class="r-flabel">Correo Institucional</div>
+          <div class="r-finput" style="margin-bottom:9px;background:#fff;font-size:9.5px">rquispe@drtpepuno.gob.pe</div>
+          <div class="r-fgrid">
+            <div><div class="r-flabel">Perfil <span class="r-freq">*</span></div>
+              <div class="r-fsel">Operador de Sede <span style="color:#94a3b8">▾</span></div></div>
+            <div><div class="r-flabel">Sede / Jurisdicción <span class="r-freq">*</span></div>
+              <div class="r-fsel">Juliaca <span style="color:#94a3b8">▾</span></div></div>
+          </div>
+          <p class="r-fhelp" style="margin-top:-2px">La persona iniciará sesión con el <b>usuario</b>, no con el correo. La sede determina qué podrá ver y editar.</p>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 19.</b> El alta de un operador. El campo «Usuario (login)» es el que se pide
+      al iniciar sesión; el correo es solo un dato de contacto.
+    </figcaption>
+  </figure>
+
+  <div class="note">
+    <span class="note-t">Desactivar es mejor que eliminar</span>
+    <p>
+      La cuenta deja de poder entrar, pero todo lo que registró sigue publicado y atribuido.
+      Es lo adecuado cuando una persona deja el puesto: elimina el acceso sin abrir huecos en
+      el historial.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ PARTE IV ══════════════ -->
+<section class="part">
+  <p class="part-n">Parte IV</p>
+  <h2>Difusión: fotografías y videos</h2>
+  <p>Cómo llega al portal el material gráfico y audiovisual de cada actividad, y qué reglas lo gobiernan.</p>
+</section>
+
+<section class="sec" id="c19">
+  <h3 class="h3"><span class="num">Capítulo 19</span>Fotografías</h3>
+  <p>
+    Casi todos los módulos aceptan varias fotografías por registro. En el portal se muestran
+    en cuadrícula de dos columnas; a partir de la quinta, el resto queda tras un botón «ver
+    más». Al pulsar cualquiera se abre a pantalla completa, con navegación mediante flechas o
+    teclado y contador de posición.
+  </p>
+  <p>
+    Las fotografías de los registros operativos alimentan además los <strong>carruseles de
+    la portada</strong>: la primera imagen de cada registro es la que se usa como portada a
+    pantalla completa.
+  </p>
+
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:32%">Módulo</th><th style="width:24%">Al editar</th><th style="width:44%">Qué significa en la práctica</th></tr></thead>
+      <tbody>
+        <tr><td>Actividades de sede</td><td><span class="pill pill--r">Reemplaza</span></td><td>Las imágenes nuevas borran las anteriores. Vuelva a subir también las antiguas si quiere conservarlas.</td></tr>
+        <tr><td>Talleres</td><td><span class="pill pill--v">Acumula</span></td><td>Las nuevas se suman. Para sustituir, elimine primero las previas.</td></tr>
+        <tr><td>Coordinaciones</td><td><span class="pill pill--v">Acumula</span></td><td>Igual que talleres.</td></tr>
+        <tr><td>Ejecuciones</td><td><span class="pill pill--a">Con orden</span></td><td>Permite además fijar el orden y la prioridad de las imágenes.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="note-t">Consejos de captura</span>
+    <p>
+      La primera imagen se usa como portada a pantalla completa: elija una horizontal, bien
+      encuadrada y sin texto pequeño, porque se recorta según el tamaño de la pantalla.
+      Evite capturas de pantalla de WhatsApp y fotos con marcas de agua ajenas.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c20">
+  <h3 class="h3"><span class="num">Capítulo 20</span>Videos: cómo se cargan</h3>
+  <p class="lead">
+    Se pega el enlace público de un video de YouTube, Facebook o TikTok y el portal lo
+    muestra como reproductor incrustado: el ciudadano pulsa play y el video corre dentro de
+    la página, sin que se lo mande a otra red.
+  </p>
+  <p>
+    Lo único que se guarda es la dirección del video. Todo lo demás —el marco, la portada, el
+    formato vertical u horizontal— se arma en el momento en que alguien abre la página. El
+    portal <strong>no aloja ni copia</strong> el archivo: siempre se reproduce desde la red
+    de origen.
+  </p>
+
+  <h4>Dónde aparece el campo</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:24%">Módulo</th><th style="width:20%">Formulario</th>
+        <th style="width:34%">Nombre del campo</th><th style="width:22%">Dónde se publica</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Ejecuciones</td><td>Registrar</td><td>Enlaces de Video Evidencia (Opcional)</td><td>Cronología operativa</td></tr>
+        <tr><td>Ejecuciones</td><td>Editar</td><td>Enlaces de Video (YouTube, Facebook, TikTok)</td><td>Cronología operativa</td></tr>
+        <tr><td>Talleres</td><td>Programar</td><td>Video Promocional de la Convocatoria</td><td>Talleres y capacitaciones</td></tr>
+        <tr><td>Talleres</td><td>Registrar ejecutado</td><td>Video del Evento Ejecutado</td><td>Talleres y capacitaciones</td></tr>
+        <tr><td>Talleres</td><td>Editar</td><td>Videos del Evento (Promoción o Cobertura)</td><td>Talleres y capacitaciones</td></tr>
+        <tr><td>Coordinaciones</td><td>Crear</td><td>Video de la Coordinación</td><td>Coordinaciones</td></tr>
+        <tr><td>Coordinaciones</td><td>Editar</td><td>Videos de la Coordinación</td><td>Coordinaciones</td></tr>
+        <tr><td>Actividades de sede</td><td>Crear y editar</td><td>Videos de la Actividad</td><td>Página de la sede</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Los cinco pasos</h4>
+  <ol class="steps">
+    <li class="step"><div>
+      <h6>Copie el enlace en la red donde se publicó</h6>
+      <p>En la aplicación móvil use <strong>Compartir → Copiar enlace</strong>. En el navegador, copie la dirección de la barra mientras el video está abierto.</p>
+    </div></li>
+    <li class="step"><div>
+      <h6>Abra el formulario del módulo</h6>
+      <p>Puede ser el de registro o el de edición: el campo está en ambos, cerca del bloque de fotografías. Nunca es obligatorio.</p>
+    </div></li>
+    <li class="step"><div>
+      <h6>Pegue el enlace y mire el recuadro de la izquierda</h6>
+      <p>Al pegar, ese recuadro cambia al distintivo de la red reconocida. Es su confirmación de que el enlace sirve: si se queda gris con un eslabón, el enlace no es de ninguna de las tres redes y se descartará al guardar.</p>
+    </div></li>
+    <li class="step"><div>
+      <h6>¿Más de un video? Pulse «Agregar video»</h6>
+      <p>Se abre una fila nueva. Puede llegar hasta seis por registro; al alcanzar el tope, el botón desaparece. Para quitar una fila, use la ✕ de su derecha.</p>
+    </div></li>
+    <li class="step"><div>
+      <h6>Guarde el formulario</h6>
+      <p>El video queda publicado en el portal de inmediato. Si no lo ve al abrir la página pública, recargue con <code>Ctrl + Shift + R</code>.</p>
+    </div></li>
+  </ol>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:440px;box-shadow:none;background:transparent">
+        <div class="r-form">
+          <div class="r-flabel">Enlaces de Video (YouTube, Facebook, TikTok)
+            <span style="display:inline-flex;gap:5px;color:#cbd5e1">▶ f ♪</span></div>
+          <div class="r-frow">
+            <div class="r-ftile r-ftile--tt">♪</div>
+            <div class="r-finput">https://www.tiktok.com/@drtpepuno/video/7641491198854630663</div>
+            <div class="r-fx">✕</div>
+          </div>
+          <div class="r-frow">
+            <div class="r-ftile r-ftile--yt">▶</div>
+            <div class="r-finput">https://www.youtube.com/watch?v=aQtBpN4mkVQ</div>
+            <div class="r-fx">✕</div>
+          </div>
+          <div class="r-frow">
+            <div class="r-ftile">🔗</div>
+            <div class="r-finput r-finput--e r-finput--f">https://www.tiktok.com/@drtpepuno/video/…</div>
+            <div class="r-fx">✕</div>
+          </div>
+          <div class="r-ffoot">
+            <p class="r-fhelp">Agrega aquí la cobertura publicada en redes, aunque el reporte se haya registrado hace tiempo.</p>
+            <div class="r-fbtn">＋ Agregar video</div>
+          </div>
+        </div>
+        <div style="height:12px"></div>
+        <div class="r-form">
+          <div class="r-frow">
+            <div class="r-ftile">🔗</div>
+            <div class="r-finput">https://www.instagram.com/reel/C8xY2zPq/</div>
+            <div class="r-fx">✕</div>
+          </div>
+          <p class="r-fwarn">⚠ Hay un enlace que no es de YouTube, Facebook ni TikTok: se descartará al guardar.</p>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 20.</b> Arriba, el campo con dos enlaces reconocidos —TikTok y YouTube— y una
+      fila vacía esperando. Abajo, un enlace de una red no soportada: el recuadro se queda
+      gris y el aviso aparece <b>antes</b> de guardar.
+    </figcaption>
+  </figure>
+</section>
+
+<section class="sec" id="c21">
+  <h3 class="h3"><span class="num">Capítulo 21</span>Videos: qué enlaces acepta</h3>
+  <p>
+    Las tres redes donde la DRTPE difunde sus actividades. Dentro de cada una se aceptan
+    todos sus formatos de dirección, incluidos los enlaces cortos que genera el botón
+    «compartir» de las aplicaciones móviles.
+  </p>
+
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:18%">Red</th><th style="width:44%">Formatos aceptados</th><th style="width:38%">Cómo se muestra</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="net"><svg width="17" height="17" viewBox="0 0 24 24"><rect x="1.5" y="5" width="21" height="14" rx="4" fill="#c8202a"/><path d="M10 9l5.5 3-5.5 3z" fill="#fff"/></svg> YouTube</span></td>
+          <td><code>youtube.com/watch?v=…</code><br><code>youtu.be/…</code><br><code>youtube.com/shorts/…</code><br><code>youtube.com/live/…</code></td>
+          <td>Con la <strong>miniatura real</strong> del video.<br>Apaisado, salvo los Shorts, que salen verticales.</td>
+        </tr>
+        <tr>
+          <td><span class="net"><svg width="17" height="17" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="#1b5fc1"/><path d="M13.6 12.3h2l.35-2.5h-2.35V8.1c0-.72.22-1.2 1.25-1.2h1.2V4.66a17 17 0 0 0-1.83-.1c-1.9 0-3.17 1.15-3.17 3.26V9.8H9v2.5h2.05v6.3h2.55z" fill="#fff"/></svg> Facebook</span></td>
+          <td><code>facebook.com/…/videos/…</code><br><code>facebook.com/reel/…</code><br><code>fb.watch/…</code><br><code>fb.me/…</code></td>
+          <td>Con una portada de color de la red.<br>Apaisado, salvo los reels, que salen verticales.</td>
+        </tr>
+        <tr>
+          <td><span class="net"><svg width="17" height="17" viewBox="0 0 24 24"><rect x="1.5" y="1.5" width="21" height="21" rx="5.5" fill="#16121a"/><path d="M13.2 5.4h1.9c.15 1.35 1 2.4 2.4 2.6v1.9c-.95-.03-1.8-.33-2.5-.85v3.9a3.75 3.75 0 1 1-3.75-3.75c.16 0 .32.01.47.03v1.95a1.85 1.85 0 1 0 1.48 1.81z" fill="#fff"/></svg> TikTok</span></td>
+          <td><code>tiktok.com/@usuario/video/…</code><br><code>vm.tiktok.com/…</code><br><code>vt.tiktok.com/…</code><br><code>tiktok.com/t/…</code></td>
+          <td>Con una portada de color de la red.<br>Siempre vertical.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Los enlaces cortos se resuelven solos</h4>
+  <p>
+    Las direcciones tipo <code>vm.tiktok.com/ZM8xYq/</code> no contienen el identificador del
+    video. Al guardar, el sistema las sigue hasta la dirección completa y almacena esa. Es
+    automático y no requiere nada de su parte.
+  </p>
+  <p>
+    Si en ese instante la red no responde, el enlace corto se guarda tal cual y la tarjeta
+    del portal ofrece <strong>abrir el video en su red</strong> en lugar de reproducirlo
+    dentro. Se corrige entrando a «Editar» y pegando la dirección larga.
+  </p>
+
+  <div class="note">
+    <span class="note-t">Solo estas tres redes</span>
+    <p>
+      Instagram, X, Vimeo, Google Drive y cualquier otro dominio se descartan al guardar. El
+      formulario avisa antes, y si aun así se envía, la validación responde:
+      <em>«El enlace de video debe ser de YouTube, Facebook o TikTok.»</em>
+    </p>
+  </div>
+
+  <h4>Reglas y límites</h4>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:24%">Regla</th><th style="width:76%">Detalle</th></tr></thead>
+      <tbody>
+        <tr><td>Máximo</td><td><strong>Seis videos por registro.</strong> Al llegar a seis, el botón «Agregar video» desaparece.</td></tr>
+        <tr><td>Repetidos</td><td>Si pega dos veces el mismo enlace, se guarda una sola vez. Se conserva el orden en que los pegó.</td></tr>
+        <tr><td>Filas vacías</td><td>Se ignoran. Puede guardar con la fila en blanco que el formulario ofrece por defecto.</td></tr>
+        <tr><td>Al editar</td><td>El formulario llega con los enlaces que ya tenía. <strong>Lo que quede al guardar es lo que se publica:</strong> para retirar un video, pulse la ✕ de su fila y guarde.</td></tr>
+        <tr><td>Videos privados</td><td>Solo funcionan los <strong>públicos</strong>. Uno privado, restringido por edad o eliminado se guardará sin error, pero no se reproducirá.</td></tr>
+        <tr><td>Momento de carga</td><td>El enlace puede añadirse mucho después de crear el registro, entrando por «Editar». Sirve para registros de hace semanas.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec" id="c22">
+  <h3 class="h3"><span class="num">Capítulo 22</span>Videos: qué se publica</h3>
+  <p>
+    Bajo las fotografías del registro aparece un bloque titulado <strong>Difusión en redes
+    sociales</strong>, con el número de videos entre paréntesis y, debajo, una portada por
+    cada uno.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body">
+      <div style="display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;justify-content:center">
+        <div style="text-align:center">
+          <div class="r-frame r-frame--v r-frame--tt" style="width:118px">
+            <span class="r-ftag">TikTok</span>
+            <div class="r-fcover"><span style="font-size:8px">Ver video en TikTok</span></div>
+            <div class="r-play" style="width:38px;height:38px">▶</div>
+          </div>
+          <p style="font-family:var(--dato);font-size:10px;color:var(--tinta-3);margin:8px 0 0;line-height:1.5">
+            <b style="display:block;color:var(--tinta-2)">Vertical · 9:16</b>TikTok y Shorts</p>
+        </div>
+        <div style="text-align:center">
+          <div class="r-frame r-frame--h r-frame--yt" style="width:210px">
+            <span class="r-ftag">YouTube</span>
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;opacity:.5">
+              <defs><linearGradient id="th" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6b4450"/><stop offset="1" stop-color="#241a2a"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#th)"/>
+              <circle cx="72" cy="62" r="26" fill="#fff" opacity=".12"/>
+              <rect x="26" y="118" width="150" height="9" rx="4.5" fill="#fff" opacity=".18"/>
+              <rect x="26" y="136" width="96" height="9" rx="4.5" fill="#fff" opacity=".1"/>
+            </svg>
+            <div class="r-play" style="width:38px;height:38px">▶</div>
+          </div>
+          <p style="font-family:var(--dato);font-size:10px;color:var(--tinta-3);margin:8px 0 0;line-height:1.5">
+            <b style="display:block;color:var(--tinta-2)">Apaisado · 16:9</b>YouTube y Facebook</p>
+        </div>
+      </div>
+    </div>
+    <figcaption class="cap">
+      <b>Figura 21.</b> Los dos formatos del reproductor. YouTube muestra la miniatura real
+      del video; TikTok y Facebook no publican miniatura sin credenciales, así que llevan
+      una portada con el color de la red.
+    </figcaption>
+  </figure>
+
+  <h4>La página no se hace lenta por tener videos</h4>
+  <p>
+    Hasta que alguien pulsa play, <strong>no se pide absolutamente nada</strong> a YouTube,
+    Facebook ni TikTok: lo que se ve es solo la portada. Un registro con seis videos carga
+    igual de rápido que uno sin ninguno.
+  </p>
+
+  <h4>Al pulsar play</h4>
+  <p>
+    Aparece un indicador de carga durante uno o dos segundos y enseguida el video, con los
+    controles propios de su red. Si la red no responde en ocho segundos, el recuadro ofrece
+    abrir el video en una pestaña nueva en lugar de quedarse en blanco.
+  </p>
+</section>
+
+<section class="sec" id="c23">
+  <h3 class="h3"><span class="num">Capítulo 23</span>Videos: si algo no sale bien</h3>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr>
+        <th style="width:26%">Qué ve</th><th style="width:12%">Gravedad</th>
+        <th style="width:30%">Por qué pasa</th><th style="width:32%">Qué hacer</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Recuadro negro con <code>overload-protect triggered</code></td><td><span class="pill pill--a">Temporal</span></td>
+          <td>TikTok limita cuántas veces se le puede pedir un video desde una misma conexión. Es una medida suya, no una falla del portal.</td>
+          <td>Espere unos minutos y recargue. Se resuelve solo; no hay nada que corregir.</td></tr>
+        <tr><td>«Este video no está disponible»</td><td><span class="pill pill--r">Del video</span></td>
+          <td>El video es privado, fue eliminado o la cuenta desactivó que se incruste fuera de su red.</td>
+          <td>Ábralo en una ventana de incógnito. Si ahí tampoco carga, publique otro enlace.</td></tr>
+        <tr><td>Un botón «Ver en TikTok» en vez del reproductor</td><td><span class="pill pill--a">Corregible</span></td>
+          <td>Se guardó un enlace corto que no se pudo expandir en ese momento.</td>
+          <td>Entre a «Editar» y pegue la dirección larga, la que incluye <code>/video/</code> y una cifra larga.</td></tr>
+        <tr><td>El video no aparece en el portal</td><td><span class="pill pill--r">Revisar</span></td>
+          <td>El enlace era de una red no soportada y se descartó al guardar.</td>
+          <td>Verifique que el recuadro de la izquierda muestre el distintivo de la red antes de guardar.</td></tr>
+        <tr><td>Guardó, pero el portal sigue igual</td><td><span class="pill pill--v">Sin problema</span></td>
+          <td>El navegador está mostrando su copia guardada de la página.</td>
+          <td>Recargue con <code>Ctrl + Shift + R</code>.</td></tr>
+        <tr><td>«El enlace de video debe ser de YouTube, Facebook o TikTok»</td><td><span class="pill pill--v">Esperado</span></td>
+          <td>Es la validación haciendo su trabajo.</td>
+          <td>Reemplácelo por uno de las tres redes, o deje la fila vacía.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <span class="note-t">Antes de reportar una falla</span>
+    <p>
+      Abra el enlace en una ventana de incógnito. Si el video no se reproduce ahí, el
+      problema está en el video o en la red de origen, no en el portal, y ninguna corrección
+      del sistema lo va a resolver.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ PARTE V ══════════════ -->
+<section class="part">
+  <p class="part-n">Parte V</p>
+  <h2>Procedimientos completos</h2>
+  <p>Las tareas más frecuentes, de principio a fin, con el orden correcto de los pasos.</p>
+</section>
+
+<section class="sec" id="c24">
+  <h3 class="h3"><span class="num">Procedimiento 1</span>Publicar una capacitación ya realizada</h3>
+  <p class="lead">Escenario: se ejecutó una capacitación, hay fotografías y se subió un video a TikTok.</p>
+  <ol class="steps">
+    <li class="step"><div><h6>Compruebe que existe la Actividad (PP)</h6>
+      <p>Entre a <strong>Actividades (PP)</strong> y localice la línea del POI que corresponde. Si no existe, créela primero con su código y su meta — pero no cree una por cada ejecución.</p></div></li>
+    <li class="step"><div><h6>Vaya a Act. Operativas (A01) → Registrar</h6>
+      <p>Es el formulario de ejecución, no el de actividad planificada.</p></div></li>
+    <li class="step"><div><h6>Seleccione la actividad y complete los datos</h6>
+      <p>Título del reporte, fecha real de ejecución y número de asistentes (mínimo 1). El comentario es opcional pero mejora mucho la publicación.</p></div></li>
+    <li class="step"><div><h6>Suba las fotografías y ordénelas</h6>
+      <p>Ponga primero la más representativa y horizontal: será la portada en los carruseles de la página de inicio.</p></div></li>
+    <li class="step"><div><h6>Pegue el enlace del video</h6>
+      <p>Compruebe que el recuadro izquierdo muestra el distintivo de TikTok antes de continuar.</p></div></li>
+    <li class="step"><div><h6>Guarde y verifique en el portal</h6>
+      <p>Abra la página pública, busque el registro en «Últimos registros» y púlselo: la página bajará hasta él. Compruebe título, fecha, asistentes, fotos y que el video reproduce.</p></div></li>
+  </ol>
+</section>
+
+<section class="sec" id="c25">
+  <h3 class="h3"><span class="num">Procedimiento 2</span>Convocar un taller y luego registrarlo</h3>
+  <ol class="steps">
+    <li class="step"><div><h6>Prepare el flyer</h6>
+      <p>PDF o imagen, <strong>por debajo de 10 MB</strong>. Es obligatorio: sin él no se puede crear la convocatoria.</p></div></li>
+    <li class="step"><div><h6>Talleres y Capacitaciones → Programar</h6>
+      <p>Complete título, tipo, descripción, fecha, horario y lugar. Suba el flyer y hasta seis anexos.</p></div></li>
+    <li class="step"><div><h6>Decida si se publica como comunicado</h6>
+      <p>Si marca la casilla, la convocatoria aparecerá también en el tablón de comunicados. <strong>No cree además un comunicado manual</strong>: saldría duplicada.</p></div></li>
+    <li class="step"><div><h6>Añada el video promocional si lo hay</h6>
+      <p>El reel o spot que anuncia el evento. Puede agregarse después.</p></div></li>
+    <li class="step"><div><h6>Tras el evento, edite el taller</h6>
+      <p>Cambie el estado a ejecutado y añada el número de asistentes, las fotografías y el video de cobertura. Recuerde que aquí las fotos <strong>se acumulan</strong>.</p></div></li>
+  </ol>
+  <div class="note note--n">
+    <span class="note-t">Si el taller ya pasó y nunca se convocó</span>
+    <p>
+      Use el formulario de <strong>registro directo como ejecutado</strong>. No hace falta
+      crear primero una convocatoria ficticia con fecha pasada.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c26">
+  <h3 class="h3"><span class="num">Procedimiento 3</span>Publicar un comunicado</h3>
+  <ol class="steps">
+    <li class="step"><div><h6>Prepare el documento principal</h6>
+      <p>PDF o imagen, por debajo de 10 MB. Es obligatorio al crear.</p></div></li>
+    <li class="step"><div><h6>Comunicados Oficiales → Nuevo</h6>
+      <p>Complete título y descripción. La descripción es opcional, pero sin ella el portal muestra un texto genérico poco informativo.</p></div></li>
+    <li class="step"><div><h6>Fije las fechas de publicación y expiración</h6>
+      <p>La de expiración debe ser igual o posterior. Al pasarla, el comunicado desaparece del tablón <strong>solo</strong>, sin que nadie lo retire.</p></div></li>
+    <li class="step"><div><h6>Elija el destinatario</h6>
+      <p>Déjelo vacío para que sea institucional y lo vea todo el portal, o seleccione una sede para dirigirlo solo a ella.</p></div></li>
+    <li class="step"><div><h6>Añada los anexos y guarde</h6>
+      <p>Hasta seis archivos. Verifique en el tablón de la portada que el documento se previsualiza correctamente.</p></div></li>
+  </ol>
+</section>
+
+<section class="sec" id="c27">
+  <h3 class="h3"><span class="num">Procedimiento 4</span>Dar de alta un operador de sede</h3>
+  <p>Solo el administrador puede hacerlo.</p>
+  <ol class="steps">
+    <li class="step"><div><h6>Registrar Usuarios de Sedes → Nuevo</h6>
+      <p>El botón está en la cabecera del panel de control.</p></div></li>
+    <li class="step"><div><h6>Defina el nombre de usuario</h6>
+      <p>Con ese nombre iniciará sesión, <strong>no con su correo</strong>. Explíqueselo a la persona al entregarle las credenciales: es el error más común del primer acceso.</p></div></li>
+    <li class="step"><div><h6>Asigne perfil y sede</h6>
+      <p>La sede condiciona todo lo que verá: a qué panel llega, qué registros puede editar y qué comunicados alcanza. Revísela dos veces.</p></div></li>
+    <li class="step"><div><h6>Verifique el acceso</h6>
+      <p>Pida a la persona que entre y confirme que llega al panel de su sede y ve solo sus actividades.</p></div></li>
+    <li class="step"><div><h6>Cuando deje el puesto, desactive</h6>
+      <p>No elimine la cuenta: desactivarla corta el acceso y conserva la autoría de todo lo que registró.</p></div></li>
+  </ol>
+</section>
+
+<!-- ══════════════ PARTE VI ══════════════ -->
+<section class="part">
+  <p class="part-n">Parte VI</p>
+  <h2>El asistente virtual</h2>
+  <p>La ventana de chat de la portada: qué es, qué sabe responder y cuáles son sus límites.</p>
+</section>
+
+<section class="sec" id="c28">
+  <h3 class="h3"><span class="num">Capítulo 28</span>Qué es el asistente</h3>
+  <p class="lead">
+    Un asistente conversacional que responde consultas de los ciudadanos sobre los servicios
+    de la Dirección, disponible como ventana de chat en la portada.
+  </p>
+
+  <figure class="fig">
+    <div class="fig-body"><div class="r-scroll">
+      <div class="r" style="min-width:340px;box-shadow:none">
+        <div class="r-chat">
+          <div class="r-cwin">
+            <div class="r-cwin-h">
+              <div class="r-cav"></div>
+              <div><b>Asistente DRTPE</b><span><i class="r-cdot"></i> En línea</span></div>
+            </div>
+            <div class="r-cbody">
+              <div class="r-cmsg r-cmsg--b">¡Hola! Soy el asistente de la DRTPE Puno. ¿En qué puedo ayudarle?</div>
+              <div class="r-cmsg r-cmsg--u">¿Cuál es el horario de atención?</div>
+              <div class="r-cmsg r-cmsg--b">La atención es de lunes a viernes, de 8:00 a. m. a 4:00 p. m., en Jr. Ayacucho N° 658, Puno.</div>
+            </div>
+            <div class="r-cin"><span>Escriba su consulta…</span><i></i></div>
+          </div>
+          <div class="r-cfab">💬</div>
+        </div>
+      </div>
+    </div></div>
+    <figcaption class="cap">
+      <b>Figura 22.</b> El asistente respondiendo una consulta. Se abre desde el botón
+      circular fijo en la esquina inferior derecha de la portada.
+    </figcaption>
+  </figure>
+
+  <p>
+    No es un buscador ni un formulario de contacto. Funciona en dos pasos: primero localiza,
+    en un conjunto de documentos preparados por la institución, los fragmentos que tratan
+    sobre lo preguntado; después redacta una respuesta apoyándose <strong>solo en esos
+    fragmentos</strong>.
+  </p>
+  <p>
+    Esa restricción es deliberada: evita que invente procedimientos o requisitos que la
+    Dirección no ha establecido. Antes de buscar, además, corrige la ortografía de la
+    pregunta y expande las siglas, de modo que una consulta mal escrita igual encuentre su
+    respuesta.
+  </p>
+
+  <div class="note">
+    <span class="note-t">Es un servicio independiente</span>
+    <p>
+      El asistente se ejecuta como un programa aparte del portal. Si está apagado, la
+      ventana de chat no responde, pero <strong>el resto del sitio funciona con
+      normalidad</strong>. Del mismo modo, no tiene acceso al registro operativo: no puede
+      informar sobre actividades, asistentes ni indicadores.
+    </p>
+  </div>
+</section>
+
+<section class="sec" id="c29">
+  <h3 class="h3"><span class="num">Capítulo 29</span>Qué sabe responder</h3>
+  <p>Su conocimiento está delimitado por los documentos que se le cargaron. Actualmente cubre siete materias:</p>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:34%">Materia</th><th style="width:66%">Ejemplos de consulta</th></tr></thead>
+      <tbody>
+        <tr><td>Acercamiento empresarial</td><td>Cómo vincularse con la Dirección siendo una empresa</td></tr>
+        <tr><td>Bolsa de trabajo</td><td>Cómo inscribirse y postular a una oferta</td></tr>
+        <tr><td>Empleabilidad</td><td>Cómo preparar un currículum o afrontar una entrevista</td></tr>
+        <tr><td>Orientación vocacional (SOVIO)</td><td>En qué consiste el servicio y cómo acceder</td></tr>
+        <tr><td>Trámites y servicios</td><td>Requisitos y pasos de las gestiones más frecuentes</td></tr>
+        <tr><td>RENUPSEP / UPSEP</td><td>Registros y prestaciones asociadas</td></tr>
+        <tr><td>Sedes, horarios y contacto</td><td>Dónde y cuándo acudir</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Cuando la pregunta se sale de su alcance</h4>
+  <p>
+    Si la consulta trata de empleabilidad en general —redactar un currículum, preparar una
+    entrevista— responde con conocimiento general, porque es útil y no compromete a la
+    institución. Para cualquier otra cosa fuera de su material, <strong>no improvisa</strong>:
+    invita a acercarse a la oficina de Puno. Es el comportamiento correcto, no una falla.
+  </p>
+
+  <div class="note note--n">
+    <span class="note-t">Dos límites que conviene conocer</span>
+    <p>
+      <strong>La conversación no se guarda.</strong> El asistente recuerda lo hablado
+      mientras la ventana sigue abierta, pero al reiniciarse el servicio el historial se
+      pierde. No sirve como registro de atención ciudadana.
+    </p>
+    <p>
+      <strong>Ampliar lo que sabe requiere trabajo técnico.</strong> Añadir una materia no se
+      hace desde la intranet: hay que incorporar el documento al material del asistente y
+      reconstruir su índice de búsqueda.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ ANEXOS ══════════════ -->
+<section class="part">
+  <p class="part-n">Anexos</p>
+  <h2>Referencia rápida</h2>
+  <p>Límites, resolución de problemas y vocabulario, para consulta durante el trabajo diario.</p>
+</section>
+
+<section class="sec" id="a1">
+  <h3 class="h3"><span class="num">Anexo A</span>Límites y formatos</h3>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:34%">Concepto</th><th style="width:22%">Límite</th><th style="width:44%">Dónde aplica</th></tr></thead>
+      <tbody>
+        <tr><td>Videos por registro</td><td>6</td><td>Todos los módulos con difusión</td></tr>
+        <tr><td>Anexos por comunicado</td><td>6</td><td>Comunicados y talleres</td></tr>
+        <tr><td>Tamaño de archivo</td><td>10 MB</td><td>Flyer, documento principal y anexos</td></tr>
+        <tr><td>Formatos de documento</td><td>PDF, JPG, PNG, WEBP</td><td>Flyer, comunicados, anexos</td></tr>
+        <tr><td>Longitud de títulos</td><td>255 caracteres</td><td>Todos los módulos</td></tr>
+        <tr><td>Asistentes en una ejecución</td><td>Mínimo 1</td><td>Actividades operativas</td></tr>
+        <tr><td>Atendidos en actividad de sede</td><td>Admite 0</td><td>Actividades de sede</td></tr>
+        <tr><td>Fotos visibles sin desplegar</td><td>4</td><td>Galerías del portal</td></tr>
+        <tr><td>Actividades por carga</td><td>10</td><td>Cronología operativa</td></tr>
+        <tr><td>Redes de video admitidas</td><td>3</td><td>YouTube, Facebook, TikTok</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec" id="a2">
+  <h3 class="h3"><span class="num">Anexo B</span>Qué hacer si…</h3>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:34%">Situación</th><th style="width:66%">Qué hacer</th></tr></thead>
+      <tbody>
+        <tr><td>No puedo iniciar sesión</td><td>Compruebe que está usando el <strong>nombre de usuario</strong>, no el correo. Si es correcto, pida al administrador que verifique si la cuenta está activa.</td></tr>
+        <tr><td>Entro y no veo el panel de control</td><td>Es lo esperado si su cuenta está asignada a Juliaca o Taraco: llega directamente al panel de su sede.</td></tr>
+        <tr><td>No encuentro una actividad de otra sede</td><td>No es un error: cada sede solo ve lo suyo. Si necesita verla, debe hacerlo un administrador.</td></tr>
+        <tr><td>Guardé y no aparece en el portal</td><td>Recargue con <code>Ctrl + Shift + R</code>. Si sigue sin verse, compruebe que el registro no quedó en la papelera.</td></tr>
+        <tr><td>Perdí fotografías al editar</td><td>Ocurre en actividades de sede, donde las imágenes nuevas reemplazan a las anteriores. Vuelva a subirlas todas juntas.</td></tr>
+        <tr><td>La convocatoria sale dos veces en el tablón</td><td>Se marcó «publicar como comunicado» y además se creó uno manual. Elimine el manual.</td></tr>
+        <tr><td>La eficacia global cayó de golpe</td><td>Revise si se crearon Actividades (PP) que en realidad eran ejecuciones. Cada una añade su meta al denominador.</td></tr>
+        <tr><td>El comunicado desapareció solo</td><td>Pasó su fecha de expiración. Edítela para reactivarlo.</td></tr>
+        <tr><td>No puedo subir el flyer</td><td>Compruebe que pesa menos de 10 MB y que es PDF, JPG, PNG o WEBP.</td></tr>
+        <tr><td>El chat no responde</td><td>El servicio del asistente está apagado. No afecta al resto del portal.</td></tr>
+        <tr><td>Un video sale en negro</td><td>Si dice <code>overload-protect</code>, es un límite temporal de TikTok: espere y recargue.</td></tr>
+        <tr><td>Borré algo por error</td><td>Vaya a la Papelera de Reciclaje y restáurelo. Solo el borrado definitivo es irreversible.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="sec" id="a3">
+  <h3 class="h3"><span class="num">Anexo C</span>Glosario</h3>
+  <dl class="defs">
+    <div class="def"><dt>Actividad (PP)</dt><dd>Actividad planificada, con código, categoría y meta de personas por atender. Es un compromiso, no un hecho.</dd></div>
+    <div class="def"><dt>Actividad Operativa (A01)</dt><dd>Registro de una ejecución concreta: fecha, asistentes, fotografías y videos. Se asocia siempre a una Actividad (PP).</dd></div>
+    <div class="def"><dt>POI</dt><dd>Plan Operativo Institucional. De él salen las metas contra las que se mide el avance.</dd></div>
+    <div class="def"><dt>Avance capped</dt><dd>Avance topado a la meta de cada actividad, de modo que los excedentes no inflen el resultado global.</dd></div>
+    <div class="def"><dt>Sobrecumplimiento</dt><dd>Personas atendidas por encima de la meta, contabilizadas aparte del porcentaje de eficacia.</dd></div>
+    <div class="def"><dt>Eje estratégico</dt><dd>Línea de trabajo a la que pertenece una actividad: Prevención, Formaliza o Empleo.</dd></div>
+    <div class="def"><dt>Sede Central</dt><dd>Puno. Lo que publica alcanza a todo el portal.</dd></div>
+    <div class="def"><dt>Sede desconcentrada</dt><dd>Juliaca y Taraco. Tienen página pública y panel de trabajo propios, aislados entre sí.</dd></div>
+    <div class="def"><dt>Comunicado institucional</dt><dd>Aviso dirigido a todo el portal; se rotula como «Sede Central» y se lista primero.</dd></div>
+    <div class="def"><dt>Taller programado</dt><dd>Convocatoria anunciada que todavía no se ha realizado.</dd></div>
+    <div class="def"><dt>Taller ejecutado</dt><dd>Taller ya realizado, con asistentes y cobertura registrados.</dd></div>
+    <div class="def"><dt>Tipo de intervención</dt><dd>Clasificación de las actividades de sede: feria, capacitación o asesoría.</dd></div>
+    <div class="def"><dt>Papelera</dt><dd>Depósito de registros eliminados, desde donde pueden restaurarse. No se publican ni cuentan para los indicadores.</dd></div>
+    <div class="def"><dt>Difusión en redes</dt><dd>Bloque del portal donde se reproducen los videos de YouTube, Facebook y TikTok incrustados.</dd></div>
+    <div class="def"><dt>Enlace corto</dt><dd>Dirección abreviada que generan las apps al compartir. El sistema la expande sola al guardar.</dd></div>
+    <div class="def"><dt>Asistente virtual</dt><dd>Servicio de chat independiente que responde consultas ciudadanas sobre trámites y servicios.</dd></div>
+  </dl>
+</section>
+
+<section class="sec" style="margin-top:56px">
+  <h3 class="h3"><span class="num">Créditos</span>Equipo de desarrollo</h3>
+  <p>
+    Se deja constancia de la responsabilidad asumida por cada integrante sobre los
+    componentes indicados, a efectos de trazabilidad y continuidad técnica.
+  </p>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th style="width:34%">Integrante</th><th style="width:66%">Componentes bajo su responsabilidad</th></tr></thead>
+      <tbody>
+        <tr><td>Cutipa Mamani Jhon Carlos</td><td>Arquitectura general, autenticación y modelo multi-sede, categorías, eventos y sub-eventos, talleres, coordinaciones, actividades por sede, comunicados y boletines, reportería en Excel, papelera, difusión audiovisual y elaboración de la documentación.</td></tr>
+        <tr><td>Condori Coaquira Widvar Gustavo</td><td>Asistente virtual conversacional: servicio de consulta, indexación documental, cadena de recuperación y generación de respuestas, e integración del componente en el portal público.</td></tr>
+        <tr><td>Leiva Flores Miguel Adolfo</td><td>Portal público: estructura orgánica, órganos desconcentrados, servicios al ciudadano y Servicio de Defensa Legal Gratuita.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.89rem;color:var(--tinta-2)">
+    Revisión y aprobación institucional: <strong>Carmen Beatriz Choquehuanca Calsina</strong>,
+    Directora Regional de Trabajo y Promoción del Empleo de Puno.
+  </p>
+</section>
+
+<footer class="foot">
+  Dirección Regional de Trabajo y Promoción del Empleo · Puno<br>
+  DRTPE-TI-DOC-002 · Manual de Uso del Portal, la Intranet y el Asistente Virtual · v1.0<br>
+  Documento complementario de DRTPE-TI-DOC-001 (Documentación Técnica del Sistema)<br>
+  Puno, 2 de agosto de 2026 · Uso interno institucional<br><br>
+  Las figuras son reproducciones de la interfaz construidas a partir del código de la
+  aplicación, con sus colores y textos reales. Las cifras mostradas son ilustrativas.
+</footer>
+
+</main>
+</div>
+</div>
+</body>
+</html>

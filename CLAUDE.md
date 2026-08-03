@@ -168,6 +168,20 @@ The chatbot UI is loaded by `welcome.blade.php` as plain static assets, **not** 
 
 `public/js/chatbot.js` + `public/css/chatbot.css` are the **live, served files and the ones to edit**. `chatbot/frontend/widget.js`/`widget.css` are an older, diverged standalone copy (282 vs 439 lines) — changes there have no effect on the site. Both hard-code `const API_BASE = 'http://localhost:8001'`, which must be changed for any non-local deployment.
 
+## In-app user guides (`resources/manuals/`)
+
+Two standalone HTML manuals are served to logged-in users from the bottom of each intranet sidebar:
+
+| File | Route | Linked from |
+|---|---|---|
+| `manual-general.html` | `/guia` (`manual.general`) | `layouts/navigation.blade.php` (Sede Central) |
+| `manual-sede.html` | `/guia/sede` (`manual.sede`) | `components/branch-layout.blade.php` (branch offices) |
+
+- **`ManualController` returns the file with `file_get_contents`, not `view()`.** These are literal HTML documents whose CSS is full of `{`/`}` and `@media`; running them through Blade would corrupt them. They also stay out of `public/` on purpose — served through the `auth` group, they require a session.
+- They are **self-contained** (no external fonts, scripts, or images) and carry `@media print` rules, so `Ctrl+P → Save as PDF` produces the deliverable. Keep them dependency-free.
+- The Sede Central sidebar shows a second, admin-only text link to `/guia/sede` so admins can support branch operators.
+- `docs/` holds PDF-export copies (`Manual_de_Uso_DRTPE_Puno.html`, `Guia_de_Sede_DRTPE_Puno.html`). **`resources/manuals/` is the canonical served copy** — edit there first, then copy across. Because `docs/` is gitignored, only the `resources/` copy is in the repo.
+
 ## Misc
 
 - `/docs` is gitignored (private internal documentation) — don't reference its contents from committed code.

@@ -6,6 +6,7 @@ use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CoordinationController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ManualController;
 use App\Http\Controllers\PhotoReportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicViewerController;
@@ -192,6 +193,11 @@ Route::middleware('auth')->group(function () {
 
     // ── 🎯 INTRANET: CRUD DE ACTIVIDADES EXCLUSIVAS POR SEDE DESCONCENTRADA ──
     Route::resource('branch-activities', BranchActivityController::class);
+
+    // ── GUÍAS DE USO (documentos HTML servidos tras iniciar sesión) ──
+    // Se enlazan desde el pie de la barra lateral de cada intranet.
+    Route::get('/guia', [ManualController::class, 'general'])->name('manual.general');
+    Route::get('/guia/sede', [ManualController::class, 'sede'])->name('manual.sede');
 
     // ── GESTIÓN DE OPERADORES DE SEDE (solo administrador general) ──
     Route::get('/users', [UserController::class, 'index'])->name('users.index');

@@ -87,6 +87,17 @@
             </div>
 
             <div class="p-4 border-t border-slate-800 bg-slate-950/30 shrink-0">
+
+                {{-- AYUDA: guía de la sede (se abre en otra pestaña para no perder el trabajo en curso) --}}
+                <a href="{{ route('manual.sede') }}" target="_blank" rel="noopener"
+                   class="flex items-center gap-3 px-4 py-3 mb-3 rounded-xl font-bold text-xs bg-amber-500/10 hover:bg-amber-500 border border-amber-500/30 hover:border-amber-500 text-amber-300 hover:text-white transition-all duration-200 group decoration-none">
+                    <i class="fa-solid fa-book-open text-base"></i>
+                    <span class="flex-1 leading-tight">Guía de la sede
+                        <span class="block text-[9px] font-bold uppercase tracking-widest text-amber-500/70 group-hover:text-amber-100 mt-0.5">¿Cómo registro mi actividad?</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-60"></i>
+                </a>
+
                 <div class="flex items-center gap-3 mb-3 px-2">
                     <div class="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black">
                         {{ substr(Auth::user()->name, 0, 1) }}
