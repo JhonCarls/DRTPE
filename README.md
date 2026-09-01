@@ -1,4 +1,4 @@
-# CLAUDE.md
+# Readme.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -191,8 +191,3 @@ Two standalone HTML manuals are served to logged-in users from the bottom of eac
 - They are **self-contained** (no external fonts, scripts, or images) and carry `@media print` rules, so `Ctrl+P → Save as PDF` produces the deliverable. Keep them dependency-free.
 - The Sede Central sidebar shows a second, admin-only text link to `/guia/sede` so admins can support branch operators.
 - `docs/` holds PDF-export copies (`Manual_de_Uso_DRTPE_Puno.html`, `Guia_de_Sede_DRTPE_Puno.html`). **`resources/manuals/` is the canonical served copy** — edit there first, then copy across. Because `docs/` is gitignored, only the `resources/` copy is in the repo.
-
-## Misc
-
-- `/docs` is gitignored (private internal documentation) — don't reference its contents from committed code.
-- `README.md` is the unmodified stock Laravel readme; it carries no project information.
