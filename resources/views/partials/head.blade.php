@@ -127,6 +127,13 @@
     #sidebar::-webkit-scrollbar { width: 3px; }
     #sidebar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .1); border-radius: 99px; }
 
+    /* Barra de desplazamiento discreta para paneles con contenido desbordado.
+       Antes se declaraba dentro de la vista de sede, así que en el resto del
+       portal la clase no tenía efecto pese a usarse. */
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, .55); border-radius: 10px; }
+
     #sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, .65); z-index: 44; }
 
     @media (max-width: 1023px) {
@@ -378,8 +385,14 @@
 
     Se emiten aquí, en el <head>, y no donde se usa la galería: varias de esas
     posiciones quedan dentro de un <template> de Alpine, cuyo contenido el
-    navegador trata como inerte (ni aplica el CSS ni ejecuta el JS). Como el
-    componente está envuelto en @once, esta llamada es la que gana y las que
-    hacen x-video-gallery / x-video-gallery-live quedan en no-op.
+    navegador trata como inerte (ni aplica el CSS ni ejecuta el JS).
+
+    force="true" es imprescindible, no decorativo: en las páginas con @extends
+    Blade renderiza la sección de contenido ANTES que este layout, así que una
+    galería del contenido ya consumió el @once cuando llegamos aquí. Sin forzar,
+    la única emisión sería la de dentro del <template> y el reproductor quedaría
+    muerto en toda la página (así estaban /talleres-capacitaciones y
+    /coordinaciones-institucionales). Emitir dos veces es inocuo: el script se
+    autoprotege contra la segunda carga.
 --}}
-<x-video-player-assets />
+<x-video-player-assets :force="true" />

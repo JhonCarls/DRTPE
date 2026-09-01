@@ -8,8 +8,23 @@
     El CSS es autónomo a propósito: el portal público carga Tailwind por CDN y
     la intranet lo compila con Vite, así que aquí no se depende de utilidades
     que puedan no existir en uno de los dos pipelines.
+
+    ── Por qué no basta con @once ─────────────────────────────────────────
+    En una página con @extends, Blade renderiza @section('content') ANTES que
+    el layout, de modo que una galería del contenido consume el @once antes de
+    que partials/head llegue a emitirlo. Si esa galería está dentro de un
+    <template> de Alpine —contenido inerte para el navegador— el CSS no se
+    aplica y el script no se ejecuta: el reproductor muere en toda la página.
+
+    Por eso partials/head lo invoca con :force="true": emite siempre, pase lo
+    que pase, y queda garantizado fuera de cualquier <template>. Las demás
+    llamadas siguen siendo idempotentes. Si acaban emitiéndose dos veces,
+    video-player.js ignora la segunda carga.
 --}}
-@once
+@props(['force' => false])
+
+@if ($force || ! $__env->hasRenderedOnce('vp-player-assets'))
+    @php $__env->markAsRenderedOnce('vp-player-assets'); @endphp
     <style>
         /* ── MARCO RESPONSIVO ────────────────────────────────────────── */
         .vp-frame {
@@ -118,4 +133,4 @@
         $vpVersion = is_file($vpArchivo) ? filemtime($vpArchivo) : 1;
     @endphp
     <script src="{{ asset('js/video-player.js') }}?v={{ $vpVersion }}" defer></script>
-@endonce
+@endif

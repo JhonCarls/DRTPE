@@ -12,6 +12,14 @@
 (function () {
     'use strict';
 
+    // El componente de assets puede emitirse dos veces en una misma página
+    // (partials/head lo fuerza para garantizar que quede fuera de cualquier
+    // <template>, y una galería puede haberlo emitido antes). Sin este
+    // guardián se registrarían dos listeners y cada clic abriría el video
+    // por duplicado.
+    if (window.__vpReproductorCargado) return;
+    window.__vpReproductorCargado = true;
+
     /** Margen antes de dar por fallida la carga del iframe. */
     var TIEMPO_ESPERA_MS = 8000;
 

@@ -50,6 +50,10 @@
         }));
     });
     </script>
+
+    {{-- Galerías fotográficas y visor a pantalla completa (mismo comportamiento que la portada) --}}
+    @include('partials.galeria-js')
+
     @stack('scripts')
 </body>
 </html>

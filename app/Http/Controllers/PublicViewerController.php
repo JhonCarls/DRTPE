@@ -32,16 +32,28 @@ class PublicViewerController extends Controller
         // 4. Boletines Informativos para el footer claro
         $bulletins = Bulletin::latest()->take(4)->get();
 
-        // 5. Comunicados Oficiales Vigentes (Pop-up automático y Tablón del inicio).
-        //    Se muestran TODOS los comunicados activos: primero los INSTITUCIONALES de la
-        //    Sede Central (sede = NULL) y luego los de las sedes desconcentradas, cada uno
-        //    identificado con su etiqueta de sede en la vista.
+        // 5. Comunicados Oficiales Vigentes. La portada los reparte en dos lugares:
+        //
+        //    a) Ventana emergente de bienvenida: TODOS los comunicados activos de la
+        //       institución, con prioridad Sede Central → Juliaca → Taraco. Cada uno
+        //       lleva su etiqueta de sede en la vista.
+        //    b) Tablón de la parte inferior: apartado propio de la Sede Central, así
+        //       que solo recoge los institucionales (sede = NULL).
+        //
+        //    El LOWER() no es decorativo: la colación de TiDB es binaria y sin él la
+        //    comparación de sede distinguiría mayúsculas.
         $comunicadosActivos = Announcement::with('user')
             ->where('published_at', '<=', $today)
             ->where('expired_at', '>=', $today)
-            ->orderByRaw('CASE WHEN sede IS NULL THEN 0 ELSE 1 END')
+            ->orderByRaw("CASE
+                WHEN sede IS NULL THEN 0
+                WHEN LOWER(sede) = 'juliaca' THEN 1
+                WHEN LOWER(sede) = 'taraco' THEN 2
+                ELSE 3 END")
             ->latest()
             ->get();
+
+        $comunicadosCentral = $comunicadosActivos->whereNull('sede')->values();
 
         // 6. PROCESAMIENTO SEGURO: Ordenar fotos de sub-eventos por prioridad en el servidor
         $todosSubEventos = collect();
@@ -92,6 +104,7 @@ class PublicViewerController extends Controller
             'photoReports',
             'bulletins',
             'comunicadosActivos',
+            'comunicadosCentral',
             'difusiones',
             'institucionales',
             'ultimos3',
@@ -134,12 +147,16 @@ class PublicViewerController extends Controller
         $sedeName = ($slug === 'juliaca') ? 'Sede Juliaca' : 'Sede Taraco';
 
         // Normalizamos las colecciones en el servidor: la vista solo renderiza HTML.
+        // $activities (modelos) se envía además del índice plano porque la
+        // cronología se arma en servidor, igual que la de la portada: así las
+        // galerías y los videos son HTML real y no nodos creados por Alpine.
         $mappedActivities = $this->mapActivities($activities);
         $mappedAnnouncements = $this->mapAnnouncements($this->resolveAnnouncements($slug));
 
         return view('portal.sede-desconcentrada', compact(
             'sedeName',
             'slug',
+            'activities',
             'mappedActivities',
             'mappedAnnouncements'
         ));
@@ -169,20 +186,20 @@ class PublicViewerController extends Controller
     }
 
     /**
-     * Resuelve los comunicados visibles en el portal de una sede desconcentrada.
+     * Resuelve los comunicados que se publican en el portal de una sede.
      *
-     * AISLAMIENTO ESTRICTO: solo los comunicados propios de esta sede (por autor)
-     * + los globales de la Sede Principal. NUNCA los de otra sede desconcentrada.
-     * Se eliminó la coincidencia por título y el "fallback global" que provocaban
-     * que comunicados de una sede se filtraran al tablón de otra.
+     * AISLAMIENTO ESTRICTO: cada página muestra ÚNICAMENTE los comunicados de
+     * su propia sede. Los institucionales de la Sede Central tienen su propio
+     * apartado en la portada, así que aquí no se mezclan; y los de la otra sede
+     * desconcentrada no aparecen en ningún caso.
+     *
+     * El scope bySede() aplica LOWER() sobre la columna porque la colación de
+     * TiDB es binaria: sin eso, 'Juliaca' y 'juliaca' no coincidirían.
      */
     private function resolveAnnouncements(string $slug)
     {
-        // Prioridad jerárquica: primero los INSTITUCIONALES (Sede Central, sede = NULL),
-        // luego los propios de la sede consultada; sin límite artificial.
         return Announcement::with('user')
-            ->visibleForSede($slug)
-            ->orderByRaw('CASE WHEN sede IS NULL THEN 0 ELSE 1 END')
+            ->bySede($slug)
             ->latest()
             ->get();
     }
@@ -220,6 +237,8 @@ class PublicViewerController extends Controller
                 'is_pdf' => $an->file_type === 'pdf',
                 'attachments' => $attachments,
                 'is_urgent' => (bool) ($an->is_urgent ?? false),
+                // sede = NULL ⇒ comunicado institucional de la Sede Central.
+                'is_institucional' => is_null($an->sede),
             ];
         })->values();
     }

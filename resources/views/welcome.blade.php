@@ -249,11 +249,11 @@
         @include('partials.cronologia')
 
         {{-- ── TABLÓN DINÁMICO DE COMUNICADOS OFICIALES ────────────── --}}
-        @if(isset($comunicadosActivos) && $comunicadosActivos->count() > 0)
+        @if(isset($comunicadosCentral) && $comunicadosCentral->count() > 0)
         <section class="band-white band-top-amber py-14"
                  x-data="{
                      active: 0,
-                     count: {{ $comunicadosActivos->count() }},
+                     count: {{ $comunicadosCentral->count() }},
                      init() { if(this.count > 1) { setInterval(() => { this.active = (this.active + 1) % this.count; }, 5000); } }
                  }">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -261,7 +261,7 @@
                     <div class="flex items-center gap-3">
                         <div class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse flex-shrink-0"></div>
                         <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 m-0">
-                            <i class="fa-solid fa-bullhorn text-amber-500"></i> Tablón de Comunicados Oficiales
+                            <i class="fa-solid fa-bullhorn text-amber-500"></i> Tablón de Comunicados · Sede Central
                         </h2>
                     </div>
                     <div class="text-xs font-mono text-slate-500 font-bold bg-slate-100 px-3 py-1 rounded-md border border-slate-200">
@@ -270,7 +270,7 @@
                 </div>
 
                 <div class="relative bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-lg h-[580px] sm:h-[450px] md:h-[360px]">
-                    @foreach($comunicadosActivos as $index => $comunicado)
+                    @foreach($comunicadosCentral as $index => $comunicado)
                     <div x-show="active === {{ $index }}"
                          x-transition:enter="transition-opacity duration-500 ease-in-out" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                          x-transition:leave="transition-opacity duration-400 ease-in-out" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
@@ -325,9 +325,9 @@
                     @endforeach
                 </div>
 
-                @if($comunicadosActivos->count() > 1)
+                @if($comunicadosCentral->count() > 1)
                 <div class="flex justify-center gap-1.5 mt-4">
-                    @foreach($comunicadosActivos as $index => $c)
+                    @foreach($comunicadosCentral as $index => $c)
                     <button @click="active = {{ $index }}" class="h-2 rounded-full transition-all duration-300 border-none cursor-pointer" :class="active === {{ $index }} ? 'bg-amber-500 w-5 shadow-[0_0_8px_#f59e0b]' : 'bg-slate-300 w-2'"></button>
                     @endforeach
                 </div>
@@ -575,64 +575,6 @@
     // El reproductor de video vive ahora en el componente x-video-gallery,
     // que soporta YouTube, Facebook y TikTok en todo el portal.
 
-    // ── GALERÍAS FOTOGRÁFICAS DINÁMICAS (Botón "Ver más") ────────────
-    document.querySelectorAll('.btn-mostrar-mas').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const wrap = this.closest('.rounded-2xl') || this.closest('.bg-slate-50');
-            const grid = wrap?.querySelector('.galeria-fotos');
-            if (!grid) return;
-            const extras = grid.querySelectorAll('.foto-extra').length;
-            const span   = this.querySelector('span');
-            const icon   = this.querySelector('i');
-            const show   = grid.classList.toggle('mostrar-todas');
-            
-            span.textContent = show ? 'Ocultar fotografías adicionales' : `Ver ${extras} fotografías adicionales`;
-            icon.classList.toggle('fa-images', !show);
-            icon.classList.toggle('fa-chevron-up', show);
-        });
-    });
-
-    // ── CORE: SISTEMA DE VISOR LIGHTBOX TOTALMENTE NATIVO ───────────
-    let gallery = [], lbIdx = 0;
-    const lb    = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lb-img');
-    const lbCtr = document.getElementById('lb-counter');
-
-    document.addEventListener('click', function (e) {
-        const targetImg = e.target.closest('.foto-galeria');
-        if (targetImg) {
-            const grid = targetImg.closest('.galeria-fotos');
-            gallery = Array.from(grid.querySelectorAll('.foto-galeria'));
-            lbIdx   = gallery.indexOf(targetImg);
-            openLB();
-        }
-    });
-
-    function updateLB() {
-        lbImg.style.opacity = '.4';
-        setTimeout(() => {
-            lbImg.src         = gallery[lbIdx].src;
-            lbCtr.textContent = `IMAGEN ${lbIdx + 1} DE ${gallery.length}`;
-            lbImg.style.opacity = '1';
-        }, 160);
-    }
-    
-    function openLB()  { updateLB(); lb.classList.add('active');    document.body.style.overflow = 'hidden'; }
-    function closeLB() { lb.classList.remove('active'); document.body.style.overflow = ''; }
-
-    document.getElementById('lb-close').addEventListener('click', closeLB);
-    document.getElementById('lb-next').addEventListener('click',  () => { lbIdx = (lbIdx + 1) % gallery.length; updateLB(); });
-    document.getElementById('lb-prev').addEventListener('click',  () => { lbIdx = (lbIdx - 1 + gallery.length) % gallery.length; updateLB(); });
-    
-    lb.addEventListener('click', e => { if(e.target === lb) closeLB(); });
-    
-    document.addEventListener('keydown', e => {
-        if(!lb.classList.contains('active')) return;
-        if(e.key === 'Escape')     closeLB();
-        if(e.key === 'ArrowRight') document.getElementById('lb-next').click();
-        if(e.key === 'ArrowLeft')  document.getElementById('lb-prev').click();
-    });
-
     // ── INTEGRACIÓN AUTOMÁTICA DE ALPINEJS PARA LOS HERO SLIDERS ───
     document.addEventListener('alpine:init', () => {
         Alpine.data('autoSlider', (items, totalMs) => ({
@@ -651,6 +593,9 @@
         }));
     });
     </script>
+
+    {{-- Galerías fotográficas y visor a pantalla completa (compartido con el resto del portal) --}}
+    @include('partials.galeria-js')
 
     {{-- Chatbot widget --}}
     <script src="{{ asset('js/chatbot.js') }}"></script>
